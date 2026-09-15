@@ -647,6 +647,9 @@
   var skipLink = document.getElementById('skipLink');
   var defaultPage = 'inicio';
   var firstRender = true;
+  var usingKeyboard = false;
+  window.addEventListener('keydown', function(e){ if(e.key === 'Tab'){ usingKeyboard = true; } });
+  window.addEventListener('mousedown', function(){ usingKeyboard = false; });
 
   function pageFromHash(){
     var h = (location.hash || '').replace('#','').split('?')[0];
@@ -675,8 +678,11 @@
     window.scrollTo(0,0);
 
     // move focus to the new page's heading so keyboard/screen-reader users
-    // land on the new content instead of staying on the nav link they clicked
-    if(!firstRender && activePage){
+    // land on the new content instead of staying on the nav link they clicked.
+    // Only do this for keyboard-driven navigation — a scripted .focus() call
+    // still shows a visible outline for mouse users in some browsers, which
+    // looks like a stray box around the heading for people just clicking.
+    if(!firstRender && activePage && usingKeyboard){
       var heading = activePage.querySelector('h1');
       if(heading){ heading.focus({preventScroll:true}); }
     }
