@@ -44,7 +44,7 @@
   }
   h1,h2,h3{font-family:"Archivo", ui-sans-serif, system-ui, sans-serif; margin:0; text-wrap:balance;}
   p{margin:0;}
-  a{color:inherit; text-decoration:none;}
+  a{color:inherit; text-decoration:none; overflow-wrap:anywhere;}
   img{max-width:100%; display:block;}
   .mono{font-family:"IBM Plex Mono", ui-monospace, monospace;}
   .wrap{max-width:1120px; margin:0 auto; padding-inline:20px;}
@@ -201,8 +201,12 @@
   .manifest .row{display:grid; grid-template-columns:140px 1fr; gap:12px; padding:16px 20px; border-bottom:1px solid var(--line);}
   .manifest .row:last-child{border-bottom:none;}
   .manifest .row .k{font-family:"IBM Plex Mono", ui-monospace, monospace; font-size:.72rem; letter-spacing:.08em; text-transform:uppercase; color:var(--text-mute); padding-top:2px;}
-  .manifest .row .v{font-weight:600; font-size:.98rem;}
+  .manifest .row .v{font-weight:600; font-size:.98rem; overflow-wrap:anywhere;}
   .manifest .row .v a:hover{color:var(--brand);}
+
+  /* ---------- contact grid ---------- */
+  .contact-grid{display:grid; grid-template-columns:1.1fr .9fr; gap:32px; align-items:start;}
+  @media (max-width:860px){ .contact-grid{grid-template-columns:1fr;} }
   @media (max-width:520px){ .manifest .row{grid-template-columns:1fr;} }
 
   /* ---------- timeline (sobre) ---------- */
@@ -573,7 +577,7 @@
       </div>
 
       <section class="tight">
-        <div class="wrap" style="display:grid; grid-template-columns:1.1fr .9fr; gap:32px; align-items:start;">
+        <div class="wrap contact-grid">
           <div>
             <div class="manifest">
               <div class="row"><div class="k">E-mail</div><div class="v"><a href="mailto:administrativo@transportesimigrantes.com.br">administrativo@transportesimigrantes.com.br</a></div></div>
