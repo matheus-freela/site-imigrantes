@@ -1,4 +1,4 @@
-<!doctype html><html lang="pt-BR"><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<!doctype html><html lang="pt-BR"><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style>
 <title>Transportes Imigrantes</title>
 <meta name="theme-color" content="#F6F3EC" media="(prefers-color-scheme: light)">
 <meta name="theme-color" content="#14161B" media="(prefers-color-scheme: dark)">
@@ -51,11 +51,10 @@
   "description": "Transportadora rodoviária de cargas de importação e exportação desde 1974, sede no Porto de Santos/SP. FCL, LCL, DTA, REDEX e distribuição para todo o Brasil."
 }
 </script>
-
 <style>
   :root{
     --bg:#F6F3EC; --bg-2:#EFE9DB; --surface:#FFFFFF; --surface-2:#FBF9F4;
-    --text:#15181E; --text-soft:#4B5563; --text-mute:#838C99;
+    --text:#15181E; --text-soft:#4B5563; --text-mute:#636C79;
     --line:#DED7C6; --line-strong:#C9C0AC;
     --brand:#BE0205; --brand-deep:#7E0103; --brand-tint:#F5E1DF;
     --ink:#14181F; --ink-2:#1D222B; --on-ink:#F2EEE3; --on-ink-soft:#AEB4BF;
@@ -168,6 +167,14 @@
   }
   .btn-primary{background:var(--brand); color:#fff;}
   .btn-primary:hover{background:var(--brand-deep);}
+  /* modo escuro: --brand (#FF5457) tem contraste insuficiente (3.15:1) com texto branco;
+     usa-se --brand-deep como cor de repouso do botão (5.76:1, dentro do WCAG AA) e --brand no hover */
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]) .btn-primary{background:var(--brand-deep);}
+    :root:not([data-theme="light"]) .btn-primary:hover{background:var(--brand);}
+  }
+  :root[data-theme="dark"] .btn-primary{background:var(--brand-deep);}
+  :root[data-theme="dark"] .btn-primary:hover{background:var(--brand);}
   .btn-outline{background:transparent; border-color:var(--line-strong); color:var(--text);}
   .btn-outline:hover{border-color:var(--text-mute);}
   .btn-ghost-dark{background:transparent; border-color:rgba(255,255,255,.28); color:var(--on-ink);}
@@ -313,7 +320,7 @@
   }
   .skip-link:focus{ top:16px; }
 </style>
-
+</head><body>
 <a href="#main-content" class="skip-link" id="skipLink">Pular para o conteúdo</a>
 
 <div id="app">
@@ -355,7 +362,7 @@
   <main id="main-content" tabindex="-1">
 
     <!-- ============ INÍCIO ============ -->
-    <section class="page" data-page="inicio" data-title="Transportes Imigrantes">
+    <section class="page active" data-page="inicio" data-title="Transportes Imigrantes">
       <div class="band-ink">
         <div class="wrap hero-grid">
           <div class="hero-copy">
