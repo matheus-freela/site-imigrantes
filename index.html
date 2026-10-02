@@ -252,8 +252,8 @@ button{ font:inherit; color:inherit; background:none; border:0; cursor:pointer; 
 .menu-open .burger span:nth-child(2){ opacity:0; }
 .menu-open .burger span:nth-child(3){ transform:translateY(-6px) rotate(-45deg); }
 
-/* o menu completo precisa de ~950px; abaixo de 1024 vira o menu de tela cheia */
-@media (max-width:1024px){
+/* o menu completo precisa de ~1085px; abaixo de 1120 vira o menu de tela cheia */
+@media (max-width:1120px){
   .nav, .head-cta{ display:none; }
   .burger{ display:block; }
 }
@@ -284,6 +284,7 @@ button{ font:inherit; color:inherit; background:none; border:0; cursor:pointer; 
 .menu-open .mobile-menu nav a:nth-child(5){ transition-delay:.2s; }
 .menu-open .mobile-menu nav a:nth-child(6){ transition-delay:.25s; }
 .menu-open .mobile-menu nav a:nth-child(7){ transition-delay:.3s; }
+.menu-open .mobile-menu nav a:nth-child(8){ transition-delay:.35s; }
 .mobile-menu .btn{ margin-top:24px; justify-content:space-between; }
 .mobile-menu .mm-foot{ margin-top:20px; font-family:var(--mono); font-size:.8rem; color:var(--on-ink-soft); display:grid; gap:2px; }
 .mobile-menu .mm-foot a{ padding:6px 0; overflow-wrap:anywhere; }
@@ -616,6 +617,56 @@ button{ font:inherit; color:inherit; background:none; border:0; cursor:pointer; 
 }
 
 /* =========================================================
+   PERGUNTAS FREQUENTES — acordeão nativo (<details>), sem JS
+   ========================================================= */
+.faq-grid{ display:grid; grid-template-columns:minmax(0,.8fr) minmax(0,1.2fr); gap:32px 64px; align-items:start; }
+.faq-head{ display:grid; gap:22px; position:sticky; top:96px; }
+.faq-more{ color:var(--soft); }
+.faq-more a, .faq-a a{ color:var(--red); font-weight:600; border-bottom:1px solid currentColor; }
+.faq{ border-top:2px solid var(--ink); }
+.faq details{ border-bottom:1px solid var(--line); }
+.faq summary{
+  display:flex; justify-content:space-between; align-items:center; gap:20px;
+  padding:20px 0; min-height:44px; cursor:pointer; list-style:none;
+  font-weight:600; font-size:1.06rem; line-height:1.35;
+  transition:color .3s var(--ease);
+}
+.faq summary::-webkit-details-marker{ display:none; }
+.faq summary:hover{ color:var(--red); }
+.faq summary:focus-visible{ outline-offset:4px; border-radius:4px; }
+/* sinal de + que gira e vira × ao abrir */
+.faq summary::after{
+  content:""; flex:none; width:32px; height:32px; border-radius:50%;
+  border:1.5px solid var(--line);
+  background:
+    linear-gradient(var(--ink),var(--ink)) center / 12px 2px no-repeat,
+    linear-gradient(var(--ink),var(--ink)) center / 2px 12px no-repeat;
+  transition:transform .45s var(--ease), background-color .3s var(--ease), border-color .3s var(--ease);
+}
+.faq details[open] summary::after{
+  transform:rotate(45deg); border-color:var(--red); background-color:var(--red);
+  background-image:linear-gradient(#fff,#fff), linear-gradient(#fff,#fff);
+}
+.faq-a{ padding:0 52px 22px 0; color:var(--soft); }
+.faq-a p{ max-width:62ch; }
+.faq-a strong{ color:var(--text); }
+/* abertura suave onde o navegador suporta (Chrome/Edge recentes); nos outros abre direto */
+@supports (interpolate-size: allow-keywords){
+  .faq{ interpolate-size:allow-keywords; }
+  .faq details::details-content{
+    height:0; overflow:clip;
+    transition:height .45s var(--ease), content-visibility .45s allow-discrete;
+  }
+  .faq details[open]::details-content{ height:auto; }
+}
+@media (prefers-reduced-motion:reduce){ .faq details::details-content{ transition:none; } }
+@media (max-width:900px){
+  .faq-grid{ grid-template-columns:1fr; }
+  .faq-head{ position:static; }
+  .faq-a{ padding-right:0; }
+}
+
+/* =========================================================
    CONTATO
    ========================================================= */
 .hazard{ height:14px; background:repeating-linear-gradient(-45deg, var(--hazard) 0 16px, var(--ink) 16px 32px); }
@@ -741,6 +792,7 @@ button{ font:inherit; color:inherit; background:none; border:0; cursor:pointer; 
       <a href="#historia">História</a>
       <a href="#diferenciais">Diferenciais</a>
       <a href="#operacao">Operação</a>
+      <a href="#duvidas">Dúvidas</a>
       <a href="#contato">Contato</a>
       <a class="head-cta" href="https://wa.me/5513978043399?text=Ol%C3%A1%2C%20vim%20pelo%20site%20e%20gostaria%20de%20solicitar%20uma%20proposta." target="_blank" rel="noopener">Pedir proposta</a>
     </nav>
@@ -756,7 +808,8 @@ button{ font:inherit; color:inherit; background:none; border:0; cursor:pointer; 
     <a href="#historia">História <small>04</small></a>
     <a href="#diferenciais">Diferenciais <small>05</small></a>
     <a href="#operacao">Operação <small>06</small></a>
-    <a href="#contato">Contato <small>07</small></a>
+    <a href="#duvidas">Dúvidas <small>07</small></a>
+    <a href="#contato">Contato <small>08</small></a>
   </nav>
   <a class="btn btn-red" href="https://wa.me/5513978043399?text=Ol%C3%A1%2C%20vim%20pelo%20site%20e%20gostaria%20de%20solicitar%20uma%20proposta." target="_blank" rel="noopener">Pedir proposta no WhatsApp <span class="arr" aria-hidden="true">→</span></a>
   <div class="mm-foot">
@@ -1007,12 +1060,71 @@ button{ font:inherit; color:inherit; background:none; border:0; cursor:pointer; 
   </div>
 </section>
 
+<!-- ================= PERGUNTAS FREQUENTES ================= -->
+<section class="sec" id="duvidas" aria-labelledby="faqTitle">
+  <div class="wrap faq-grid">
+    <div class="faq-head">
+      <div class="tag" data-reveal><b>07</b> Dúvidas</div>
+      <h2 class="h-l" id="faqTitle" data-reveal>Perguntas<br>frequentes</h2>
+      <p class="lead" data-reveal>O que importadores, exportadores e despachantes mais perguntam antes de fechar o transporte.</p>
+      <p class="faq-more" data-reveal>Não achou sua dúvida? <a href="https://wa.me/5513978043399?text=Ol%C3%A1%2C%20vim%20pelo%20site%20e%20tenho%20uma%20d%C3%BAvida." target="_blank" rel="noopener" data-origem="duvidas">Pergunte pelo WhatsApp</a>.</p>
+    </div>
+
+    <div class="faq" data-reveal>
+      <details>
+        <summary>Para quais regiões vocês transportam?</summary>
+        <div class="faq-a"><p>Saímos do Porto de Santos para o Sudeste, o Sul e Mato Grosso do Sul: São Paulo, Rio de Janeiro, Minas Gerais, Espírito Santo, Paraná, Santa Catarina, Rio Grande do Sul e Mato Grosso do Sul.</p></div>
+      </details>
+      <details>
+        <summary>Em quais terminais vocês retiram e entregam?</summary>
+        <div class="faq-a"><p>Atendemos 27 terminais e depósitos da Baixada Santista: 13 para carregamento de contêiner cheio e 14 para retirada e devolução de vazio. A lista completa está na seção <a href="#terminais">Terminais</a>. Se o seu não estiver lá, pergunte.</p></div>
+      </details>
+      <details>
+        <summary>Qual a diferença entre FCL e LCL?</summary>
+        <div class="faq-a"><p>No <strong>FCL</strong> o contêiner inteiro é da sua carga, com transporte dedicado do terminal ao destino. No <strong>LCL</strong> a carga é fracionada e divide o espaço com outras, então você paga só pelo que usa.</p></div>
+      </details>
+      <details>
+        <summary>O que é DTA e quando eu preciso?</summary>
+        <div class="faq-a"><p>DTA (Declaração de Trânsito Aduaneiro) é a remoção de uma mercadoria ainda não nacionalizada de um recinto alfandegado para outro, por exemplo do porto para um porto seco no interior. Cuidamos do transporte com a documentação em ordem e o caminhão monitorado.</p></div>
+      </details>
+      <details>
+        <summary>Vocês transportam carga perigosa ou controlada?</summary>
+        <div class="faq-a"><p>Sim. Temos habilitação IMO para mercadorias perigosas e autorização do Exército e da Polícia Civil para cargas controladas. Também atendemos produtos regulados pela ANVISA, CRF-SP e SIVISA. Na cotação, marque “Carga perigosa (IMO)”.</p></div>
+      </details>
+      <details>
+        <summary>A carga tem seguro durante o transporte?</summary>
+        <div class="faq-a"><p>Sim, com cobertura RCTR-C e RCF-DC no transporte e na movimentação. Por isso a cotação de importação pede o valor da mercadoria.</p></div>
+      </details>
+      <details>
+        <summary>Consigo saber onde está o meu contêiner?</summary>
+        <div class="faq-a"><p>Sim. A frota é monitorada continuamente durante a viagem. Fale com a nossa equipe para acompanhar a sua carga.</p></div>
+      </details>
+      <details>
+        <summary>Vocês fazem só o trecho do porto?</summary>
+        <div class="faq-a"><p>Não. Fazemos do terminal até a entrega final e ligamos porto, aeroporto e interior numa operação só. Também fazemos desova de contêiner e movimentação com empilhadeira e guindaste.</p></div>
+      </details>
+      <details>
+        <summary>Quais documentos de transporte vocês emitem?</summary>
+        <div class="faq-a"><p>Emitimos e controlamos toda a documentação da viagem, incluindo CT-e, MDF-e e CIOT.</p></div>
+      </details>
+      <details>
+        <summary>O que preciso informar para receber uma cotação?</summary>
+        <div class="faq-a"><p>Operação (importação ou exportação), serviço, tipo de contêiner, terminal, destino ou local de coleta, mercadoria e, na importação, o valor da carga. A <a href="#cotacao">cotação rápida</a> monta a mensagem para você em um minuto.</p></div>
+      </details>
+      <details>
+        <summary>Qual o horário de atendimento?</summary>
+        <div class="faq-a"><p>Segunda a sexta, das 8h30 às 18h, pelo WhatsApp (13) 97804-3399, pelo telefone (13) 3219-7180 ou por e-mail.</p></div>
+      </details>
+    </div>
+  </div>
+</section>
+
 <!-- ================= CONTATO ================= -->
 <div class="hazard" aria-hidden="true"></div>
 <section class="sec on-ink" id="contato" aria-labelledby="ctTitle" style="background:var(--ink-2);">
   <div class="wrap contact-grid">
     <div>
-      <div class="tag" data-reveal><b>07</b> Contato</div>
+      <div class="tag" data-reveal><b>08</b> Contato</div>
       <h2 class="h-xl" id="ctTitle" style="margin-top:22px;" data-reveal>Tem carga<br>saindo do<br>porto?</h2>
       <p class="lead" style="margin-top:22px;" data-reveal>Monte a cotação e envie pelo WhatsApp ou por e-mail. Se preferir, fale direto com a nossa equipe pelos contatos abaixo.</p>
 
@@ -1130,6 +1242,7 @@ button{ font:inherit; color:inherit; background:none; border:0; cursor:pointer; 
           <li><a href="#historia">História</a></li>
           <li><a href="#diferenciais">Diferenciais</a></li>
           <li><a href="#operacao">Operação</a></li>
+          <li><a href="#duvidas">Dúvidas</a></li>
           <li><a href="#contato">Contato</a></li>
         </ul>
       </div>

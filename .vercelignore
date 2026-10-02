@@ -2,3 +2,6 @@ _arquivo/
 .claude/
 .gitignore
 README.md
+Dossi*.html
+*.docx
+*.pdf

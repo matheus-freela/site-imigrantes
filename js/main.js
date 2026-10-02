@@ -88,7 +88,7 @@
     if(open){ head.classList.remove("hide"); }
   }
   // se a tela crescer para desktop com o menu aberto, fecha
-  window.matchMedia("(min-width:1025px)").addEventListener("change", function(m){ if(m.matches){ setMenu(false); } });
+  window.matchMedia("(min-width:1121px)").addEventListener("change", function(m){ if(m.matches){ setMenu(false); } });
   burger.addEventListener("click", function(){ setMenu(!doc.classList.contains("menu-open")); });
   menu.querySelectorAll("a").forEach(function(a){ a.addEventListener("click", function(){ setMenu(false); }); });
   document.addEventListener("keydown", function(e){ if(e.key === "Escape" && doc.classList.contains("menu-open")){ setMenu(false); burger.focus(); } });
@@ -354,6 +354,13 @@
     if(sec && sec.classList.contains("mobile-menu")){ origem = "menu-celular"; }
     origem = { siteHead:"cabecalho", topo:"hero", footer:"rodape" }[origem] || origem;
     track("contato_" + tipo, { origem:origem });
+  });
+
+  // quais perguntas frequentes são abertas (mostra as dúvidas mais comuns dos clientes)
+  document.querySelectorAll(".faq details").forEach(function(d){
+    d.addEventListener("toggle", function(){
+      if(d.open){ track("duvida_aberta", { pergunta:d.querySelector("summary").textContent.trim() }); }
+    });
   });
 
   /* ---------- formulário de cotação ---------- */

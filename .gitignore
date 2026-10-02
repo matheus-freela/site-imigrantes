@@ -2,3 +2,7 @@
 _arquivo/
 .claude/
 .vercel/
+# documentos internos do projeto (não publicar)
+Dossi*.html
+*.docx
+*.pdf
