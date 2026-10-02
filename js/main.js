@@ -311,7 +311,16 @@
     });
   }
   if(reduce){ drawRoutes(1); } else { drawRoutes(); }
-  window.addEventListener("resize", function(){ if(!reduce) drawRoutes(); });
+  // rótulos do mapa com tamanho fixo na tela (12px no desktop, 11px no celular), qualquer que seja a escala do SVG
+  var mapLbls = svg.querySelectorAll(".city-lbl");
+  function fitMapLabels(){
+    var w = svg.getBoundingClientRect().width;
+    if(!w){ return; }
+    var fs = (w > 480 ? 12 : w > 320 ? 11 : 9.5) / (w / 314); // em telas bem estreitas o mapa é pequeno: rótulo menor evita sobreposição
+    mapLbls.forEach(function(t){ t.style.fontSize = fs.toFixed(2) + "px"; t.style.strokeWidth = (fs * 0.3).toFixed(2) + "px"; });
+  }
+  fitMapLabels();
+  window.addEventListener("resize", function(){ fitMapLabels(); if(!reduce) drawRoutes(); });
   // só recalcula o mapa a cada rolagem quando ele está perto da tela
   if("IntersectionObserver" in window){
     new IntersectionObserver(function(entries){
@@ -380,6 +389,7 @@
   function setOperacao(exp){
     destinoLbl.textContent = exp ? "Local de coleta" : "Destino";
     valorWrap.hidden = exp; valor.disabled = exp;
+    if(exp){ limpa(valor); }
   }
   form.querySelectorAll("input[name=operacao]").forEach(function(r){
     r.addEventListener("change", function(){ if(r.checked){ setOperacao(r.value === "Exportação"); } });
@@ -410,10 +420,42 @@
     if(newTab){ a.target = "_blank"; a.rel = "noopener"; }
     document.body.appendChild(a); a.click(); a.remove();
   }
+  /* validação: mensagem ao lado do campo, dizendo o que fazer, e foco no primeiro erro */
+  var status = document.getElementById("qStatus");
+  function erro(input, texto){
+    var campo = input.closest(".q-field"), id = "err-" + input.id, p = document.getElementById(id);
+    if(!p){ p = document.createElement("p"); p.className = "q-err"; p.id = id; campo.appendChild(p); }
+    p.textContent = texto;
+    input.setAttribute("aria-invalid", "true"); input.setAttribute("aria-describedby", id);
+  }
+  function limpa(input){
+    var p = document.getElementById("err-" + input.id);
+    if(p){ p.remove(); }
+    input.removeAttribute("aria-invalid"); input.removeAttribute("aria-describedby");
+  }
+  function validar(){
+    var exp = form.querySelector("input[name=operacao]:checked").value === "Exportação";
+    var regras = [
+      [form.elements.destino, exp ? "Informe o local de coleta (cidade e UF)." : "Informe a cidade e a UF de entrega."],
+      [valor, "Informe o valor da mercadoria. Ele define o seguro da carga."],
+      [form.elements.nome, "Informe o seu nome para a equipe saber com quem falar."]
+    ];
+    var primeiro = null;
+    regras.forEach(function(r){
+      var input = r[0];
+      if(input.disabled || input.value.trim()){ limpa(input); return; }
+      erro(input, r[1]);
+      if(!primeiro){ primeiro = input; }
+    });
+    if(primeiro){ primeiro.focus(); }
+    return !primeiro;
+  }
+  form.addEventListener("input", function(e){ if(e.target.getAttribute("aria-invalid")){ limpa(e.target); } });
   form.addEventListener("submit", function(e){
     e.preventDefault();
-    if(!form.checkValidity()){ form.reportValidity(); return; }
     var f = form.elements, v = function(n){ return (f[n].value || "").trim(); };
+    status.textContent = "";
+    if(!validar()){ return; }
     var mercadoria = [v("carga"), f.imo.checked ? "carga perigosa (IMO)" : ""].filter(Boolean).join(" · ");
     var linhas = [
       ["Operação", form.querySelector("input[name=operacao]:checked").value],
@@ -422,16 +464,18 @@
       ["Terminal", v("terminal")],
       [destinoLbl.textContent, v("destino")],
       ["Mercadoria", mercadoria],
-      ["Peso aproximado", v("peso")],
+      ["Peso aproximado", /^[\d.,\s]+$/.test(v("peso")) ? v("peso") + " t" : v("peso")],
       ["Valor da mercadoria", valor.disabled || !v("valor") ? "" : v("moeda") + " " + v("valor")],
       ["Nome", [v("nome"), v("empresa")].filter(Boolean).join(" · ")]
     ].filter(function(l){ return l[1]; }); // campos vazios não entram na mensagem
     if(canal === "email"){
       var corpo = "Olá, vim pelo site e gostaria de uma cotação.\n\n" + linhas.map(function(l){ return l[0] + ": " + l[1]; }).join("\n") + "\n";
       var assunto = "Cotação · " + v("servico").split(" –")[0] + " · " + v("destino");
+      status.textContent = "Abrimos o seu aplicativo de e-mail com a cotação. Se nada abriu, escreva para " + EMAIL + ".";
       openLink("mailto:" + EMAIL + "?subject=" + encodeURIComponent(assunto) + "&body=" + encodeURIComponent(corpo), false);
     } else {
       var msg = "Olá, vim pelo site e gostaria de uma cotação.\n\n" + linhas.map(function(l){ return "*" + l[0] + ":* " + l[1]; }).join("\n");
+      status.textContent = "Abrimos o WhatsApp com a sua cotação. Se não abriu, chame (13) 97804-3399.";
       openLink("https://wa.me/" + WA_NUM + "?text=" + encodeURIComponent(msg), true);
     }
     track("cotacao_enviada", { canal:canal, servico:v("servico"), operacao:form.querySelector("input[name=operacao]:checked").value });
