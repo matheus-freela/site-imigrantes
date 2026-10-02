@@ -141,7 +141,7 @@ button{ font:inherit; color:inherit; background:none; border:0; cursor:pointer; 
 /* foco: escuro sobre fundo claro, amarelo sobre fundo escuro */
 :focus-visible{ outline:3px solid var(--ink); outline-offset:3px; }
 .on-ink :focus-visible, .hero :focus-visible, .foot :focus-visible, .mobile-menu :focus-visible,
-.site-head:not(.scrolled) :focus-visible, .menu-open .site-head :focus-visible, .wa-float:focus-visible{ outline-color:var(--hazard); }
+.site-head:not(.scrolled) :focus-visible, .menu-open .site-head :focus-visible{ outline-color:var(--hazard); }
 
 .wrap{ max-width:var(--max); margin:0 auto; padding-inline:var(--gut); }
 .mono{ font-family:var(--mono); }
@@ -223,6 +223,7 @@ button{ font:inherit; color:inherit; background:none; border:0; cursor:pointer; 
   color:var(--ink); box-shadow:0 1px 0 var(--line);
 }
 .site-head.hide{ transform:translateY(-100%); }
+.site-head.hide:focus-within{ transform:none; } /* foco por teclado nunca fica num cabeçalho escondido */
 .head-row{ display:flex; align-items:center; justify-content:space-between; gap:20px; height:72px; }
 .brand{ display:flex; align-items:center; gap:10px; }
 .brand img{ height:34px; width:auto; }
@@ -765,12 +766,15 @@ button{ font:inherit; color:inherit; background:none; border:0; cursor:pointer; 
 .wa-float{
   position:fixed; right:18px; bottom:calc(18px + var(--safe-b)); z-index:50;
   display:flex; align-items:center; gap:10px; padding:14px 18px 14px 16px;
-  background:#1FA855; color:#fff; font-weight:600; font-size:.92rem; border-radius:999px;
+  background:#15803D; color:#fff; font-weight:600; font-size:.92rem; border-radius:999px; /* branco sobre #15803D = 5,0:1 */
   box-shadow:0 10px 30px -8px rgba(0,0,0,.45);
-  transform:translateY(140%); transition:transform .5s var(--ease), background-color .25s;
+  /* escondido: fora da tela E fora da ordem de tabulação (visibility some só depois da animação de saída) */
+  transform:translateY(140%); visibility:hidden; transition:transform .5s var(--ease), background-color .25s, visibility 0s .5s;
 }
-.wa-float.show{ transform:none; }
-.wa-float:hover{ background:#178A45; }
+.wa-float.show{ transform:none; visibility:visible; transition:transform .5s var(--ease), background-color .25s, visibility 0s; }
+.wa-float:hover{ background:#11692F; }
+/* anel de foco de duas cores: lê sobre fundo claro e escuro */
+.wa-float:focus-visible{ outline:3px solid var(--ink); outline-offset:3px; box-shadow:0 0 0 6px #fff; }
 .wa-float svg{ width:22px; height:22px; flex:none; }
 @media (max-width:520px){ .wa-float span{ display:none; } .wa-float{ padding:15px; border-radius:50%; } }
 </style>
