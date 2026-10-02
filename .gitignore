@@ -1,0 +1,4 @@
+# backups locais e arquivos de trabalho (não vão para o Git nem para o site)
+_arquivo/
+.claude/
+.vercel/

@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Página não encontrada — Transportes Imigrantes</title>
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#101215">
+<link rel="icon" type="image/png" href="/favicon.png">
+<style>
+@font-face{font-family:"Big Shoulders";font-weight:900;font-display:swap;src:url(/fonts/big-shoulders-latin.woff2) format("woff2");}
+@font-face{font-family:"Big Shoulders Stencil";font-weight:900;font-display:swap;src:url(/fonts/big-shoulders-stencil-latin.woff2) format("woff2");}
+@font-face{font-family:"IBM Plex Sans";font-weight:400 600;font-display:swap;src:url(/fonts/ibm-plex-sans-latin.woff2) format("woff2");}
+@font-face{font-family:"IBM Plex Mono";font-weight:500;font-display:swap;src:url(/fonts/ibm-plex-mono-latin-500.woff2) format("woff2");}
+:root{ --ink:#101215; --on-ink:#F1EFEA; --soft:#A9AEB7; --red:#BE0205; --red-deep:#8E0104; --red-light:#FF5A5F; --hazard:#F2B705; }
+*{ box-sizing:border-box; }
+html,body{ height:100%; }
+body{
+  margin:0; background:var(--ink); color:var(--on-ink); font-family:"IBM Plex Sans",system-ui,sans-serif;
+  display:flex; flex-direction:column; justify-content:center; padding:40px 20px;
+}
+.box{ max-width:640px; margin:0 auto; width:100%; }
+.code{ font-family:"IBM Plex Mono",monospace; font-size:.78rem; letter-spacing:.14em; text-transform:uppercase; color:var(--soft); }
+.big{ font-family:"Big Shoulders Stencil","Big Shoulders",Impact,sans-serif; font-weight:900; font-size:clamp(7rem,30vw,12rem); line-height:.8; color:var(--red); margin:22px 0 28px; }
+h1{ font-family:"Big Shoulders",Impact,sans-serif; font-weight:900; text-transform:uppercase; font-size:clamp(2.2rem,8vw,3.4rem); line-height:.95; margin:0; }
+p{ color:var(--soft); line-height:1.6; margin:16px 0 28px; max-width:44ch; }
+.row{ display:flex; flex-wrap:wrap; gap:10px; }
+a.btn{ display:inline-flex; align-items:center; gap:12px; padding:15px 22px; border-radius:12px; font-weight:600; text-decoration:none; transition:background-color .3s, color .3s, border-color .3s; }
+.red{ background:var(--red); color:#fff; border:2px solid var(--red); }
+.red:hover{ background:var(--red-deep); border-color:var(--red-deep); }
+.line{ color:var(--on-ink); border:2px solid rgba(255,255,255,.35); }
+.line:hover{ border-color:var(--on-ink); }
+a:focus-visible{ outline:3px solid var(--hazard); outline-offset:3px; }
+.hazard{ position:fixed; left:0; right:0; bottom:0; height:12px; background:repeating-linear-gradient(-45deg,var(--hazard) 0 16px,var(--ink) 16px 32px); }
+</style>
+</head>
+<body>
+<main class="box">
+  <div class="code">Erro 404 · Contêiner não localizado</div>
+  <div class="big" aria-hidden="true">404</div>
+  <h1>Essa página não está no pátio.</h1>
+  <p>O endereço pode ter mudado ou foi digitado errado. Volte para o início ou fale direto com a nossa equipe.</p>
+  <div class="row">
+    <a class="btn red" href="/">Voltar ao início →</a>
+    <a class="btn line" href="https://wa.me/5513978043399?text=Ol%C3%A1%2C%20vim%20pelo%20site." target="_blank" rel="noopener">Falar no WhatsApp</a>
+  </div>
+</main>
+<div class="hazard" aria-hidden="true"></div>
+</body>
+</html>

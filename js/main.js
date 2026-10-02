@@ -1,0 +1,435 @@
+/* Transportes Imigrantes — comportamento da página (carregado com defer) */
+(function(){
+  "use strict";
+  var doc = document.documentElement;
+  var reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches; // a classe .js já foi posta no <head>
+
+  /* ---------- anos de estrada, sempre atualizado ---------- */
+  var ANO = new Date().getFullYear();
+  var ANOS = ANO - 1974;
+  document.querySelectorAll("[data-anos]").forEach(function(el){ el.textContent = ANOS; });
+  document.querySelectorAll("[data-ano-atual]").forEach(function(el){ el.textContent = ANO; });
+
+  /* ---------- entrada do hero ---------- */
+  function ready(){ requestAnimationFrame(function(){ doc.classList.add("ready"); }); }
+  if(reduce){ ready(); }
+  else{
+    var heroImg = document.querySelector("#heroFrame img");
+    if(heroImg && !heroImg.complete){
+      var done = false, go = function(){ if(!done){ done = true; ready(); } };
+      heroImg.addEventListener("load", go); heroImg.addEventListener("error", go);
+      setTimeout(go, 1200);
+    } else { ready(); }
+  }
+
+  /* ---------- cabeçalho: muda ao rolar, some descendo, volta subindo ---------- */
+  var head = document.getElementById("siteHead");
+  var wa = document.getElementById("waFloat");
+  var hero = document.getElementById("topo");
+  var heroMedia = hero.querySelector(".hero-media");
+  var lastY = window.scrollY, ticking = false;
+  function onScroll(){
+    var y = window.scrollY;
+    var heroH = hero.offsetHeight;
+    // no celular a foto fica em cima e o texto embaixo: o cabeçalho fica sólido assim que a foto passa,
+    // para não ficar transparente por cima do título
+    var solidAt = window.innerWidth <= 940 ? heroMedia.offsetHeight - 72 : heroH - 80;
+    head.classList.toggle("scrolled", y > solidAt);
+    if(!doc.classList.contains("menu-open")){
+      head.classList.toggle("hide", y > lastY && y > heroH && !reduce);
+    }
+    updateWa(y);
+    lastY = y;
+    if(!reduce){ parallax(y); if(mapVisible){ drawRoutes(); } }
+    ticking = false;
+  }
+  window.addEventListener("scroll", function(){ if(!ticking){ ticking = true; requestAnimationFrame(onScroll); } }, { passive:true });
+
+  /* WhatsApp flutuante: aparece quando o botão do hero sai da tela e some sobre o formulário e o rodapé,
+     para não cobrir campos nem botões */
+  var heroCtaVisible = true, quoteVisible = false, mapVisible = false;
+  function updateWa(y){
+    if(y === undefined){ y = window.scrollY; }
+    var nearEnd = y + window.innerHeight > document.documentElement.scrollHeight - 120;
+    wa.classList.toggle("show", !heroCtaVisible && !quoteVisible && !nearEnd);
+  }
+  if("IntersectionObserver" in window){
+    var visObs = new IntersectionObserver(function(entries){
+      entries.forEach(function(en){
+        if(en.target.id === "cotacao"){ quoteVisible = en.isIntersecting; }
+        else { heroCtaVisible = en.isIntersecting; }
+      });
+      updateWa();
+    });
+    visObs.observe(hero.querySelector(".btn-row"));
+    visObs.observe(document.getElementById("cotacao"));
+  } else { heroCtaVisible = false; }
+
+  /* parallax leve na foto do hero */
+  var heroImgEl = document.querySelector("#heroFrame img");
+  function parallax(y){
+    if(!heroImgEl || y > hero.offsetHeight) return;
+    if(window.innerWidth < 940) return;
+    heroImgEl.style.translate = "0 " + (y * 0.12).toFixed(1) + "px";
+  }
+
+  /* ---------- menu mobile ---------- */
+  var burger = document.getElementById("burger");
+  var menu = document.getElementById("mobileMenu");
+  // com o menu aberto, o resto da página sai da ordem de tabulação e do leitor de tela
+  var behindMenu = [document.querySelector("main"), document.querySelector(".foot"), wa, document.querySelector(".skip-link")];
+  function setMenu(open){
+    doc.classList.toggle("menu-open", open);
+    burger.setAttribute("aria-expanded", open ? "true" : "false");
+    burger.setAttribute("aria-label", open ? "Fechar menu" : "Abrir menu");
+    menu.setAttribute("aria-hidden", open ? "false" : "true");
+    document.body.style.overflow = open ? "hidden" : "";
+    behindMenu.forEach(function(n){ if(n){ n.inert = open; } });
+    if(open){ head.classList.remove("hide"); }
+  }
+  // se a tela crescer para desktop com o menu aberto, fecha
+  window.matchMedia("(min-width:1025px)").addEventListener("change", function(m){ if(m.matches){ setMenu(false); } });
+  burger.addEventListener("click", function(){ setMenu(!doc.classList.contains("menu-open")); });
+  menu.querySelectorAll("a").forEach(function(a){ a.addEventListener("click", function(){ setMenu(false); }); });
+  document.addEventListener("keydown", function(e){ if(e.key === "Escape" && doc.classList.contains("menu-open")){ setMenu(false); burger.focus(); } });
+
+  /* ---------- link ativo no menu ---------- */
+  var navLinks = document.querySelectorAll(".nav a[href^='#']");
+  if("IntersectionObserver" in window){
+    var secObs = new IntersectionObserver(function(entries){
+      entries.forEach(function(en){
+        if(en.isIntersecting){
+          navLinks.forEach(function(a){ a.classList.toggle("active", a.getAttribute("href") === "#" + en.target.id); });
+        }
+      });
+    }, { rootMargin:"-45% 0px -50% 0px" });
+    document.querySelectorAll("main section[id]").forEach(function(s){ secObs.observe(s); });
+  }
+
+  /* ---------- revelar ao rolar ---------- */
+  function onView(els, cb, opts){
+    if(!("IntersectionObserver" in window)){ els.forEach(cb); return; }
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(en){ if(en.isIntersecting){ cb(en.target); io.unobserve(en.target); } });
+    }, opts || { rootMargin:"0px 0px -12% 0px" });
+    els.forEach(function(el){ io.observe(el); });
+  }
+  var revealEls = Array.prototype.slice.call(document.querySelectorAll("[data-reveal]"));
+  if(reduce){ revealEls.forEach(function(el){ el.classList.add("in"); }); }
+  else{
+    onView(revealEls, function(el){
+      // escalonar irmãos que entram juntos
+      var sibs = el.parentElement ? Array.prototype.filter.call(el.parentElement.children, function(c){ return c.hasAttribute("data-reveal"); }) : [];
+      var i = Math.max(0, sibs.indexOf(el));
+      el.style.transitionDelay = Math.min(i * 70, 350) + "ms";
+      el.classList.add("in");
+    });
+  }
+
+  /* ---------- letreiro de plaquinhas (split-flap) ---------- */
+  // as letras passam em ordem, como num painel de aeroporto, e desaceleram até parar na certa
+  var SLOTS = 7, CHARS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789·";
+  var canAnimate = typeof Element.prototype.animate === "function";
+  var flaps = Array.prototype.slice.call(document.querySelectorAll(".flap"));
+
+  function makeCell(ch){
+    var c = document.createElement("span");
+    c.className = "c" + (ch ? "" : " blank");
+    c.innerHTML = '<span class="t"><i></i></span><span class="b"><i></i></span><span class="ft"><i></i></span><span class="fb"><i></i></span>';
+    c._p = { t:c.querySelector(".t i"), b:c.querySelector(".b i"), ft:c.querySelector(".ft"), fb:c.querySelector(".fb") };
+    c._p.fti = c._p.ft.firstChild; c._p.fbi = c._p.fb.firstChild;
+    setCell(c, ch);
+    return c;
+  }
+  function setCell(c, ch){
+    c._ch = ch;
+    c._p.t.textContent = c._p.b.textContent = c._p.fti.textContent = c._p.fbi.textContent = ch;
+  }
+  // uma virada: a metade de cima (letra antiga) cai até 90°, depois a de baixo (letra nova) desce até assentar
+  function flipTo(c, next, dur){
+    var p = c._p, cur = c._ch;
+    p.t.textContent = next; p.fti.textContent = cur;
+    p.b.textContent = cur;  p.fbi.textContent = next;
+    p.ft.style.visibility = p.fb.style.visibility = "visible";
+    var half = dur / 2;
+    var a1 = p.ft.animate(
+      [{ transform:"rotateX(0deg)", filter:"brightness(1)" }, { transform:"rotateX(-90deg)", filter:"brightness(.6)" }],
+      { duration:half, easing:"cubic-bezier(.55,0,1,.45)", fill:"forwards" });
+    var a2 = p.fb.animate(
+      [{ transform:"rotateX(90deg)", filter:"brightness(1.35)" }, { transform:"rotateX(0deg)", filter:"brightness(1)" }],
+      { duration:half, delay:half, easing:"cubic-bezier(0,.55,.45,1)", fill:"forwards" });
+    return a2.finished.then(function(){
+      p.b.textContent = next; c._ch = next;
+      p.ft.style.visibility = p.fb.style.visibility = "hidden";
+      a1.cancel(); a2.cancel();
+    });
+  }
+
+  flaps.forEach(function(f){
+    var t = f.getAttribute("data-text");
+    for(var i = 0; i < SLOTS; i++){ f.appendChild(makeCell(t.charAt(i))); }
+  });
+
+  function spin(f, delay){
+    if(f._running || !canAnimate) return;
+    var cells = Array.prototype.slice.call(f.querySelectorAll(".c:not(.blank)"));
+    var t = f.getAttribute("data-text");
+    f._running = cells.length;
+    cells.forEach(function(cell, i){
+      var target = t.charAt(i), ti = CHARS.indexOf(target), L = CHARS.length;
+      var steps = 5 + i * 2 + Math.floor(Math.random() * 2);
+      var seq = [];
+      for(var k = steps; k >= 0; k--){ seq.push(CHARS.charAt(((ti - k) % L + L) % L)); }
+      seq[seq.length - 1] = target; // garante a letra final mesmo se ela não estiver em CHARS
+      var n = 0;
+      function next(){
+        if(n >= seq.length){ if(--f._running === 0){ f._running = 0; } return; }
+        var prog = n / (seq.length - 1);
+        var dur = 70 + 190 * Math.pow(prog, 2.2); // rápido no começo, assentando devagar no fim
+        flipTo(cell, seq[n++], dur).then(next);
+      }
+      setTimeout(next, delay + i * 40);
+    });
+  }
+  if(!reduce){
+    onView(flaps, function(f){ spin(f, flaps.indexOf(f) * 140); }, { rootMargin:"0px 0px -15% 0px" });
+    flaps.forEach(function(f){
+      f.closest(".svc").addEventListener("mouseenter", function(){ spin(f, 0); });
+    });
+  }
+
+  /* ---------- contador 1974 → ano atual ---------- */
+  var counter = document.getElementById("yearCounter");
+  counter.textContent = ANO;
+  if(!reduce){
+    counter.textContent = "1974";
+    onView([counter], function(){
+      var t0 = null, dur = 2200;
+      function step(ts){
+        if(!t0) t0 = ts;
+        var p = Math.min(1, (ts - t0) / dur);
+        var e = 1 - Math.pow(1 - p, 3);
+        counter.textContent = Math.round(1974 + (ANO - 1974) * e);
+        if(p < 1) requestAnimationFrame(step);
+      }
+      setTimeout(function(){ requestAnimationFrame(step); }, 300);
+    }, { rootMargin:"0px 0px -25% 0px" });
+  }
+
+  /* ---------- antes / depois ---------- */
+  var cmp = document.getElementById("compare");
+  var range = cmp.querySelector("input");
+  function setPos(v){ cmp.style.setProperty("--pos", v + "%"); }
+  range.addEventListener("input", function(){ setPos(range.value); });
+  if(!reduce){
+    // pequena "demonstração" quando aparece, para mostrar que dá para arrastar
+    onView([cmp], function(){
+      var t0 = null, dur = 1600, touched = false;
+      ["pointerdown", "keydown", "touchstart"].forEach(function(ev){
+        range.addEventListener(ev, function(){ touched = true; }, { once:true, passive:true });
+      });
+      function step(ts){
+        if(touched) return;
+        if(!t0) t0 = ts;
+        var p = Math.min(1, (ts - t0) / dur);
+        var v = 50 + Math.sin(p * Math.PI * 2) * 22 * (1 - p);
+        setPos(v); range.value = v;
+        if(p < 1) requestAnimationFrame(step);
+      }
+      setTimeout(function(){ requestAnimationFrame(step); }, 500);
+    }, { rootMargin:"0px 0px -30% 0px" });
+  }
+
+  /* ---------- mapa do Brasil com rotas ---------- */
+  // contorno simplificado (lon, lat) — só para ilustração
+  var BR = [[-51.6,4.2],[-51.1,3.9],[-50.5,2.0],[-49.9,1.0],[-50.0,0.3],[-48.6,-0.6],[-47.5,-0.6],[-46.5,-1.0],[-44.6,-2.2],[-43.0,-2.4],[-41.8,-2.9],[-40.0,-2.8],[-38.5,-3.6],[-37.2,-4.7],[-35.4,-5.1],[-35.0,-6.5],[-34.8,-7.6],[-35.1,-9.0],[-36.4,-10.5],[-37.4,-11.6],[-38.4,-12.8],[-39.0,-14.0],[-39.0,-16.0],[-39.2,-17.8],[-39.8,-19.6],[-40.6,-21.0],[-41.0,-22.0],[-42.0,-22.95],[-43.2,-23.05],[-44.6,-23.35],[-45.4,-23.8],[-46.4,-24.05],[-47.6,-24.9],[-48.4,-25.7],[-48.6,-26.6],[-48.6,-28.0],[-49.6,-29.3],[-50.4,-30.6],[-51.3,-31.6],[-52.3,-32.4],[-53.4,-33.7],[-53.4,-32.6],[-54.6,-31.9],[-55.5,-30.9],[-56.4,-30.4],[-57.6,-30.2],[-56.0,-28.6],[-55.0,-27.8],[-53.8,-27.1],[-53.6,-26.2],[-54.6,-25.6],[-54.3,-24.1],[-55.4,-23.6],[-55.7,-22.4],[-57.0,-22.2],[-57.9,-22.1],[-57.9,-20.0],[-57.7,-19.0],[-58.4,-17.3],[-58.4,-16.3],[-60.2,-16.2],[-60.4,-15.1],[-60.3,-13.6],[-61.8,-13.5],[-63.3,-12.6],[-64.5,-12.4],[-65.3,-11.0],[-65.4,-9.8],[-66.6,-9.9],[-68.0,-10.7],[-69.6,-11.0],[-70.6,-11.0],[-70.6,-9.5],[-72.2,-10.0],[-73.2,-9.3],[-74.0,-7.6],[-72.9,-5.1],[-71.5,-4.4],[-70.0,-4.3],[-69.4,-1.2],[-69.6,0.6],[-69.8,1.1],[-67.2,1.8],[-66.9,1.2],[-65.5,0.8],[-64.1,1.8],[-63.4,2.2],[-64.0,3.6],[-64.7,4.0],[-62.8,4.0],[-61.0,4.5],[-60.7,5.2],[-60.1,5.2],[-59.9,4.0],[-59.6,2.0],[-59.0,1.3],[-57.0,1.9],[-55.9,1.9],[-54.6,2.3],[-52.9,2.2],[-52.0,3.4]];
+  // destinos ilustrativos — ajuste para os destinos reais mais frequentes
+  var CITIES = [
+    ["São Paulo",-46.63,-23.55,-1],["Campinas",-47.06,-22.90,-1],["Rio de Janeiro",-43.20,-22.90,0],["Curitiba",-49.27,-25.43,1],
+    ["Belo Horizonte",-43.94,-19.92,1],["Florianópolis",-48.55,-27.60,0],["Vitória",-40.31,-20.32,0],["Porto Alegre",-51.23,-30.03,1],
+    ["Campo Grande",-54.62,-20.47,1]
+  ];
+  var ORIGIN = [-46.33,-23.96];
+  function P(lon, lat){ return [ (lon + 74.5) * 10, (5.8 - lat) * 10 ]; }
+  var NS = "http://www.w3.org/2000/svg";
+  var svg = document.getElementById("brMap");
+  function el(name, attrs, parent){
+    var n = document.createElementNS(NS, name);
+    for(var k in attrs){ n.setAttribute(k, attrs[k]); }
+    (parent || svg).appendChild(n); return n;
+  }
+  var defs = el("defs", {});
+  var pat = el("pattern", { id:"dots", width:"6", height:"6", patternUnits:"userSpaceOnUse" }, defs);
+  el("circle", { cx:"3", cy:"3", r:"1.15", fill:"rgba(255,255,255,.26)" }, pat);
+  var poly = BR.map(function(c){ var p = P(c[0], c[1]); return p[0].toFixed(1) + "," + p[1].toFixed(1); }).join(" ");
+  el("polygon", { points:poly, fill:"url(#dots)", stroke:"rgba(255,255,255,.22)", "stroke-width":"1", "stroke-linejoin":"round" });
+
+  var o = P(ORIGIN[0], ORIGIN[1]);
+  var cityList = document.getElementById("cityList");
+  var routes = [];
+  CITIES.forEach(function(c, i){
+    var d = P(c[1], c[2]);
+    var mx = (o[0] + d[0]) / 2, my = (o[1] + d[1]) / 2;
+    var dx = d[0] - o[0], dy = d[1] - o[1], len = Math.sqrt(dx*dx + dy*dy);
+    var side = (i % 2 ? 1 : -1);
+    var k = 0.22 * side;
+    var cx = mx - dy * k, cy = my + dx * k;
+    var path = el("path", { class:"route", d:"M" + o[0].toFixed(1) + " " + o[1].toFixed(1) + " Q" + cx.toFixed(1) + " " + cy.toFixed(1) + " " + d[0].toFixed(1) + " " + d[1].toFixed(1) });
+    var dot = el("circle", { class:"city", cx:d[0].toFixed(1), cy:d[1].toFixed(1), r:"3.2" });
+    var right = c[3] === 1 ? -1 : 1; // 0 = rótulo à direita, 1 = à esquerda, -1 = sem rótulo
+    var lbl = el("text", { class:"city-lbl", x:(d[0] + 7 * right).toFixed(1), y:(d[1] + 3).toFixed(1), "text-anchor": right > 0 ? "start" : "end" });
+    lbl.textContent = c[3] === -1 ? "" : c[0];
+    var li = document.createElement("li"); li.textContent = c[0]; cityList.appendChild(li);
+    var L = path.getTotalLength();
+    path.style.strokeDasharray = L; path.style.strokeDashoffset = L;
+    routes.push({ path:path, L:L, dot:dot, lbl:lbl, li:li, len:len });
+  });
+  // ordem de desenho: das mais próximas às mais distantes
+  routes.sort(function(a, b){ return a.len - b.len; });
+  el("circle", { class:"pulse", cx:o[0].toFixed(1), cy:o[1].toFixed(1), r:"6" });
+  el("circle", { class:"origin", cx:o[0].toFixed(1), cy:o[1].toFixed(1), r:"5" });
+  var ot = el("text", { class:"city-lbl on", x:(o[0] + 9).toFixed(1), y:(o[1] + 14).toFixed(1), style:"fill:#fff; font-weight:600;" });
+  ot.textContent = "Santos";
+
+  var mapBox = document.getElementById("mapBox");
+  function drawRoutes(force){
+    var p;
+    if(force === 1){ p = 1; }
+    else{
+      var r = mapBox.getBoundingClientRect(), vh = window.innerHeight;
+      // começa quando o topo do mapa chega a 85% da tela, termina quando o meio do mapa passa de 35%
+      var start = vh * 0.85, end = vh * 0.35 - r.height / 2;
+      p = (start - r.top) / (start - end);
+      p = Math.max(0, Math.min(1, p));
+    }
+    var n = routes.length;
+    routes.forEach(function(rt, i){
+      var a = i / n * 0.7, local = Math.max(0, Math.min(1, (p - a) / 0.3));
+      rt.path.style.strokeDashoffset = (rt.L * (1 - local)).toFixed(1);
+      var on = local >= 0.98;
+      rt.dot.classList.toggle("on", on); rt.lbl.classList.toggle("on", on); rt.li.classList.toggle("lit", on);
+    });
+  }
+  if(reduce){ drawRoutes(1); } else { drawRoutes(); }
+  window.addEventListener("resize", function(){ if(!reduce) drawRoutes(); });
+  // só recalcula o mapa a cada rolagem quando ele está perto da tela
+  if("IntersectionObserver" in window){
+    new IntersectionObserver(function(entries){
+      mapVisible = entries[0].isIntersecting;
+      if(mapVisible && !reduce){ drawRoutes(); }
+    }, { rootMargin:"20% 0px" }).observe(mapBox);
+  } else { mapVisible = true; }
+
+  /* ---------- marca gigante do rodapé ocupa a largura exata ---------- */
+  var giant = document.querySelector(".giant");
+  function fitGiant(){
+    if(!giant) return;
+    giant.style.fontSize = "100px";
+    var w = giant.scrollWidth, target = document.documentElement.clientWidth * 0.96;
+    giant.style.fontSize = (100 * target / w).toFixed(2) + "px";
+  }
+  fitGiant();
+  window.addEventListener("resize", fitGiant);
+  if(document.fonts && document.fonts.ready){ document.fonts.ready.then(fitGiant); }
+
+  /* ---------- medição (analytics) ----------
+     Envia eventos para a ferramenta que estiver instalada (Vercel, Umami ou Google Analytics).
+     Sem nenhuma instalada, não faz nada. Em localhost, mostra no console para testar. */
+  function track(name, data){
+    try{
+      if(window.va){ window.va("event", { name:name, data:data }); }
+      if(window.umami && window.umami.track){ window.umami.track(name, data); }
+      if(window.gtag){ window.gtag("event", name, data); }
+      if(/^(localhost|127\.0\.0\.1)$/.test(location.hostname)){ console.info("[analytics]", name, data); }
+    }catch(e){}
+  }
+  // cliques em WhatsApp, telefone e e-mail, com a seção de onde vieram
+  document.addEventListener("click", function(e){
+    var a = e.target.closest && e.target.closest('a[href^="https://wa.me"], a[href^="tel:"], a[href^="mailto:"]');
+    if(!a || a.hasAttribute("data-notrack")) return;
+    var href = a.getAttribute("href");
+    var tipo = href.indexOf("wa.me") > -1 ? "whatsapp" : href.indexOf("tel:") === 0 ? "telefone" : "email";
+    var sec = a.closest("section[id], header, footer, .mobile-menu");
+    var origem = a.getAttribute("data-origem") || (a.id === "waFloat" ? "botao-flutuante" : sec ? (sec.id || sec.tagName.toLowerCase() || "menu") : "outro");
+    if(sec && sec.classList.contains("mobile-menu")){ origem = "menu-celular"; }
+    origem = { siteHead:"cabecalho", topo:"hero", footer:"rodape" }[origem] || origem;
+    track("contato_" + tipo, { origem:origem });
+  });
+
+  /* ---------- formulário de cotação ---------- */
+  var WA_NUM = "5513978043399", EMAIL = "administrativo@transportesimigrantes.com.br";
+  var form = document.getElementById("cotacao");
+  var dl = document.getElementById("qTerminais");
+  // a lista de terminais do formulário vem da própria seção Terminais (um lugar só para manter)
+  document.querySelectorAll(".term-list li").forEach(function(li){
+    var o = document.createElement("option");
+    o.value = li.lastChild.textContent.trim();
+    dl.appendChild(o);
+  });
+  // na importação a carga sai do porto para o destino; na exportação ela é coletada e vai para o porto
+  var destinoLbl = document.getElementById("qDestinoLbl");
+  var valorWrap = document.getElementById("qValorWrap"), valor = document.getElementById("qValor");
+  // o valor da mercadoria só é pedido na importação (entra no seguro); na exportação o campo some e não é validado
+  function setOperacao(exp){
+    destinoLbl.textContent = exp ? "Local de coleta" : "Destino";
+    valorWrap.hidden = exp; valor.disabled = exp;
+  }
+  form.querySelectorAll("input[name=operacao]").forEach(function(r){
+    r.addEventListener("change", function(){ if(r.checked){ setOperacao(r.value === "Exportação"); } });
+  });
+  setOperacao(form.querySelector("input[name=operacao]:checked").value === "Exportação");
+  // máscara de valor: "125000" vira "125.000" (valor inteiro, como as pessoas digitam);
+  // centavos só se a pessoa digitar vírgula: "125000,5" → "125.000,5" e, ao sair do campo, "125.000,50"
+  function maskValor(s){
+    if(/^\s*\d+\.\d{1,2}\s*$/.test(s)){ s = s.replace(".", ","); } // colado no formato americano: 85000.00
+    var partes = s.replace(/[^\d,]/g, "").split(",");
+    var inteiro = partes[0].replace(/^0+(?=\d)/, "").slice(0, 12);
+    var dec = partes.length > 1 ? "," + partes.slice(1).join("").slice(0, 2) : "";
+    if(!inteiro && dec){ inteiro = "0"; }
+    return inteiro.replace(/\B(?=(\d{3})+(?!\d))/g, ".") + dec;
+  }
+  valor.addEventListener("input", function(){ valor.value = maskValor(valor.value); });
+  valor.addEventListener("blur", function(){
+    var m = valor.value.match(/,(\d?)$/);
+    if(m){ valor.value = valor.value.replace(/,\d?$/, "," + (m[1] + "00").slice(0, 2)); }
+  });
+  var canal = "whatsapp";
+  form.querySelectorAll("button[type=submit]").forEach(function(b){
+    b.addEventListener("click", function(){ canal = b.getAttribute("data-canal"); });
+  });
+  function openLink(url, newTab){
+    var a = document.createElement("a");
+    a.href = url; a.setAttribute("data-notrack", ""); // já medido como cotacao_enviada
+    if(newTab){ a.target = "_blank"; a.rel = "noopener"; }
+    document.body.appendChild(a); a.click(); a.remove();
+  }
+  form.addEventListener("submit", function(e){
+    e.preventDefault();
+    if(!form.checkValidity()){ form.reportValidity(); return; }
+    var f = form.elements, v = function(n){ return (f[n].value || "").trim(); };
+    var mercadoria = [v("carga"), f.imo.checked ? "carga perigosa (IMO)" : ""].filter(Boolean).join(" · ");
+    var linhas = [
+      ["Operação", form.querySelector("input[name=operacao]:checked").value],
+      ["Serviço", v("servico")],
+      ["Contêiner", v("conteiner")],
+      ["Terminal", v("terminal")],
+      [destinoLbl.textContent, v("destino")],
+      ["Mercadoria", mercadoria],
+      ["Peso aproximado", v("peso")],
+      ["Valor da mercadoria", valor.disabled || !v("valor") ? "" : v("moeda") + " " + v("valor")],
+      ["Nome", [v("nome"), v("empresa")].filter(Boolean).join(" · ")]
+    ].filter(function(l){ return l[1]; }); // campos vazios não entram na mensagem
+    if(canal === "email"){
+      var corpo = "Olá, vim pelo site e gostaria de uma cotação.\n\n" + linhas.map(function(l){ return l[0] + ": " + l[1]; }).join("\n") + "\n";
+      var assunto = "Cotação · " + v("servico").split(" –")[0] + " · " + v("destino");
+      openLink("mailto:" + EMAIL + "?subject=" + encodeURIComponent(assunto) + "&body=" + encodeURIComponent(corpo), false);
+    } else {
+      var msg = "Olá, vim pelo site e gostaria de uma cotação.\n\n" + linhas.map(function(l){ return "*" + l[0] + ":* " + l[1]; }).join("\n");
+      openLink("https://wa.me/" + WA_NUM + "?text=" + encodeURIComponent(msg), true);
+    }
+    track("cotacao_enviada", { canal:canal, servico:v("servico"), operacao:form.querySelector("input[name=operacao]:checked").value });
+  });
+
+  onScroll();
+  doc.classList.add("booted"); // avisa a rede de segurança do <head> que o script rodou
+})();

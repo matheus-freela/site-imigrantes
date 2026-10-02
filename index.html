@@ -1,28 +1,57 @@
-<!doctype html><html lang="pt-BR"><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style>
-<title>Transportes Imigrantes</title>
-<meta name="theme-color" content="#F6F3EC" media="(prefers-color-scheme: light)">
-<meta name="theme-color" content="#14161B" media="(prefers-color-scheme: dark)">
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Transportes Imigrantes — Transporte de contêineres do Porto de Santos</title>
+<meta name="description" content="Transporte rodoviário de contêineres de importação e exportação desde 1974, com base no Porto de Santos/SP. FCL, LCL, DTA, REDEX e entregas no Sudeste, Sul e Mato Grosso do Sul.">
+<meta name="robots" content="index, follow">
+<meta name="theme-color" content="#101215">
+<link rel="canonical" href="https://site-imigrantes-gamma.vercel.app/">
+
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Transportes Imigrantes">
-<meta property="og:title" content="Transportes Imigrantes — Fretes aduaneiros e logística internacional">
-<meta property="og:description" content="Transportadora rodoviária de cargas de importação e exportação desde 1974, sediada no Porto de Santos/SP. FCL, LCL, DTA, REDEX e distribuição para todo o Brasil.">
-<meta property="og:image" content="https://site-imigrantes-gamma.vercel.app/og-image.jpg">
+<meta property="og:title" content="Transportes Imigrantes — Do Porto de Santos até a sua porta">
+<meta property="og:description" content="Transporte rodoviário de contêineres de importação e exportação desde 1974. FCL, LCL, DTA, REDEX e distribuição nacional.">
+<meta property="og:image" content="https://site-imigrantes-gamma.vercel.app/og-image-2.jpg">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta property="og:url" content="https://site-imigrantes-gamma.vercel.app/">
 <meta property="og:locale" content="pt_BR">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Transportes Imigrantes">
-<meta name="twitter:description" content="Fretes aduaneiros e logística internacional desde 1974 — Porto de Santos/SP.">
-<meta name="twitter:image" content="https://site-imigrantes-gamma.vercel.app/og-image.jpg">
-<meta name="description" content="Transportadora rodoviária de cargas de importação e exportação desde 1974, sede no Porto de Santos/SP. FCL, LCL, DTA, REDEX e distribuição para todo o Brasil.">
-<meta name="robots" content="index, follow">
-<link rel="canonical" href="https://site-imigrantes-gamma.vercel.app/">
+<meta name="twitter:description" content="Do Porto de Santos até a sua porta, desde 1974.">
+<meta name="twitter:image" content="https://site-imigrantes-gamma.vercel.app/og-image-2.jpg">
+
 <link rel="icon" type="image/png" href="/favicon.png">
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@600;700;800;900&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600&display=swap">
+<!-- fontes hospedadas no próprio site (mais rápido e sem enviar o IP do visitante ao Google) -->
+<!-- ANALYTICS (Vercel Web Analytics): depois de ativar em vercel.com > projeto > Analytics, descomente a linha abaixo
+     (a fila "window.va" já é criada em js/boot.js).
+<script defer src="/_vercel/insights/script.js"></script>
+-->
+<link rel="preload" href="fonts/big-shoulders-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="fonts/ibm-plex-sans-latin.woff2" as="font" type="font/woff2" crossorigin>
+<style>
+@font-face{font-family:"Big Shoulders";font-style:normal;font-weight:800;font-display:swap;src:url(fonts/big-shoulders-latin-ext.woff2) format("woff2");unicode-range:U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;}
+@font-face{font-family:"Big Shoulders";font-style:normal;font-weight:800;font-display:swap;src:url(fonts/big-shoulders-latin.woff2) format("woff2");unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;}
+@font-face{font-family:"Big Shoulders";font-style:normal;font-weight:900;font-display:swap;src:url(fonts/big-shoulders-latin-ext.woff2) format("woff2");unicode-range:U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;}
+@font-face{font-family:"Big Shoulders";font-style:normal;font-weight:900;font-display:swap;src:url(fonts/big-shoulders-latin.woff2) format("woff2");unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;}
+@font-face{font-family:"Big Shoulders Stencil";font-style:normal;font-weight:900;font-display:swap;src:url(fonts/big-shoulders-stencil-latin-ext.woff2) format("woff2");unicode-range:U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;}
+@font-face{font-family:"Big Shoulders Stencil";font-style:normal;font-weight:900;font-display:swap;src:url(fonts/big-shoulders-stencil-latin.woff2) format("woff2");unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;}
+@font-face{font-family:"IBM Plex Mono";font-style:normal;font-weight:500;font-display:swap;src:url(fonts/ibm-plex-mono-latin-ext-500.woff2) format("woff2");unicode-range:U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;}
+@font-face{font-family:"IBM Plex Mono";font-style:normal;font-weight:500;font-display:swap;src:url(fonts/ibm-plex-mono-latin-500.woff2) format("woff2");unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;}
+@font-face{font-family:"IBM Plex Mono";font-style:normal;font-weight:600;font-display:swap;src:url(fonts/ibm-plex-mono-latin-ext-600.woff2) format("woff2");unicode-range:U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;}
+@font-face{font-family:"IBM Plex Mono";font-style:normal;font-weight:600;font-display:swap;src:url(fonts/ibm-plex-mono-latin-600.woff2) format("woff2");unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;}
+@font-face{font-family:"IBM Plex Sans";font-style:normal;font-weight:400;font-display:swap;src:url(fonts/ibm-plex-sans-latin-ext.woff2) format("woff2");unicode-range:U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;}
+@font-face{font-family:"IBM Plex Sans";font-style:normal;font-weight:400;font-display:swap;src:url(fonts/ibm-plex-sans-latin.woff2) format("woff2");unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;}
+@font-face{font-family:"IBM Plex Sans";font-style:normal;font-weight:500;font-display:swap;src:url(fonts/ibm-plex-sans-latin-ext.woff2) format("woff2");unicode-range:U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;}
+@font-face{font-family:"IBM Plex Sans";font-style:normal;font-weight:500;font-display:swap;src:url(fonts/ibm-plex-sans-latin.woff2) format("woff2");unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;}
+@font-face{font-family:"IBM Plex Sans";font-style:normal;font-weight:600;font-display:swap;src:url(fonts/ibm-plex-sans-latin-ext.woff2) format("woff2");unicode-range:U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;}
+@font-face{font-family:"IBM Plex Sans";font-style:normal;font-weight:600;font-display:swap;src:url(fonts/ibm-plex-sans-latin.woff2) format("woff2");unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;}
+</style>
+<script src="js/boot.js"></script>
+
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -31,9 +60,15 @@
   "legalName": "Transportes Rodoviários Imigrantes Ltda",
   "alternateName": "Transportes Rod. Imigrantes",
   "url": "https://site-imigrantes-gamma.vercel.app/",
+  "logo": "https://site-imigrantes-gamma.vercel.app/images/logo.png",
+  "image": "https://site-imigrantes-gamma.vercel.app/og-image-2.jpg",
   "telephone": "+551332197180",
   "email": "administrativo@transportesimigrantes.com.br",
   "foundingDate": "1974",
+  "areaServed": [
+    {"@type":"State","name":"São Paulo"},{"@type":"State","name":"Rio de Janeiro"},{"@type":"State","name":"Minas Gerais"},{"@type":"State","name":"Espírito Santo"},
+    {"@type":"State","name":"Paraná"},{"@type":"State","name":"Santa Catarina"},{"@type":"State","name":"Rio Grande do Sul"},{"@type":"State","name":"Mato Grosso do Sul"}
+  ],
   "address": {
     "@type": "PostalAddress",
     "streetAddress": "Av. Dr. Pedro Lessa, 3076 - Conj. 11",
@@ -48,724 +83,1080 @@
     "opens": "08:30",
     "closes": "18:00"
   },
-  "description": "Transportadora rodoviária de cargas de importação e exportação desde 1974, sede no Porto de Santos/SP. FCL, LCL, DTA, REDEX e distribuição para todo o Brasil."
+  "description": "Transporte rodoviário de contêineres de importação e exportação desde 1974, com base no Porto de Santos/SP. FCL, LCL, DTA, REDEX e entregas no Sudeste, Sul e Mato Grosso do Sul."
 }
 </script>
+
 <style>
-  :root{
-    --bg:#F6F3EC; --bg-2:#EFE9DB; --surface:#FFFFFF; --surface-2:#FBF9F4;
-    --text:#15181E; --text-soft:#4B5563; --text-mute:#636C79;
-    --line:#DED7C6; --line-strong:#C9C0AC;
-    --brand:#BE0205; --brand-deep:#7E0103; --brand-tint:#F5E1DF;
-    --ink:#14181F; --ink-2:#1D222B; --on-ink:#F2EEE3; --on-ink-soft:#AEB4BF;
-    --radius-s:10px; --radius-m:16px; --radius-l:26px;
-    --shadow-card:0 1px 2px rgba(20,20,15,.06), 0 10px 28px -14px rgba(20,20,15,.22);
-    --safe-t:env(safe-area-inset-top,0px);
-    --safe-b:env(safe-area-inset-bottom,0px);
-    color-scheme:light dark;
-  }
-  @media (prefers-color-scheme: dark){
-    :root:not([data-theme="light"]){
-      --bg:#14161B; --bg-2:#1A1D23; --surface:#1E222A; --surface-2:#242833;
-      --text:#ECE8DE; --text-soft:#B9C0CB; --text-mute:#7E8896;
-      --line:#2B303A; --line-strong:#3A404C;
-      --brand:#FF5457; --brand-deep:#C3272A; --brand-tint:#3A1416;
-      --ink:#0E1015; --ink-2:#171A20; --on-ink:#F2EEE3; --on-ink-soft:#9AA1AD;
-      --shadow-card:0 1px 2px rgba(0,0,0,.5), 0 10px 28px -14px rgba(0,0,0,.7);
-    }
-  }
-  :root[data-theme="dark"]{
-    --bg:#14161B; --bg-2:#1A1D23; --surface:#1E222A; --surface-2:#242833;
-    --text:#ECE8DE; --text-soft:#B9C0CB; --text-mute:#7E8896;
-    --line:#2B303A; --line-strong:#3A404C;
-    --brand:#FF5457; --brand-deep:#C3272A; --brand-tint:#3A1416;
-    --ink:#0E1015; --ink-2:#171A20; --on-ink:#F2EEE3; --on-ink-soft:#9AA1AD;
-    --shadow-card:0 1px 2px rgba(0,0,0,.5), 0 10px 28px -14px rgba(0,0,0,.7);
-  }
+/* =========================================================
+   TOKENS
+   ========================================================= */
+:root{
+  --paper:#F3F2EF;
+  --paper-2:#E7E5E0;
+  --ink:#101215;
+  --ink-2:#191C21;
+  --ink-3:#24282F;
+  --text:#101215;
+  --soft:#474C55;
+  --mute:#5D626B;         /* ≥4.5:1 também sobre --paper-2 */
+  --mute-dark:#8A8F98;    /* texto apagado sobre --ink (≥4.5:1) */
+  --line:#D5D2CB;
+  --line-dark:rgba(255,255,255,.12);
+  --on-ink:#F1EFEA;
+  --on-ink-soft:#A9AEB7;
+  --red:#BE0205;          /* vermelho do logo */
+  --red-deep:#8E0104;
+  --red-light:#FF5A5F;    /* vermelho para texto pequeno sobre fundo escuro */
+  --hazard:#F2B705;
 
-  *{box-sizing:border-box;}
-  body{
-    background:var(--bg); color:var(--text);
-    font-family:"IBM Plex Sans", ui-sans-serif, system-ui, sans-serif;
-    font-size:16px; line-height:1.6; margin:0;
-  }
-  h1,h2,h3{font-family:"Archivo", ui-sans-serif, system-ui, sans-serif; margin:0; text-wrap:balance;}
-  p{margin:0;}
-  a{color:inherit; text-decoration:none; overflow-wrap:anywhere;}
-  img{max-width:100%; display:block;}
-  .mono{font-family:"IBM Plex Mono", ui-monospace, monospace;}
-  .wrap{max-width:1120px; margin:0 auto; padding-inline:20px;}
-  @media (min-width:640px){ .wrap{padding-inline:32px;} }
+  --display:"Big Shoulders","Big Shoulders Display","Arial Narrow","Roboto Condensed",Impact,sans-serif;
+  --stencil:"Big Shoulders Stencil","Big Shoulders Stencil Display","Big Shoulders","Arial Narrow",Impact,sans-serif;
+  --sans:"IBM Plex Sans",ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,"SFMono-Regular",Consolas,monospace;
 
-  .eyebrow{
-    display:inline-flex; align-items:center; gap:.5em;
-    font-family:"IBM Plex Mono", monospace; font-weight:600; font-size:.72rem;
-    letter-spacing:.14em; text-transform:uppercase; color:var(--brand);
-  }
-  .eyebrow::before{content:""; width:18px; height:2px; background:var(--brand); display:inline-block;}
+  --gut:20px;
+  --max:1240px;
+  --ease:cubic-bezier(.2,.7,.1,1);
+  --radius:12px;
+  --radius-sm:8px;
+  --safe-b:env(safe-area-inset-bottom,0px);
+  color-scheme:light;
+}
+@media (min-width:720px){ :root{ --gut:40px; } }
 
-  /* ---------- utility bar ---------- */
-  .utility{
-    background:var(--ink); color:var(--on-ink-soft);
-    padding-top:calc(var(--safe-t) + 6px); padding-bottom:6px;
-  }
-  .utility .wrap{display:flex; justify-content:space-between; align-items:center; gap:12px; font-size:.72rem;}
-  .utility .u-left{font-family:"IBM Plex Mono", monospace; letter-spacing:.08em; text-transform:uppercase;}
-  .utility .u-right{display:flex; gap:16px; font-family:"IBM Plex Mono", monospace;}
-  .utility .u-right a:hover{color:var(--on-ink);}
-  @media (max-width:560px){ .utility .u-right{display:none;} }
+*,*::before,*::after{ box-sizing:border-box; }
+html{ scroll-behavior:smooth; scroll-padding-top:72px; -webkit-text-size-adjust:100%; }
+@media (prefers-reduced-motion:reduce){ html{ scroll-behavior:auto; } }
+body{
+  margin:0; background:var(--paper); color:var(--text);
+  font-family:var(--sans); font-size:17px; line-height:1.6;
+  -webkit-font-smoothing:antialiased; overflow-x:hidden;
+}
+img{ max-width:100%; display:block; }
+a{ color:inherit; text-decoration:none; }
+h1,h2,h3,p,ul,ol,figure{ margin:0; padding:0; }
+ul,ol{ list-style:none; }
+button{ font:inherit; color:inherit; background:none; border:0; cursor:pointer; padding:0; }
+/* foco: escuro sobre fundo claro, amarelo sobre fundo escuro */
+:focus-visible{ outline:3px solid var(--ink); outline-offset:3px; }
+.on-ink :focus-visible, .hero :focus-visible, .foot :focus-visible, .mobile-menu :focus-visible,
+.site-head:not(.scrolled) :focus-visible, .menu-open .site-head :focus-visible, .wa-float:focus-visible{ outline-color:var(--hazard); }
 
-  /* ---------- header / nav ---------- */
-  header.site{
-    position:sticky; top:var(--safe-t); z-index:40;
-    background:color-mix(in srgb, var(--bg) 92%, transparent);
-    backdrop-filter:blur(8px);
-    border-bottom:1px solid var(--line);
-  }
-  .navrow{display:flex; align-items:center; justify-content:space-between; gap:16px; padding-block:12px;}
-  .brand-lockup{display:flex; align-items:center; gap:10px;}
-  .brand-lockup .word{font-family:"Archivo", ui-sans-serif, system-ui, sans-serif; font-weight:800; font-size:1.02rem; line-height:1.1;}
-  .brand-lockup .word b{color:var(--brand); display:block; font-weight:900;}
-  nav.links{display:flex; gap:2px; align-items:center;}
-  nav.links a{
-    padding:8px 14px; border-radius:999px; font-size:.88rem; font-weight:500;
-    color:var(--text-soft);
-  }
-  nav.links a:hover{color:var(--text); background:var(--surface-2);}
-  nav.links a.active{color:var(--text); background:var(--bg-2); font-weight:600;}
-  .nav-cta{
-    display:inline-flex; align-items:center; gap:8px; white-space:nowrap;
-    background:var(--brand); color:#fff; padding:9px 16px; border-radius:999px;
-    font-size:.86rem; font-weight:600; box-shadow:var(--shadow-card);
-  }
-  .nav-cta:hover{background:var(--brand-deep);}
-  .burger{display:none; width:38px; height:38px; border-radius:10px; border:1px solid var(--line); background:var(--surface); align-items:center; justify-content:center;}
-  .burger span, .burger span::before, .burger span::after{
-    content:""; display:block; width:16px; height:2px; background:var(--text); position:relative;
-  }
-  .burger span::before{position:absolute; top:-5px;} .burger span::after{position:absolute; top:5px;}
-  @media (max-width:860px){
-    nav.links{
-      position:absolute; left:0; right:0; top:100%; flex-direction:column; align-items:stretch; gap:0;
-      background:var(--surface); border-bottom:1px solid var(--line); padding:8px; box-shadow:var(--shadow-card);
-      display:none;
-    }
-    nav.links.open{display:flex;}
-    nav.links a{padding:12px 14px; border-radius:10px;}
-    .burger{display:flex;}
-    .nav-cta{display:none;}
-  }
+.wrap{ max-width:var(--max); margin:0 auto; padding-inline:var(--gut); }
+.mono{ font-family:var(--mono); }
+.sr-only{ position:absolute; width:1px; height:1px; overflow:hidden; clip:rect(0 0 0 0); white-space:nowrap; }
 
-  /* ---------- logo mark ---------- */
-  .mark{height:36px; width:auto; flex:none; display:block;}
+.skip-link{
+  position:absolute; left:16px; top:-80px; z-index:200;
+  background:var(--hazard); color:var(--ink); padding:12px 18px; font-weight:600; border-radius:var(--radius-sm);
+}
+.skip-link:focus{ top:16px; }
 
-  /* ---------- buttons ---------- */
-  .btn{
-    display:inline-flex; align-items:center; justify-content:center; gap:9px;
-    padding:13px 22px; border-radius:999px; font-weight:600; font-size:.92rem;
-    border:1px solid transparent; cursor:pointer;
-  }
-  .btn-primary{background:var(--brand); color:#fff;}
-  .btn-primary:hover{background:var(--brand-deep);}
-  /* modo escuro: --brand (#FF5457) tem contraste insuficiente (3.15:1) com texto branco;
-     usa-se --brand-deep como cor de repouso do botão (5.76:1, dentro do WCAG AA) e --brand no hover */
-  @media (prefers-color-scheme: dark){
-    :root:not([data-theme="light"]) .btn-primary{background:var(--brand-deep);}
-    :root:not([data-theme="light"]) .btn-primary:hover{background:var(--brand);}
-  }
-  :root[data-theme="dark"] .btn-primary{background:var(--brand-deep);}
-  :root[data-theme="dark"] .btn-primary:hover{background:var(--brand);}
-  .btn-outline{background:transparent; border-color:var(--line-strong); color:var(--text);}
-  .btn-outline:hover{border-color:var(--text-mute);}
-  .btn-ghost-dark{background:transparent; border-color:rgba(255,255,255,.28); color:var(--on-ink);}
-  .btn-ghost-dark:hover{border-color:rgba(255,255,255,.55);}
-  .btn-row{display:flex; flex-wrap:wrap; gap:12px;}
+/* faixas vermelhas da pintura dos caminhões antigos */
+.stripes{ display:flex; flex-direction:column; gap:5px; width:100%; }
+.stripes i{ display:block; height:5px; background:var(--red); transform-origin:left; }
+.stripes i:nth-child(2){ width:86%; }
+.stripes i:nth-child(3){ width:72%; }
 
-  /* ---------- page sections ---------- */
-  main{display:block;}
-  .page{display:none;}
-  .page.active{display:block; animation:fade .35s ease both;}
-  @media (prefers-reduced-motion:reduce){ .page.active{animation:none;} }
-  @keyframes fade{from{opacity:0; transform:translateY(6px);} to{opacity:1; transform:none;}}
+/* rótulo de seção: número + nome */
+.tag{
+  display:flex; align-items:baseline; gap:14px;
+  font-family:var(--mono); font-size:.74rem; font-weight:600; letter-spacing:.12em; text-transform:uppercase;
+  color:var(--mute);
+}
+.tag b{ color:var(--red); font-weight:600; }
+.on-ink .tag{ color:var(--on-ink-soft); }
+.on-ink .tag b{ color:var(--red-light); }
 
-  section{padding-block:56px;}
-  section.tight{padding-block:40px;}
-  section.page{padding-block:0;}
-  .band-ink{background:var(--ink); color:var(--on-ink);}
-  .band-ink .eyebrow{color:#ff8a8c;}
-  .band-tint{background:var(--bg-2);}
+.h-xl{
+  font-family:var(--display); font-weight:900; text-transform:uppercase;
+  font-size:clamp(3rem,8vw,6.6rem); line-height:.88; letter-spacing:-.005em;
+}
+.h-l{
+  font-family:var(--display); font-weight:800; text-transform:uppercase;
+  font-size:clamp(2.4rem,5.4vw,4.4rem); line-height:.92;
+}
+.lead{ font-size:1.12rem; color:var(--soft); max-width:52ch; }
+.on-ink .lead{ color:var(--on-ink-soft); }
 
-  /* ---------- hero ---------- */
-  .hero-grid{display:grid; grid-template-columns:1.1fr .9fr; gap:44px; align-items:center; padding-block:52px 40px;}
-  @media (max-width:860px){ .hero-grid{grid-template-columns:1fr; padding-block:36px 28px;} }
-  .hero-copy h1{font-size:clamp(2.1rem, 4.6vw, 3.3rem); font-weight:800; letter-spacing:-.01em; margin-top:14px;}
-  .hero-copy p.lead{margin-top:18px; color:var(--on-ink-soft); font-size:1.06rem; max-width:46ch;}
-  .hero-copy .btn-row{margin-top:26px;}
-  .photo-card{
-    border-radius:var(--radius-l); overflow:hidden; border:1px solid rgba(255,255,255,.12);
-    box-shadow:var(--shadow-card); position:relative; aspect-ratio:4/4.4;
-  }
-  .photo-card img{width:100%; height:100%; object-fit:cover;}
-  .photo-tag{
-    position:absolute; left:14px; bottom:14px; background:rgba(20,24,31,.72); color:#fff;
-    font-family:"IBM Plex Mono", ui-monospace, monospace; font-size:.68rem; letter-spacing:.08em; text-transform:uppercase;
-    padding:7px 11px; border-radius:8px; backdrop-filter:blur(4px);
-  }
+/* botões: cantos arredondados, preenchimento que sobe como uma onda no hover */
+.btn{
+  position:relative; display:inline-flex; align-items:center; gap:14px;
+  padding:16px 24px; font-weight:600; font-size:.95rem; letter-spacing:.01em;
+  border:2px solid currentColor; border-radius:var(--radius); overflow:hidden; isolation:isolate;
+  transition:color .4s var(--ease), border-color .4s var(--ease), transform .4s var(--ease), box-shadow .4s var(--ease);
+  touch-action:manipulation; -webkit-tap-highlight-color:transparent;
+}
+.btn .arr{ display:inline-block; transition:transform .45s var(--ease); }
+.btn:hover .arr{ transform:translateX(5px); }
+.btn::before{
+  content:""; position:absolute; left:-10%; right:-10%; top:0; height:160%; z-index:-1;
+  border-radius:50% 50% 0 0 / 40% 40% 0 0;
+  transform:translateY(100%); transition:transform .55s var(--ease), border-radius .55s var(--ease);
+}
+.btn:hover::before{ transform:translateY(-15%); border-radius:0; }
+@media (hover:hover){ .btn:hover{ transform:translateY(-2px); box-shadow:0 10px 24px -12px rgba(0,0,0,.5); } }
+.btn:active{ transform:translateY(0) scale(.98); transition-duration:.12s; }
+.btn-red{ background:var(--red); border-color:var(--red); color:#fff; }
+.btn-red::before{ background:var(--red-deep); }
+.btn-line-light{ color:var(--on-ink); border-color:rgba(255,255,255,.35); }
+.btn-line-light::before{ background:var(--on-ink); }
+.btn-line-light:hover{ color:var(--ink); border-color:var(--on-ink); }
+.btn-line-dark{ color:var(--ink); border-color:var(--ink); }
+.btn-line-dark::before{ background:var(--ink); }
+.btn-line-dark:hover{ color:var(--paper); }
+.btn-row{ display:flex; flex-wrap:wrap; gap:12px; }
 
-  .stat-row{display:grid; grid-template-columns:repeat(4,1fr); gap:1px; background:rgba(255,255,255,.14); border-radius:var(--radius-m); overflow:hidden; margin-top:44px;}
-  .stat-row .stat{background:var(--ink-2); padding:20px 16px;}
-  .stat .num{font-family:"IBM Plex Mono", ui-monospace, monospace; font-weight:600; font-size:1.5rem; color:#fff;}
-  .stat .lbl{font-size:.76rem; color:var(--on-ink-soft); margin-top:4px;}
-  @media (max-width:640px){ .stat-row{grid-template-columns:1fr 1fr;} }
+/* =========================================================
+   HEADER
+   ========================================================= */
+.site-head{
+  position:fixed; inset:0 0 auto 0; z-index:60;
+  color:var(--on-ink);
+  transition:background-color .35s var(--ease), color .35s var(--ease), box-shadow .35s var(--ease), transform .4s var(--ease);
+}
+.site-head:not(.scrolled){ background:linear-gradient(180deg, rgba(16,18,21,.75), rgba(16,18,21,0)); }
+.site-head.scrolled{
+  background:color-mix(in srgb, var(--paper) 94%, transparent);
+  backdrop-filter:blur(10px); -webkit-backdrop-filter:blur(10px);
+  color:var(--ink); box-shadow:0 1px 0 var(--line);
+}
+.site-head.hide{ transform:translateY(-100%); }
+.head-row{ display:flex; align-items:center; justify-content:space-between; gap:20px; height:72px; }
+.brand{ display:flex; align-items:center; gap:10px; }
+.brand img{ height:34px; width:auto; }
+.brand .word{ font-family:var(--display); font-weight:900; text-transform:uppercase; font-size:1.32rem; line-height:.9; letter-spacing:.01em; }
+.brand .word small{ display:block; font-size:.62em; font-weight:800; letter-spacing:.14em; opacity:.75; }
 
-  /* generic page banner (non-home pages) */
-  .banner{padding-block:48px 36px;}
-  .banner h1{font-size:clamp(1.9rem,4vw,2.7rem); font-weight:800; margin-top:12px; letter-spacing:-.01em;}
-  .banner p.lead{margin-top:14px; color:var(--text-soft); max-width:60ch; font-size:1.02rem;}
+.nav{ display:flex; align-items:center; gap:4px; }
+.nav a{
+  position:relative; padding:10px 12px; font-size:.9rem; font-weight:500;
+}
+.nav a::after{
+  content:""; position:absolute; left:12px; right:12px; bottom:4px; height:2px; background:var(--red);
+  transform:scaleX(0); transform-origin:right; transition:transform .35s var(--ease);
+}
+.nav a:hover::after, .nav a.active::after{ transform:scaleX(1); transform-origin:left; }
+.head-cta{
+  margin-left:12px; padding:10px 18px; background:var(--red); color:#fff; font-weight:600; font-size:.88rem;
+  border-radius:999px; transition:background-color .3s var(--ease), transform .3s var(--ease);
+}
+.head-cta:hover{ background:var(--red-deep); transform:translateY(-1px); }
+.nav .head-cta::after{ display:none; }
 
-  /* ---------- section headings ---------- */
-  .sec-head{display:flex; flex-direction:column; gap:10px; margin-bottom:32px;}
-  .sec-head h2{font-size:clamp(1.5rem,3vw,2rem); font-weight:800;}
-  .sec-head p{color:var(--text-soft); max-width:60ch;}
+.burger{ display:none; width:44px; height:44px; position:relative; z-index:2; }
+.burger span{ position:absolute; left:10px; right:10px; height:2px; background:currentColor; transition:transform .35s var(--ease), opacity .2s; }
+.burger span:nth-child(1){ top:15px; } .burger span:nth-child(2){ top:21px; } .burger span:nth-child(3){ top:27px; }
+.menu-open .burger span:nth-child(1){ transform:translateY(6px) rotate(45deg); }
+.menu-open .burger span:nth-child(2){ opacity:0; }
+.menu-open .burger span:nth-child(3){ transform:translateY(-6px) rotate(-45deg); }
 
-  /* ---------- grids / cards ---------- */
-  .grid{display:grid; gap:16px;}
-  .g-5{grid-template-columns:repeat(5,1fr);}
-  .g-3{grid-template-columns:repeat(3,1fr);}
-  .g-2{grid-template-columns:repeat(2,1fr);}
-  .g-4{grid-template-columns:repeat(4,1fr);}
-  @media (max-width:960px){ .g-5{grid-template-columns:repeat(2,1fr);} .g-4{grid-template-columns:repeat(2,1fr);} }
-  @media (max-width:640px){ .g-5,.g-3,.g-2,.g-4{grid-template-columns:1fr;} }
+/* o menu completo precisa de ~950px; abaixo de 1024 vira o menu de tela cheia */
+@media (max-width:1024px){
+  .nav, .head-cta{ display:none; }
+  .burger{ display:block; }
+}
 
-  .card{
-    background:var(--surface); border:1px solid var(--line); border-radius:var(--radius-m);
-    padding:22px; display:flex; flex-direction:column; gap:10px; height:100%;
-  }
-  .card .code{font-family:"IBM Plex Mono", ui-monospace, monospace; font-size:.72rem; font-weight:600; letter-spacing:.08em; color:var(--brand);}
-  .card h3{font-size:1.06rem; font-weight:700;}
-  .card p{color:var(--text-soft); font-size:.92rem;}
-  .card a.card-link{margin-top:auto; font-size:.84rem; font-weight:600; color:var(--brand);}
+/* menu mobile em tela cheia */
+.mobile-menu{
+  position:fixed; inset:0; z-index:55; background:var(--ink); color:var(--on-ink);
+  display:flex; flex-direction:column; overflow-y:auto; overscroll-behavior:contain;
+  padding:96px var(--gut) calc(32px + var(--safe-b));
+  clip-path:inset(0 0 100% 0); visibility:hidden;
+  transition:clip-path .55s var(--ease), visibility 0s .55s;
+}
+.menu-open .mobile-menu{ clip-path:inset(0 0 0 0); visibility:visible; transition:clip-path .55s var(--ease), visibility 0s; }
+.menu-open .site-head{ color:var(--on-ink); background:transparent; box-shadow:none; backdrop-filter:none; }
+/* margin-top:auto alinha embaixo quando sobra espaço e deixa rolar quando falta */
+.mobile-menu nav{ display:flex; flex-direction:column; margin-top:auto; }
+.mobile-menu nav a{
+  font-family:var(--display); font-weight:900; text-transform:uppercase; font-size:clamp(2.2rem,10.5vw,3.6rem); line-height:1.02;
+  border-bottom:1px solid var(--line-dark); padding:6px 0;
+  display:flex; justify-content:space-between; align-items:baseline;
+  opacity:0; transform:translateY(20px); transition:opacity .4s, transform .5s var(--ease);
+}
+.mobile-menu nav a small{ font-family:var(--mono); font-size:.8rem; font-weight:500; color:var(--red-light); }
+.menu-open .mobile-menu nav a{ opacity:1; transform:none; }
+.menu-open .mobile-menu nav a:nth-child(2){ transition-delay:.05s; }
+.menu-open .mobile-menu nav a:nth-child(3){ transition-delay:.1s; }
+.menu-open .mobile-menu nav a:nth-child(4){ transition-delay:.15s; }
+.menu-open .mobile-menu nav a:nth-child(5){ transition-delay:.2s; }
+.menu-open .mobile-menu nav a:nth-child(6){ transition-delay:.25s; }
+.menu-open .mobile-menu nav a:nth-child(7){ transition-delay:.3s; }
+.mobile-menu .btn{ margin-top:24px; justify-content:space-between; }
+.mobile-menu .mm-foot{ margin-top:20px; font-family:var(--mono); font-size:.8rem; color:var(--on-ink-soft); display:grid; gap:2px; }
+.mobile-menu .mm-foot a{ padding:6px 0; overflow-wrap:anywhere; }
+/* telas baixas (celular deitado): o menu rola em vez de cortar */
+@media (max-height:620px){
+  .mobile-menu{ padding-top:80px; }
+  .mobile-menu nav a{ font-size:2rem; }
+}
 
-  .icon-badge{
-    width:42px; height:42px; border-radius:11px; background:var(--brand-tint); color:var(--brand);
-    display:flex; align-items:center; justify-content:center; flex:none;
-  }
+/* =========================================================
+   HERO
+   ========================================================= */
+.hero{
+  position:relative; background:var(--ink); color:var(--on-ink);
+  min-height:max(640px, 100svh); display:grid; grid-template-columns:minmax(0,1.08fr) minmax(0,.92fr);
+  overflow:hidden;
+}
+.hero-copy{
+  position:relative; z-index:2; display:flex; flex-direction:column; justify-content:center; gap:28px;
+  padding:clamp(96px, 15vh, 120px) var(--gut) 150px max(var(--gut), calc((100vw - var(--max)) / 2 + var(--gut)));
+}
+.hero-code{
+  display:inline-flex; align-items:center; gap:12px; align-self:flex-start;
+  font-family:var(--mono); font-size:.74rem; letter-spacing:.14em; text-transform:uppercase; color:var(--on-ink-soft);
+}
+.hero-code .box{ border:1.5px solid var(--on-ink-soft); padding:4px 8px; white-space:nowrap; color:var(--on-ink); letter-spacing:.18em; }
+/* folga no topo para a máscara da animação não cortar acentos de maiúsculas (É, Ã…) */
+.hero h1 .ln{ display:block; overflow:hidden; padding:.16em 0 .04em; margin-top:-.16em; }
+.hero h1 .ln > span{ display:block; }
+.hero h1 em{ font-style:normal; color:var(--red-light); }
+.hero .lead{ font-size:1.14rem; max-width:44ch; }
+/* no desktop o título também respeita a altura da tela, para os botões caberem acima da dobra */
+@media (min-width:941px){
+  .hero h1{ font-size:clamp(3rem, min(6.4vw, 10.5vh), 6.6rem); }
+  .hero-copy{ gap:clamp(18px, 3.4vh, 28px); }
+}
 
-  /* ---------- manifest rows (contato) ---------- */
-  .manifest{border:1px solid var(--line); border-radius:var(--radius-m); overflow:hidden; background:var(--surface);}
-  .manifest .row{display:grid; grid-template-columns:140px 1fr; gap:12px; padding:16px 20px; border-bottom:1px solid var(--line);}
-  .manifest .row:last-child{border-bottom:none;}
-  .manifest .row .k{font-family:"IBM Plex Mono", ui-monospace, monospace; font-size:.72rem; letter-spacing:.08em; text-transform:uppercase; color:var(--text-mute); padding-top:2px;}
-  .manifest .row .v{font-weight:600; font-size:.98rem; overflow-wrap:anywhere;}
-  .manifest .row .v a:hover{color:var(--brand);}
+.hero-media{ position:relative; overflow:hidden; }
+.hero-media .frame{ position:absolute; inset:0; }
+.hero-media img{ width:100%; height:100%; object-fit:cover; object-position:50% 40%; }
+.hero-media::after{ /* emenda escura entre texto e foto */
+  content:""; position:absolute; inset:0; pointer-events:none;
+  background:linear-gradient(90deg, var(--ink) 0%, rgba(16,18,21,.35) 18%, rgba(16,18,21,0) 40%),
+             linear-gradient(0deg, rgba(16,18,21,.7) 0%, rgba(16,18,21,0) 35%);
+}
+.hero-media .stamp{
+  position:absolute; right:24px; top:96px; z-index:2;
+  font-family:var(--stencil); font-weight:900; font-size:clamp(4rem,9vw,8rem); line-height:.8;
+  color:transparent; -webkit-text-stroke:1.5px rgba(255,255,255,.75); letter-spacing:.02em;
+}
 
-  /* ---------- contact grid ---------- */
-  .contact-grid{display:grid; grid-template-columns:1.1fr .9fr; gap:32px; align-items:start;}
-  @media (max-width:860px){ .contact-grid{grid-template-columns:1fr;} }
-  @media (max-width:520px){ .manifest .row{grid-template-columns:1fr;} }
+.hero-facts{
+  position:absolute; left:0; right:0; bottom:0; z-index:3;
+  border-top:1px solid var(--line-dark);
+  background:linear-gradient(0deg, rgba(16,18,21,.92), rgba(16,18,21,.6));
+  backdrop-filter:blur(6px); -webkit-backdrop-filter:blur(6px);
+}
+.hero-facts .wrap{ display:grid; grid-template-columns:repeat(4,1fr); }
+.fact{ padding:18px 18px 18px 0; display:flex; flex-direction:column; gap:2px; }
+.fact + .fact{ padding-left:20px; border-left:1px solid var(--line-dark); }
+.fact .v{ font-family:var(--display); font-weight:800; font-size:1.7rem; line-height:1; text-transform:uppercase; }
+.fact .k{ font-family:var(--mono); font-size:.7rem; letter-spacing:.1em; text-transform:uppercase; color:var(--on-ink-soft); }
 
-  /* ---------- timeline (sobre) ---------- */
-  .then-now{display:grid; grid-template-columns:1fr auto 1fr; gap:22px; align-items:center;}
-  @media (max-width:760px){ .then-now{grid-template-columns:1fr;} .then-now .arrow{display:none;} }
-  .then-now figure{margin:0;}
-  .then-now img{border-radius:var(--radius-m); aspect-ratio:5/4; object-fit:cover; box-shadow:var(--shadow-card);}
-  .then-now figcaption{margin-top:10px; font-size:.84rem; color:var(--text-soft);}
-  .then-now .year{font-family:"IBM Plex Mono", ui-monospace, monospace; font-weight:600; color:var(--brand); font-size:.78rem; letter-spacing:.08em;}
-  .arrow{width:28px; height:28px; color:var(--text-mute); justify-self:center;}
+@media (max-width:940px){
+  .hero{ grid-template-columns:1fr; min-height:0; }
+  /* foto mais baixa no celular, para o título e o botão do WhatsApp caberem na primeira tela */
+  .hero-media{ order:-1; height:clamp(220px, 36svh, 420px); }
+  .hero-media::after{ background:linear-gradient(0deg, var(--ink) 0%, rgba(16,18,21,0) 45%), linear-gradient(180deg, rgba(16,18,21,.65) 0%, rgba(16,18,21,0) 30%); }
+  .hero-media .stamp{ top:auto; bottom:16px; right:var(--gut); font-size:3.6rem; }
+  .hero-copy{ padding:4px var(--gut) 36px; gap:18px; }
+  .hero .lead{ font-size:1.04rem; line-height:1.55; }
+}
+@media (max-width:520px){
+  .hero .hero-code{ display:none; } /* decorativo; libera espaço para o botão caber na primeira tela */
+  .hero-copy{ padding-top:16px; }
+  .hero-facts{ position:relative; background:var(--ink-2); backdrop-filter:none; }
+  .hero-facts .wrap{ grid-template-columns:1fr 1fr; padding-inline:0; }
+  .fact, .fact + .fact{ padding:16px var(--gut); border-left:0; border-top:1px solid var(--line-dark); }
+  .fact:nth-child(even){ border-left:1px solid var(--line-dark); }
+}
 
-  /* ---------- compliance strip ---------- */
-  .compliance{border-top:1px solid var(--line); border-bottom:1px solid var(--line); padding-block:20px;}
-  .compliance .wrap{display:flex; flex-wrap:wrap; align-items:center; gap:14px 26px;}
-  .compliance .lbl{font-family:"IBM Plex Mono", ui-monospace, monospace; font-size:.7rem; letter-spacing:.1em; text-transform:uppercase; color:var(--text-mute);}
-  .compliance .chip{font-family:"IBM Plex Mono", ui-monospace, monospace; font-size:.78rem; font-weight:600; color:var(--text-soft); padding:6px 12px; border:1px solid var(--line); border-radius:999px;}
+/* animação de entrada do hero (só com JS e sem redução de movimento) */
+.js .hero h1 .ln > span{ transform:translateY(105%); }
+.js .hero .hero-code, .js .hero .lead, .js .hero .btn-row{ opacity:0; transform:translateY(16px); }
+.js .hero-media .frame{ clip-path:inset(0 0 0 100%); }
+.js .hero-media img{ transform:scale(1.18); }
+.js .hero .fact{ opacity:0; transform:translateY(12px); }
+.js .hero-media .stamp{ opacity:0; }
+.ready .hero h1 .ln > span{ transform:none; transition:transform 1s var(--ease); }
+.ready .hero h1 .ln:nth-child(2) > span{ transition-delay:.08s; }
+.ready .hero h1 .ln:nth-child(3) > span{ transition-delay:.16s; }
+.ready .hero h1 .ln:nth-child(4) > span{ transition-delay:.24s; }
+.ready .hero .hero-code{ opacity:1; transform:none; transition:all .8s var(--ease); }
+.ready .hero .lead{ opacity:1; transform:none; transition:all .8s var(--ease) .35s; }
+.ready .hero .btn-row{ opacity:1; transform:none; transition:all .8s var(--ease) .45s; }
+.ready .hero-media .frame{ clip-path:inset(0 0 0 0); transition:clip-path 1.3s var(--ease) .1s; }
+.ready .hero-media img{ transform:scale(1.04); transition:transform 2.6s var(--ease) .1s; }
+.ready .hero-media .stamp{ opacity:1; transition:opacity 1.2s ease .9s; }
+.ready .hero .fact{ opacity:1; transform:none; transition:all .7s var(--ease); }
+.ready .hero .fact:nth-child(1){ transition-delay:.6s; } .ready .hero .fact:nth-child(2){ transition-delay:.68s; }
+.ready .hero .fact:nth-child(3){ transition-delay:.76s; } .ready .hero .fact:nth-child(4){ transition-delay:.84s; }
 
-  /* ---------- gallery ---------- */
-  .gallery{display:grid; grid-template-columns:repeat(4,1fr); gap:14px;}
-  @media (max-width:760px){ .gallery{grid-template-columns:repeat(2,1fr);} }
-  .gallery figure{margin:0;}
-  .gallery img{border-radius:var(--radius-s); aspect-ratio:4/3; object-fit:cover;}
-  .gallery figcaption{margin-top:8px; font-size:.78rem; color:var(--text-mute);}
+/* =========================================================
+   TERMINAIS — CHEIOS E VAZIOS
+   ========================================================= */
+.term-grid{ display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1fr); gap:32px 56px; }
+.term-col h3{
+  display:flex; justify-content:space-between; align-items:flex-end; gap:16px;
+  border-top:2px solid var(--ink); padding-top:16px; margin-bottom:6px;
+  font-family:var(--display); font-weight:800; font-size:clamp(1.5rem,2.4vw,1.9rem); text-transform:uppercase; line-height:1;
+}
+.term-col h3 small{ display:block; margin-top:8px; font-family:var(--mono); font-size:.72rem; font-weight:600; letter-spacing:.1em; color:var(--mute); }
+.term-col h3 .count{ font-family:var(--stencil); font-weight:900; font-size:3.4rem; line-height:.8; color:var(--red); }
+/* uma coluna por grupo: todas as linhas com a mesma altura e o mesmo alinhamento */
+.term-list li{
+  display:grid; grid-template-columns:40px minmax(0,1fr); align-items:center; column-gap:14px;
+  min-height:48px; padding:8px 0; border-bottom:1px solid var(--line); font-weight:500; line-height:1.3;
+}
+.term-list li span{ font-family:var(--mono); font-size:.7rem; color:var(--mute); }
+.term-note{ margin-top:28px; color:var(--soft); }
+.term-note a{ color:var(--red); font-weight:600; border-bottom:1px solid currentColor; }
+@media (max-width:820px){ .term-grid{ grid-template-columns:1fr; gap:44px; } }
 
-  /* ---------- cta band ---------- */
-  .cta-band{border-radius:var(--radius-l); padding:40px; display:flex; flex-wrap:wrap; gap:24px; align-items:center; justify-content:space-between;}
-  .cta-band h2{font-size:clamp(1.4rem,3vw,1.9rem); font-weight:800;}
-  .cta-band p{color:var(--on-ink-soft); margin-top:8px; max-width:44ch;}
+/* =========================================================
+   SEÇÕES GENÉRICAS
+   ========================================================= */
+.sec{ padding-block:clamp(72px,10vw,128px); }
+.on-ink{ background:var(--ink); color:var(--on-ink); }
+.sec-head{ display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1fr); gap:24px 48px; align-items:end; margin-bottom:clamp(40px,6vw,72px); }
+.sec-head .tag{ grid-column:1 / -1; }
+@media (max-width:820px){ .sec-head{ grid-template-columns:1fr; } }
 
-  /* ---------- footer ---------- */
-  footer{background:var(--ink); color:var(--on-ink-soft); padding-top:48px; padding-bottom:calc(28px + var(--safe-b));}
-  .foot-grid{display:grid; grid-template-columns:1.3fr 1fr 1fr; gap:32px; padding-bottom:32px; border-bottom:1px solid rgba(255,255,255,.12);}
-  @media (max-width:760px){ .foot-grid{grid-template-columns:1fr; gap:28px;} }
-  footer h4{color:var(--on-ink); font-family:"IBM Plex Mono", ui-monospace, monospace; font-size:.74rem; letter-spacing:.1em; text-transform:uppercase; margin-bottom:14px; font-weight:600;}
-  footer .flinks{display:flex; flex-direction:column; gap:9px; font-size:.88rem;}
-  footer .flinks a:hover{color:var(--on-ink);}
-  footer p{font-size:.88rem; line-height:1.7;}
-  .foot-bottom{display:flex; justify-content:space-between; flex-wrap:wrap; gap:10px; padding-top:20px; font-size:.76rem; color:var(--text-mute);}
+/* revelação ao rolar */
+.js [data-reveal]{ opacity:0; transform:translateY(28px); transition:opacity .9s var(--ease), transform .9s var(--ease); }
+.js [data-reveal].in{ opacity:1; transform:none; }
+.js .stripes[data-reveal] i{ transform:scaleX(0); transition:transform 1s var(--ease); }
+.js .stripes[data-reveal].in i{ transform:scaleX(1); }
+.js .stripes[data-reveal].in i:nth-child(2){ transition-delay:.1s; }
+.js .stripes[data-reveal].in i:nth-child(3){ transition-delay:.2s; }
+.js .stripes[data-reveal]{ opacity:1; transform:none; }
 
-  .divider{height:1px; background:var(--line); border:none; margin:0;}
-  .center{text-align:center;}
+/* =========================================================
+   SERVIÇOS — PAINEL DE PARTIDAS
+   ========================================================= */
+.board{ border-top:2px solid var(--ink); }
+.board-head, .svc{
+  display:grid; grid-template-columns:auto minmax(0,1fr) minmax(0,1.35fr) 56px; gap:28px; align-items:center;
+}
+.board-head{
+  padding:12px 0; border-bottom:1px solid var(--line);
+  font-family:var(--mono); font-size:.7rem; letter-spacing:.12em; text-transform:uppercase; color:var(--mute);
+}
+.board-head span:first-child{ width:calc(7 * 34px + 6 * 3px); }
+.svc{
+  position:relative; padding:22px 0; border-bottom:1px solid var(--line); isolation:isolate;
+  transition:color .35s var(--ease), padding .35s var(--ease);
+}
+.svc::before{
+  content:""; position:absolute; inset:0 calc(var(--gut) * -1); z-index:-1; background:var(--ink);
+  border-radius:var(--radius);
+  transform:scaleY(0); transform-origin:bottom; transition:transform .5s var(--ease);
+}
+.svc h3{ font-family:var(--display); font-weight:800; font-size:clamp(1.6rem,2.6vw,2.2rem); text-transform:uppercase; line-height:1; }
+.svc p{ color:var(--soft); font-size:.98rem; transition:color .35s; }
+.svc .go{
+  width:56px; height:56px; display:grid; place-items:center; border:1.5px solid var(--line); border-radius:50%;
+  font-size:1.3rem; transition:background-color .45s var(--ease), border-color .45s var(--ease), color .45s var(--ease), transform .55s var(--ease);
+}
+@media (hover:hover){
+  .svc:hover{ color:var(--on-ink); }
+  .svc:hover::before{ transform:scaleY(1); }
+  .svc:hover p{ color:var(--on-ink-soft); }
+  .svc:hover .go{ background:var(--red); border-color:var(--red); color:#fff; transform:rotate(-45deg); }
+}
+.svc a.cover{ position:absolute; inset:0; z-index:1; }
+.svc a.cover:focus-visible{ outline-offset:-3px; }
 
-  /* ---------- interaction polish ---------- */
-  .btn, nav.links a, .nav-cta, .burger, footer .flinks a, .compliance .chip{
-    transition:background-color .15s ease, border-color .15s ease, color .15s ease;
-  }
-  .btn, nav.links a, .nav-cta, .burger{ touch-action:manipulation; }
-  main:focus, h1:focus{ outline:none; }
-  main:focus-visible, h1:focus-visible{ outline:2px solid var(--brand); outline-offset:4px; }
+/* letreiro de plaquinhas (split-flap): cada plaquinha tem duas metades fixas e duas que dobram em 3D */
+.flap{ display:flex; gap:3px; }
+.flap .c{
+  --flap-bg:var(--ink-2);
+  position:relative; width:34px; height:46px; border-radius:5px;
+  color:#fff; font-family:var(--mono); font-weight:600; font-size:1.35rem;
+  perspective:180px; box-shadow:0 2px 3px -1px rgba(0,0,0,.35);
+}
+.flap .c > span{
+  position:absolute; left:0; right:0; height:50%; overflow:hidden;
+  background:var(--flap-bg); transition:background-color .4s var(--ease);
+  backface-visibility:hidden; -webkit-backface-visibility:hidden;
+}
+.flap .c .t, .flap .c .ft{ top:0; border-radius:5px 5px 0 0; transform-origin:50% 100%; }
+.flap .c .b, .flap .c .fb{ top:50%; border-radius:0 0 5px 5px; transform-origin:50% 0; }
+.flap .c .b{ box-shadow:inset 0 -2px 0 rgba(0,0,0,.3); }
+.flap .c > span > i{ position:absolute; left:0; right:0; height:200%; display:grid; place-items:center; font-style:normal; }
+.flap .c .t > i, .flap .c .ft > i{ top:0; }
+.flap .c .b > i, .flap .c .fb > i{ top:-100%; }
+.flap .c .ft, .flap .c .fb{ z-index:2; visibility:hidden; will-change:transform; }
+.flap .c .fb{ transform:rotateX(90deg); }
+.flap .c::after{ content:""; position:absolute; z-index:3; left:0; right:0; top:50%; height:1px; margin-top:-.5px; background:rgba(0,0,0,.6); }
+.flap .c.blank{ --flap-bg:var(--ink-3); }
+.svc:hover .flap .c:not(.blank){ --flap-bg:var(--red); }
 
-  /* ---------- skip link ---------- */
-  .skip-link{
-    position:absolute; left:16px; top:-60px; z-index:100;
-    background:var(--brand); color:#fff; padding:12px 18px; border-radius:10px;
-    font-weight:600; font-size:.9rem; transition:top .15s ease;
-  }
-  .skip-link:focus{ top:16px; }
+@media (max-width:900px){
+  .board-head{ display:none; }
+  .svc{ grid-template-columns:minmax(0,1fr) 48px; gap:12px 16px; padding:24px 0; }
+  .svc .flap{ grid-column:1 / -1; }
+  .svc h3{ grid-column:1; }
+  .svc p{ grid-column:1; }
+  .svc .go{ grid-column:2; grid-row:2 / span 2; width:48px; height:48px; align-self:center; }
+  .flap .c{ width:28px; height:38px; font-size:1.1rem; }
+}
+
+/* =========================================================
+   COBERTURA — MAPA
+   ========================================================= */
+.cover-sec{ position:relative; overflow:hidden; }
+.cover-grid{ display:grid; grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr); gap:48px; align-items:center; }
+.cover-copy{ display:flex; flex-direction:column; gap:26px; }
+.route-from{ display:flex; align-items:center; gap:14px; font-family:var(--mono); font-size:.8rem; letter-spacing:.1em; text-transform:uppercase; color:var(--on-ink-soft); }
+.route-from .dot{ width:12px; height:12px; border-radius:50%; background:var(--red-light); box-shadow:0 0 0 6px rgba(255,90,95,.18); }
+.city-list{ display:flex; flex-wrap:wrap; gap:8px; }
+.city-list li{
+  font-family:var(--mono); font-size:.76rem; letter-spacing:.06em; text-transform:uppercase;
+  padding:6px 12px; border:1px solid var(--line-dark); border-radius:999px; color:var(--on-ink-soft);
+  transition:color .4s, border-color .4s, background-color .4s;
+}
+.city-list li.lit{ color:var(--on-ink); border-color:rgba(255,90,95,.6); background:rgba(190,2,5,.18); }
+.map-box{ position:relative; }
+/* zoom na região atendida; o recorte do contorno some num degradê no topo e nas laterais */
+.map-box svg{
+  width:100%; height:auto; overflow:hidden;
+  -webkit-mask-image:linear-gradient(to bottom, transparent 0, #000 24%), linear-gradient(to right, transparent 0, #000 6%);
+  -webkit-mask-composite:source-in; mask-image:linear-gradient(to bottom, transparent 0, #000 24%), linear-gradient(to right, transparent 0, #000 6%);
+  mask-composite:intersect;
+}
+.map-box .route{ fill:none; stroke:var(--red-light); stroke-width:1.3; stroke-linecap:round; }
+.map-box .city{ fill:var(--on-ink); transform-box:fill-box; transform-origin:center; transform:scale(0); transition:transform .5s var(--ease); }
+.map-box .city.on{ transform:scale(1); }
+.map-box .city-lbl{ paint-order:stroke; stroke:var(--ink); stroke-width:3px; stroke-linejoin:round; fill:var(--on-ink-soft); font-family:var(--mono); font-size:9px; letter-spacing:.06em; text-transform:uppercase; opacity:0; transition:opacity .5s; }
+.map-box .city-lbl.on{ opacity:1; }
+.map-box .origin{ fill:var(--red-light); }
+.map-box .pulse{ fill:none; stroke:var(--red-light); stroke-width:1.2; transform-box:fill-box; transform-origin:center; animation:pulse 2.4s var(--ease) infinite; }
+@keyframes pulse{ from{ transform:scale(.4); opacity:1; } to{ transform:scale(3.2); opacity:0; } }
+@media (prefers-reduced-motion:reduce){ .map-box .pulse{ animation:none; opacity:.4; } }
+.map-note{ font-family:var(--mono); font-size:.68rem; letter-spacing:.06em; color:var(--mute-dark); margin-top:6px; text-align:right; }
+@media (max-width:900px){ .cover-grid{ grid-template-columns:1fr; } }
+
+/* =========================================================
+   HISTÓRIA — CONTADOR + ANTES/DEPOIS
+   ========================================================= */
+.hist-grid{ display:grid; grid-template-columns:minmax(0,.85fr) minmax(0,1.15fr); gap:56px; align-items:center; }
+.year-big{
+  font-family:var(--stencil); font-weight:900; font-size:clamp(6rem,17vw,13rem); line-height:.8; color:var(--red);
+  font-variant-numeric:tabular-nums; letter-spacing:-.01em;
+}
+.year-cap{ display:flex; justify-content:space-between; font-family:var(--mono); font-size:.76rem; letter-spacing:.1em; text-transform:uppercase; color:var(--mute); border-top:2px solid var(--ink); padding-top:10px; margin-top:14px; }
+.hist-copy p{ margin-top:22px; color:var(--soft); max-width:46ch; }
+
+.compare{ position:relative; aspect-ratio:5/4; overflow:hidden; background:var(--ink); --pos:50%; user-select:none; }
+.compare img{ position:absolute; inset:0; width:100%; height:100%; object-fit:cover; pointer-events:none; }
+.compare .after{ clip-path:inset(0 0 0 var(--pos)); }
+.compare .handle{
+  position:absolute; top:0; bottom:0; left:var(--pos); width:2px; background:#fff; transform:translateX(-1px); pointer-events:none;
+}
+.compare .handle::after{
+  content:"◀ ▶"; position:absolute; top:50%; left:50%; transform:translate(-50%,-50%);
+  background:var(--red); color:#fff; font-size:.7rem; letter-spacing:.2em; padding:12px 12px 12px 15px; white-space:nowrap; border-radius:999px;
+  box-shadow:0 6px 20px rgba(0,0,0,.35);
+}
+.compare .lbl{
+  position:absolute; top:14px; z-index:2; font-family:var(--mono); font-size:.72rem; letter-spacing:.12em; text-transform:uppercase;
+  background:rgba(16,18,21,.78); color:#fff; padding:6px 10px; pointer-events:none;
+}
+.compare .lbl.l{ left:14px; } .compare .lbl.r{ right:14px; background:var(--red); }
+.compare input{
+  position:absolute; inset:0; width:100%; height:100%; margin:0; opacity:0; cursor:ew-resize; z-index:3;
+  touch-action:pan-y; /* no celular, deslizar na vertical continua rolando a página */
+}
+.compare input:focus-visible ~ .handle{ outline:2px solid var(--hazard); outline-offset:2px; }
+.compare-cap{ margin-top:12px; font-family:var(--mono); font-size:.74rem; letter-spacing:.06em; color:var(--mute); }
+@media (max-width:900px){ .hist-grid{ grid-template-columns:1fr; gap:40px; } }
+
+/* =========================================================
+   DIFERENCIAIS — LISTA EDITORIAL
+   ========================================================= */
+.why{ display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:0 40px; }
+.why li{ border-top:2px solid var(--ink); padding:22px 0 44px; display:flex; flex-direction:column; gap:12px; }
+.why .n{ font-family:var(--stencil); font-weight:900; font-size:3.4rem; line-height:.8; color:var(--red); }
+.why h3{ font-family:var(--display); font-weight:800; font-size:1.7rem; text-transform:uppercase; line-height:1; }
+.why p{ color:var(--soft); font-size:.98rem; }
+.why .docs{ font-family:var(--mono); font-size:.74rem; letter-spacing:.06em; color:var(--ink); }
+@media (max-width:960px){ .why{ grid-template-columns:1fr 1fr; } }
+@media (max-width:620px){ .why{ grid-template-columns:1fr; } .why li{ padding-bottom:32px; } }
+
+/* habilitações em tabela */
+.licenses{ margin-top:clamp(40px,6vw,72px); border-top:2px solid var(--ink); }
+.licenses dl{ margin:0; }
+.lic-row{ display:grid; grid-template-columns:minmax(0,.7fr) minmax(0,1.3fr); gap:24px; padding:18px 0; border-bottom:1px solid var(--line); }
+.lic-row dt{ font-family:var(--display); font-weight:800; font-size:1.45rem; text-transform:uppercase; line-height:1.1; }
+.lic-row dd{ margin:0; color:var(--soft); }
+@media (max-width:620px){ .lic-row{ grid-template-columns:1fr; gap:4px; } }
+
+/* =========================================================
+   OPERAÇÃO — FAIXA DE FOTOS
+   ========================================================= */
+.ops-grid{ display:grid; grid-template-columns:minmax(0,.8fr) minmax(0,1.2fr); gap:48px; align-items:start; }
+.ops-list li{ display:grid; grid-template-columns:44px 1fr; gap:6px 14px; padding:20px 0; border-bottom:1px solid var(--line-dark); }
+.ops-list li:first-child{ border-top:1px solid var(--line-dark); }
+.ops-list .n{ font-family:var(--mono); font-size:.8rem; color:var(--red-light); padding-top:4px; }
+.ops-list h3{ font-family:var(--display); font-weight:800; font-size:1.5rem; text-transform:uppercase; line-height:1.05; }
+.ops-list p{ grid-column:2; color:var(--on-ink-soft); font-size:.95rem; }
+
+.reel{ display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:14px; }
+.reel figure{ position:relative; overflow:hidden; background:var(--ink-2); }
+.reel figure:nth-child(even){ transform:translateY(48px); }
+.reel img{ width:100%; aspect-ratio:4/3; object-fit:cover; transition:transform 1.1s var(--ease); }
+.reel figure:hover img{ transform:scale(1.06); }
+.reel figcaption{
+  position:absolute; left:0; bottom:0; padding:8px 12px; background:var(--ink); color:var(--on-ink);
+  font-family:var(--mono); font-size:.7rem; letter-spacing:.1em; text-transform:uppercase;
+}
+.reel figcaption b{ color:var(--red-light); font-weight:600; margin-right:8px; }
+@media (max-width:900px){
+  .ops-grid{ grid-template-columns:1fr; }
+  .reel{ display:flex; overflow-x:auto; scroll-snap-type:x mandatory; margin-inline:calc(var(--gut) * -1); padding-inline:var(--gut); scrollbar-width:none; }
+  .reel::-webkit-scrollbar{ display:none; }
+  .reel figure{ flex:0 0 78%; scroll-snap-align:start; }
+  .reel figure:nth-child(even){ transform:none; }
+}
+
+/* =========================================================
+   CONTATO
+   ========================================================= */
+.hazard{ height:14px; background:repeating-linear-gradient(-45deg, var(--hazard) 0 16px, var(--ink) 16px 32px); }
+.contact-grid{ display:grid; grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr); gap:56px; align-items:start; }
+.contact-rows{ margin-top:36px; border-top:1px solid var(--line-dark); }
+.c-row a.v[href^="mailto"]{ font-size:.95rem; }
+.c-row{ display:grid; grid-template-columns:104px minmax(0,1fr); gap:16px; padding:16px 0; border-bottom:1px solid var(--line-dark); align-items:baseline; }
+.c-row .k{ font-family:var(--mono); font-size:.72rem; letter-spacing:.12em; text-transform:uppercase; color:var(--on-ink-soft); }
+.c-row .v{ font-size:1.05rem; font-weight:500; overflow-wrap:anywhere; }
+.c-row a.v{ background:linear-gradient(var(--red-light),var(--red-light)) 0 100% / 0 1px no-repeat; transition:background-size .35s var(--ease); }
+.c-row a.v:hover{ background-size:100% 1px; }
+/* alvos de toque maiores no celular, sem mudar o visual */
+@media (max-width:900px){
+  .c-row a.v{ display:inline-block; padding:9px 0; margin:-9px 0; }
+  .c-row .sub a{ display:inline-block; padding:12px 0; margin:-12px 0; }
+  .foot-bottom a{ display:inline-block; padding:12px 0; margin:-12px 0; }
+}
+.c-row .sub{ display:block; font-size:.86rem; color:var(--on-ink-soft); font-weight:400; }
+/* formulário de cotação: monta a mensagem e abre o WhatsApp ou o e-mail, sem servidor */
+.quote{
+  background:var(--paper); color:var(--text); border-radius:20px;
+  padding:clamp(22px,3.4vw,36px); box-shadow:0 30px 60px -30px rgba(0,0,0,.6);
+  scroll-margin-top:88px;
+}
+.quote-head{ display:flex; justify-content:space-between; align-items:baseline; gap:12px; margin-bottom:20px; }
+.quote-head h3{ font-family:var(--display); font-weight:800; font-size:clamp(1.8rem,3vw,2.3rem); text-transform:uppercase; line-height:1; }
+.quote-head span{ font-family:var(--mono); font-size:.7rem; letter-spacing:.1em; text-transform:uppercase; color:var(--mute); white-space:nowrap; }
+.q-grid{ display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1fr); gap:14px 16px; }
+.q-full{ grid-column:1 / -1; }
+.q-field{ display:flex; flex-direction:column; gap:6px; min-width:0; }
+.q-field > label, .q-field > .q-lbl{ font-family:var(--mono); font-size:.7rem; font-weight:600; letter-spacing:.1em; text-transform:uppercase; color:var(--soft); }
+.q-field .opt{ color:var(--mute); font-weight:500; letter-spacing:.04em; text-transform:none; }
+.quote input:not([type="checkbox"]):not([type="radio"]), .quote select{
+  width:100%; min-height:48px; padding:12px 14px;
+  font:inherit; font-size:16px; /* 16px evita o zoom automático do iPhone ao tocar no campo */
+  color:var(--text); background:#fff; border:1.5px solid var(--line); border-radius:var(--radius-sm);
+  transition:border-color .25s var(--ease), box-shadow .25s var(--ease);
+  -webkit-appearance:none; appearance:none;
+}
+.quote select{
+  padding-right:40px; cursor:pointer;
+  background-image:linear-gradient(45deg, transparent 50%, var(--soft) 50%), linear-gradient(135deg, var(--soft) 50%, transparent 50%);
+  background-position:calc(100% - 20px) 52%, calc(100% - 15px) 52%; background-size:5px 5px; background-repeat:no-repeat;
+}
+.quote input:hover, .quote select:hover{ border-color:#BDB9B1; }
+.quote input:focus, .quote select:focus{ outline:none; border-color:var(--ink); box-shadow:0 0 0 3px rgba(16,18,21,.12); }
+.quote input:focus-visible, .quote select:focus-visible{ outline:none; }
+.quote .seg{ display:grid; grid-template-columns:1fr 1fr; gap:6px; padding:4px; background:var(--paper-2); border-radius:var(--radius-sm); }
+.quote .seg label{ position:relative; display:grid; place-items:center; min-height:40px; border-radius:6px; font-weight:600; font-size:.92rem; cursor:pointer; transition:background-color .25s var(--ease), color .25s var(--ease); }
+.quote .seg input{ position:absolute; opacity:0; inset:0; margin:0; cursor:pointer; }
+.quote .seg label:has(input:checked){ background:var(--ink); color:#fff; }
+.quote .seg label:has(input:focus-visible){ outline:3px solid var(--ink); outline-offset:2px; }
+.q-field > .q-check{
+  display:flex; align-items:center; gap:10px; min-height:44px; cursor:pointer;
+  font-family:var(--sans); font-size:.95rem; font-weight:500; letter-spacing:0; text-transform:none; color:var(--text);
+}
+.q-check input{ width:20px; height:20px; accent-color:var(--red); flex:none; }
+.quote input:user-invalid{ border-color:var(--red); }
+.q-money{ display:grid; grid-template-columns:96px minmax(0,1fr); gap:8px; }
+#qValorWrap[hidden]{ display:none; }
+.on-ink .quote :focus-visible{ outline-color:var(--ink); }
+.q-actions{ display:flex; flex-wrap:wrap; gap:10px; margin-top:22px; }
+.q-actions .btn{ flex:1 1 220px; justify-content:space-between; }
+.q-note{ margin-top:14px; font-size:.8rem; color:var(--mute); }
+@media (max-width:900px){ .contact-grid{ grid-template-columns:1fr; } }
+@media (max-width:560px){ .q-grid{ grid-template-columns:1fr; } }
+@media (max-width:520px){
+  .c-row{ grid-template-columns:1fr; gap:2px; }
+  .c-row a.v[href^="mailto"]{ font-size:.92rem; }
+}
+
+/* =========================================================
+   RODAPÉ
+   ========================================================= */
+.foot{ background:var(--ink); color:var(--on-ink-soft); padding-top:56px; border-top:1px solid var(--line-dark); overflow:hidden; }
+.foot-grid{ display:grid; grid-template-columns:1.4fr 1fr 1fr; gap:32px; font-size:.9rem; }
+.foot h4{ margin:0 0 12px; font-family:var(--mono); font-size:.72rem; font-weight:600; letter-spacing:.12em; text-transform:uppercase; color:var(--on-ink); }
+.foot ul{ display:grid; gap:8px; }
+.foot a:hover{ color:var(--on-ink); }
+.foot .legal{ font-family:var(--mono); font-size:.74rem; line-height:1.7; margin-top:14px; color:var(--mute-dark); }
+.giant{
+  font-family:var(--display); font-weight:900; text-transform:uppercase; color:var(--red);
+  font-size:19.5vw; line-height:.78; letter-spacing:-.01em; white-space:nowrap; width:max-content; margin-inline:auto;
+  margin-top:48px; transform:translateY(8%); user-select:none;
+}
+.foot-bottom{ display:flex; justify-content:space-between; flex-wrap:wrap; gap:8px; padding:18px 0 calc(18px + var(--safe-b)); border-top:1px solid var(--line-dark); font-size:.78rem; position:relative; background:var(--ink); }
+@media (max-width:760px){
+  .foot-grid{ grid-template-columns:1fr; }
+  .foot ul{ gap:0; }
+  .foot ul a{ display:inline-block; padding:8px 0; overflow-wrap:anywhere; } /* alvo de toque maior */
+}
+
+/* =========================================================
+   WHATSAPP FLUTUANTE
+   ========================================================= */
+.wa-float{
+  position:fixed; right:18px; bottom:calc(18px + var(--safe-b)); z-index:50;
+  display:flex; align-items:center; gap:10px; padding:14px 18px 14px 16px;
+  background:#1FA855; color:#fff; font-weight:600; font-size:.92rem; border-radius:999px;
+  box-shadow:0 10px 30px -8px rgba(0,0,0,.45);
+  transform:translateY(140%); transition:transform .5s var(--ease), background-color .25s;
+}
+.wa-float.show{ transform:none; }
+.wa-float:hover{ background:#178A45; }
+.wa-float svg{ width:22px; height:22px; flex:none; }
+@media (max-width:520px){ .wa-float span{ display:none; } .wa-float{ padding:15px; border-radius:50%; } }
 </style>
-</head><body>
-<a href="#main-content" class="skip-link" id="skipLink">Pular para o conteúdo</a>
+</head>
+<body>
+<a href="#conteudo" class="skip-link">Pular para o conteúdo</a>
 
-<div id="app">
+<!-- ================= CABEÇALHO ================= -->
+<header class="site-head" id="siteHead">
+  <div class="wrap head-row">
+    <a href="#topo" class="brand" aria-label="Transportes Imigrantes, voltar ao início">
+      <img src="images/logo.png" alt="" width="268" height="194">
+      <span class="word" translate="no"><small>Transportes</small>Imigrantes</span>
+    </a>
+    <nav class="nav" aria-label="Principal">
+      <a href="#servicos">Serviços</a>
+      <a href="#terminais">Terminais</a>
+      <a href="#cobertura">Cobertura</a>
+      <a href="#historia">História</a>
+      <a href="#diferenciais">Diferenciais</a>
+      <a href="#operacao">Operação</a>
+      <a href="#contato">Contato</a>
+      <a class="head-cta" href="https://wa.me/5513978043399?text=Ol%C3%A1%2C%20vim%20pelo%20site%20e%20gostaria%20de%20solicitar%20uma%20proposta." target="_blank" rel="noopener">Pedir proposta</a>
+    </nav>
+    <button class="burger" id="burger" aria-label="Abrir menu" aria-expanded="false" aria-controls="mobileMenu"><span></span><span></span><span></span></button>
+  </div>
+</header>
 
-  <div class="utility">
-    <div class="wrap">
-      <span class="u-left">Porto de Santos · SP — Fretes aduaneiros, FCL/LCL, todo o Brasil</span>
-      <span class="u-right">
-        <a href="tel:+551332197180">(13) 3219-7180</a>
-        <a href="mailto:administrativo@transportesimigrantes.com.br">administrativo@transportesimigrantes.com.br</a>
-      </span>
+<div class="mobile-menu" id="mobileMenu" aria-hidden="true">
+  <nav aria-label="Menu">
+    <a href="#servicos">Serviços <small>01</small></a>
+    <a href="#terminais">Terminais <small>02</small></a>
+    <a href="#cobertura">Cobertura <small>03</small></a>
+    <a href="#historia">História <small>04</small></a>
+    <a href="#diferenciais">Diferenciais <small>05</small></a>
+    <a href="#operacao">Operação <small>06</small></a>
+    <a href="#contato">Contato <small>07</small></a>
+  </nav>
+  <a class="btn btn-red" href="https://wa.me/5513978043399?text=Ol%C3%A1%2C%20vim%20pelo%20site%20e%20gostaria%20de%20solicitar%20uma%20proposta." target="_blank" rel="noopener">Pedir proposta no WhatsApp <span class="arr" aria-hidden="true">→</span></a>
+  <div class="mm-foot">
+    <a href="tel:+551332197180">(13) 3219-7180</a>
+    <a href="mailto:administrativo@transportesimigrantes.com.br">administrativo@transportesimigrantes.com.br</a>
+  </div>
+</div>
+
+<main id="conteudo">
+
+<!-- ================= HERO ================= -->
+<section class="hero" id="topo" aria-labelledby="heroTitle">
+  <div class="hero-copy">
+    <span class="hero-code"><span class="box">IMGU 197400·5</span> Transporte rodoviário de contêineres</span>
+    <h1 class="h-xl" id="heroTitle">
+      <span class="ln"><span>Do Porto de</span></span>
+      <span class="ln"><span><em>Santos</em></span></span>
+      <span class="ln"><span>até a sua</span></span>
+      <span class="ln"><span>porta.</span></span>
+    </h1>
+    <p class="lead">Levamos contêineres de importação e exportação do cais até o destino final, em FCL, LCL, DTA e REDEX. A base é a mesma desde 1974: o Porto de Santos.</p>
+    <div class="btn-row">
+      <a class="btn btn-red" href="https://wa.me/5513978043399?text=Ol%C3%A1%2C%20vim%20pelo%20site%20e%20gostaria%20de%20solicitar%20uma%20proposta." target="_blank" rel="noopener">Pedir proposta no WhatsApp <span class="arr" aria-hidden="true">→</span></a>
+      <a class="btn btn-line-light" href="#cotacao">Montar cotação <span class="arr" aria-hidden="true">↓</span></a>
     </div>
   </div>
 
-  <header class="site">
-    <div class="wrap navrow">
-      <a href="#inicio" class="brand-lockup" data-nav>
-        <img class="mark" src="images/logo.png" alt="">
-        <span class="word" translate="no">Transportes<b>Imigrantes</b></span>
-      </a>
-
-      <nav class="links" id="navlinks">
-        <a href="#inicio" data-nav>Início</a>
-        <a href="#sobre" data-nav>Sobre</a>
-        <a href="#servicos" data-nav>Serviços</a>
-        <a href="#diferenciais" data-nav>Diferenciais</a>
-        <a href="#contato" data-nav>Contato</a>
-      </nav>
-
-      <div style="display:flex; align-items:center; gap:10px;">
-        <a class="nav-cta" href="https://wa.me/5513978043399?text=Ol%C3%A1%2C%20vim%20pelo%20site%20e%20gostaria%20de%20solicitar%20uma%20proposta." target="_blank" rel="noopener">
-          WhatsApp
-        </a>
-        <button class="burger" id="burgerBtn" aria-label="Abrir menu" aria-expanded="false"><span></span></button>
-      </div>
+  <div class="hero-media">
+    <div class="frame" id="heroFrame">
+      <!-- TROCAR quando chegarem as fotos em alta: ideal 2000px+ de largura.
+           Para vídeo, substituir o <img> por:
+           <video autoplay muted loop playsinline poster="images/hero.jpg"><source src="video/hero.mp4" type="video/mp4"></video> -->
+      <img src="images/inicio-caminhao-container.jpg" alt="Cavalo mecânico da Transportes Imigrantes engatado em um contêiner azul" width="900" height="990" fetchpriority="high">
     </div>
-  </header>
+    <span class="stamp" aria-hidden="true">1974</span>
+  </div>
 
-  <main id="main-content" tabindex="-1">
-
-    <!-- ============ INÍCIO ============ -->
-    <section class="page active" data-page="inicio" data-title="Transportes Imigrantes">
-      <div class="band-ink">
-        <div class="wrap hero-grid">
-          <div class="hero-copy">
-            <span class="eyebrow">Porto de Santos · desde 1974</span>
-            <h1 tabindex="-1">Transporte rodoviário de contêineres para importação e exportação, do Porto de Santos para o Brasil inteiro.</h1>
-            <p class="lead">Mais de 50 anos movimentando cargas FCL, LCL e operações aduaneiras — com segurança, agilidade e controle documental em cada etapa.</p>
-            <div class="btn-row">
-              <a class="btn btn-primary" href="https://wa.me/5513978043399?text=Ol%C3%A1%2C%20vim%20pelo%20site%20e%20gostaria%20de%20solicitar%20uma%20proposta." target="_blank" rel="noopener">Falar no WhatsApp</a>
-              <a class="btn btn-ghost-dark" href="mailto:administrativo@transportesimigrantes.com.br">Enviar e-mail</a>
-            </div>
-            <div class="stat-row">
-              <div class="stat"><div class="num">50+</div><div class="lbl">Anos de operação</div></div>
-              <div class="stat"><div class="num">Santos</div><div class="lbl">Base no Porto de Santos</div></div>
-              <div class="stat"><div class="num">Própria</div><div class="lbl">Sede e estrutura</div></div>
-              <div class="stat"><div class="num">BR</div><div class="lbl">Cobertura nacional</div></div>
-            </div>
-          </div>
-          <div class="photo-card">
-            <img src="images/inicio-caminhao-container.jpg" alt="Caminhão da Transportes Imigrantes com contêiner na estrada" width="900" height="990" fetchpriority="high">
-            <span class="photo-tag">Frota Imigrantes · FCL</span>
-          </div>
-        </div>
-      </div>
-
-      <section>
-        <div class="wrap">
-          <div class="sec-head">
-            <span class="eyebrow">Nossos serviços</span>
-            <h2>FCL, LCL, DTA, REDEX e movimentação aduaneira</h2>
-            <p>Operações planejadas para comércio exterior, distribuição nacional e movimentações aduaneiras.</p>
-          </div>
-          <div class="grid g-5">
-            <div class="card"><span class="code">FCL</span><h3>Contêiner completo</h3><p>Transporte dedicado, ideal para grandes volumes e agilidade aduaneira.</p></div>
-            <div class="card"><span class="code">LCL</span><h3>Carga compartilhada</h3><p>Cargas menores com compartilhamento de contêiner, economia e eficiência.</p></div>
-            <div class="card"><span class="code">DTA</span><h3>Trânsito aduaneiro</h3><p>Movimentação entre recintos alfandegados, com rastreabilidade.</p></div>
-            <div class="card"><span class="code">REDEX</span><h3>Exportação habilitada</h3><p>Operações em recintos habilitados, com suporte ao despacho.</p></div>
-            <div class="card"><span class="code">IMP·EXP</span><h3>Apoio logístico</h3><p>Integração entre porto, aeroporto e interior do país.</p></div>
-          </div>
-          <p style="margin-top:20px;"><a class="btn btn-outline" href="#servicos" data-nav>Ver todos os serviços</a></p>
-        </div>
-      </section>
-
-      <section class="band-tint">
-        <div class="wrap">
-          <div class="sec-head">
-            <span class="eyebrow">Diferenciais</span>
-            <h2>Por que embarcadores confiam na Imigrantes</h2>
-          </div>
-          <div class="grid g-4">
-            <div class="card">
-              <div class="icon-badge"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 3l7 3v6c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V6l7-3z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg></div>
-              <h3>Seguro total da carga</h3><p>Cobertura por RCTR-C e RCF-DC durante todo o transporte.</p>
-            </div>
-            <div class="card">
-              <div class="icon-badge"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="12" r="8.2" stroke="currentColor" stroke-width="1.8"/><path d="M12 7.5V12l3 2" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></div>
-              <h3>Rastreamento em tempo real</h3><p>Monitoramento contínuo da frota, com visibilidade total da operação.</p>
-            </div>
-            <div class="card">
-              <div class="icon-badge"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 21s7-6.2 7-11.5A7 7 0 0 0 5 9.5C5 14.8 12 21 12 21z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><circle cx="12" cy="9.3" r="2.3" stroke="currentColor" stroke-width="1.8"/></svg></div>
-              <h3>Localização estratégica</h3><p>Sede no Porto de Santos, com acesso a terminais e recintos alfandegados.</p>
-            </div>
-            <div class="card">
-              <div class="icon-badge"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 6h11l3 4h2v7h-2M4 6v11h2m9-11v11m-9 0h9m-9 0a2.3 2.3 0 1 0 0-.1zm11 0a2.3 2.3 0 1 0 0-.1z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg></div>
-              <h3>+50 anos de experiência</h3><p>Desde 1974 no transporte rodoviário, com confiabilidade operacional.</p>
-            </div>
-          </div>
-          <p style="margin-top:20px;"><a class="btn btn-outline" href="#diferenciais" data-nav>Ver todos os diferenciais</a></p>
-        </div>
-      </section>
-
-      <div class="compliance">
-        <div class="wrap">
-          <span class="lbl">Aptos a operar junto a</span>
-          <span class="chip">ANVISA</span>
-          <span class="chip">Exército Brasileiro</span>
-          <span class="chip">Polícia Civil</span>
-          <span class="chip">IMO</span>
-          <span class="chip">SIVISA</span>
-          <span class="chip">CRF-SP</span>
-        </div>
-      </div>
-
-      <section>
-        <div class="wrap">
-          <div class="cta-band band-ink">
-            <div>
-              <h2>Solicite uma proposta para sua operação</h2>
-              <p>Conte com uma equipe especializada para importação, exportação e distribuição nacional.</p>
-            </div>
-            <div class="btn-row">
-              <a class="btn btn-primary" href="https://wa.me/5513978043399?text=Ol%C3%A1%2C%20vim%20pelo%20site%20e%20gostaria%20de%20solicitar%20uma%20proposta." target="_blank" rel="noopener">Falar no WhatsApp</a>
-              <a class="btn btn-ghost-dark" href="#contato" data-nav>Outros contatos</a>
-            </div>
-          </div>
-        </div>
-      </section>
-    </section>
-
-    <!-- ============ SOBRE ============ -->
-    <section class="page" data-page="sobre" data-title="Sobre — Transportes Imigrantes">
-      <div class="wrap banner">
-        <span class="eyebrow">Quem somos</span>
-        <h1 tabindex="-1">Mais de 50 anos conectando o Brasil ao mundo.</h1>
-        <p class="lead">Com sede no Porto de Santos, a Transportes Rodoviários Imigrantes atua desde 1974 em soluções de transporte rodoviário de cargas de importação e exportação, com distribuição nacional. Ao longo de mais de cinco décadas, construímos uma reputação sólida, baseada na confiança, no compromisso operacional e no atendimento próximo a cada cliente.</p>
-      </div>
-
-      <section class="tight">
-        <div class="wrap">
-          <div class="grid g-4">
-            <div class="card"><span class="code mono">+50</span><h3>Anos de experiência</h3><p>Atuação contínua no transporte rodoviário desde 1974.</p></div>
-            <div class="card"><span class="code mono">SANTOS</span><h3>Base operacional</h3><p>Sede no Porto de Santos, principal porto de contêineres do país.</p></div>
-            <div class="card"><span class="code mono">PRÓPRIA</span><h3>Estrutura operacional</h3><p>Sede própria, com processos e equipe dedicados à operação.</p></div>
-            <div class="card"><span class="code mono">BRASIL</span><h3>Cobertura nacional</h3><p>Atendimento a operações em todo o território nacional.</p></div>
-          </div>
-        </div>
-      </section>
-
-      <section class="band-tint">
-        <div class="wrap">
-          <div class="sec-head">
-            <span class="eyebrow">Nossa história</span>
-            <h2>De 1974 até hoje</h2>
-            <p>Mais de cinco décadas de estrada, sempre com a mesma base: o Porto de Santos.</p>
-          </div>
-          <div class="then-now">
-            <figure>
-              <img src="images/entao-caminhao-44.jpg" alt="Caminhão antigo da Transportes Imigrantes, unidade 44" width="640" height="512" loading="lazy" decoding="async">
-              <figcaption><span class="year">Primeiras décadas</span><br>Um dos primeiros caminhões da frota, já com a marca Imigrantes na carroceria.</figcaption>
-            </figure>
-            <svg class="arrow" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 12h15m0 0l-5-5m5 5l-5 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
-            <figure>
-              <img src="images/hoje-caminhao-selo-50anos.jpg" alt="Caminhão atual da Transportes Imigrantes com selo de 50 anos" width="640" height="512" loading="lazy" decoding="async">
-              <figcaption><span class="year">Hoje</span><br>Frota atual, operando com a marca dos 50 anos de estrada.</figcaption>
-            </figure>
-          </div>
-        </div>
-      </section>
-
-      <section>
-        <div class="wrap">
-          <div class="cta-band" style="background:var(--surface); border:1px solid var(--line);">
-            <div>
-              <h2 style="color:var(--text);">Quer conhecer nossa operação de perto?</h2>
-              <p style="color:var(--text-soft);">Fale com nosso time comercial e entenda como podemos apoiar sua carga.</p>
-            </div>
-            <div class="btn-row">
-              <a class="btn btn-primary" href="#contato" data-nav>Entrar em contato</a>
-            </div>
-          </div>
-        </div>
-      </section>
-    </section>
-
-    <!-- ============ SERVIÇOS ============ -->
-    <section class="page" data-page="servicos" data-title="Serviços — Transportes Imigrantes">
-      <div class="wrap banner">
-        <span class="eyebrow mono">FCL · LCL · DTA · REDEX · Nacional</span>
-        <h1 tabindex="-1">Transportes FCL, LCL e operações aduaneiras.</h1>
-        <p class="lead">Operações planejadas para comércio exterior, distribuição nacional e movimentações aduaneiras, com segurança e agilidade em cada etapa.</p>
-      </div>
-
-      <section class="tight">
-        <div class="wrap">
-          <div class="grid g-3">
-            <div class="card"><span class="code">FCL</span><h3>Contêiner completo</h3><p>Transporte dedicado de contêiner completo, ideal para grandes volumes e agilidade no processo aduaneiro.</p></div>
-            <div class="card"><span class="code">LCL</span><h3>Carga compartilhada</h3><p>Transporte de cargas menores com compartilhamento de contêiner, economia e eficiência.</p></div>
-            <div class="card"><span class="code">DTA</span><h3>Trânsito aduaneiro</h3><p>Movimentação de mercadorias entre recintos alfandegados, com conformidade e rastreabilidade.</p></div>
-            <div class="card"><span class="code">REDEX</span><h3>Exportação habilitada</h3><p>Operações de exportação em recintos habilitados, com suporte ao despacho alfandegado.</p></div>
-            <div class="card"><span class="code">IMP · EXP</span><h3>Importação &amp; exportação</h3><p>Apoio logístico completo, integrando porto, aeroporto e interior do país.</p></div>
-          </div>
-        </div>
-      </section>
-
-      <section class="band-tint">
-        <div class="wrap">
-          <div class="sec-head">
-            <span class="eyebrow">Desova e movimentação</span>
-            <h2>Desova e movimentação de cargas</h2>
-            <p>Operação planejada para retirada, movimentação e apoio à transferência de cargas, com foco em segurança, agilidade e controle operacional.</p>
-          </div>
-          <div class="grid g-3" style="margin-bottom:28px;">
-            <div class="card"><h3>Desova de contêiner</h3><p>Retirada organizada da carga, com apoio operacional para manter fluidez, integridade e agilidade no processo.</p></div>
-            <div class="card"><h3>Movimentação com equipamento</h3><p>Operações com empilhadeira e apoio mecânico para cargas paletizadas, volumes especiais e transferência interna.</p></div>
-            <div class="card"><h3>Controle e segurança</h3><p>Acompanhamento da operação com foco em proteção da carga, segurança da equipe e planejamento de cada etapa.</p></div>
-          </div>
-          <div class="gallery">
-            <figure><img src="images/desova-conteiner.jpg" alt="Desova de contêiner com carga paletizada" width="480" height="360" loading="lazy" decoding="async"><figcaption>Desova de contêiner</figcaption></figure>
-            <figure><img src="images/movimentacao-paletizada.jpg" alt="Movimentação de carga paletizada com empilhadeira" width="480" height="360" loading="lazy" decoding="async"><figcaption>Movimentação paletizada</figcaption></figure>
-            <figure><img src="images/apoio-guindaste.jpg" alt="Apoio com guindaste na movimentação de carga" width="480" height="360" loading="lazy" decoding="async"><figcaption>Apoio com guindaste</figcaption></figure>
-            <figure><img src="images/operacao-carga-especial.jpg" alt="Operação com equipamento para carga especial" width="480" height="360" loading="lazy" decoding="async"><figcaption>Operação com equipamento</figcaption></figure>
-          </div>
-        </div>
-      </section>
-
-      <section>
-        <div class="wrap">
-          <div class="cta-band band-ink">
-            <div>
-              <h2>Precisa de uma operação sob medida?</h2>
-              <p>Conte pra gente o perfil da sua carga e o prazo — montamos a operação junto com você.</p>
-            </div>
-            <div class="btn-row">
-              <a class="btn btn-primary" href="https://wa.me/5513978043399?text=Ol%C3%A1%2C%20vim%20pelo%20site%20e%20gostaria%20de%20solicitar%20uma%20proposta." target="_blank" rel="noopener">Falar no WhatsApp</a>
-            </div>
-          </div>
-        </div>
-      </section>
-    </section>
-
-    <!-- ============ DIFERENCIAIS ============ -->
-    <section class="page" data-page="diferenciais" data-title="Diferenciais — Transportes Imigrantes">
-      <div class="wrap banner">
-        <span class="eyebrow">Por que escolher a Transportes Imigrantes</span>
-        <h1 tabindex="-1">Experiência, localização e processos pensados para dar segurança à sua carga.</h1>
-      </div>
-
-      <section class="tight">
-        <div class="wrap">
-          <div class="grid g-3">
-            <div class="card"><h3>Seguro total da carga</h3><p>Cobertura por RCTR-C e RCF-DC para maior proteção durante o transporte e a movimentação.</p></div>
-            <div class="card"><h3>Rastreamento em tempo real</h3><p>Monitoramento contínuo da frota, trazendo visibilidade e controle para a operação.</p></div>
-            <div class="card"><h3>Localização estratégica</h3><p>Sede no Porto de Santos, com acesso privilegiado a terminais e recintos alfandegados.</p></div>
-            <div class="card"><h3>Soluções customizadas</h3><p>Cada operação é planejada conforme a carga, o prazo e a necessidade do cliente.</p></div>
-            <div class="card"><h3>Conformidade regulatória</h3><p>Habilitações para cargas controladas e processos documentais com menor risco operacional.</p></div>
-            <div class="card"><h3>+50 anos de experiência</h3><p>Desde 1974 atuando no transporte rodoviário com confiabilidade e excelência operacional.</p></div>
-          </div>
-        </div>
-      </section>
-
-      <section class="band-tint">
-        <div class="wrap">
-          <div class="sec-head">
-            <span class="eyebrow">Na prática</span>
-            <h2>O que entregamos para sua operação</h2>
-          </div>
-          <div class="grid g-4">
-            <div class="card"><span class="code">01</span><h3>Planejamento operacional</h3><p>Programação alinhada ao perfil da carga e ao prazo de entrega.</p></div>
-            <div class="card"><span class="code mono">CT-e · MDF-e · CIOT</span><h3>Controle documental</h3><p>Apoio com CT-e, MDF-e, CIOT e demais exigências da operação.</p></div>
-            <div class="card"><span class="code">03</span><h3>Atendimento próximo</h3><p>Comunicação objetiva para acompanhamento de cada etapa.</p></div>
-            <div class="card"><span class="code">04</span><h3>Agilidade no porto</h3><p>Atuação preparada para rotinas do Porto de Santos e distribuição nacional.</p></div>
-          </div>
-        </div>
-      </section>
-
-      <section>
-        <div class="wrap">
-          <div class="sec-head">
-            <span class="eyebrow">Habilitações e certificações</span>
-            <h2>Conformidade para cargas reguladas</h2>
-            <p>Aptos a operar junto aos principais órgãos regulatórios, com processos documentais e rastreabilidade operacional.</p>
-          </div>
-          <div class="grid g-3">
-            <div class="card"><h3>ANVISA</h3><p>Produtos para saúde e correlatos; cosméticos, perfumes e produtos de higiene; domissanitários e saneantes.</p></div>
-            <div class="card"><h3>Outros órgãos</h3><p>Exército Brasileiro, Polícia Civil, IMO para mercadorias perigosas, SIVISA para alimentos e embalagens.</p></div>
-            <div class="card"><h3>Regularidade comprovada</h3><p>Certidão de Regularidade CRF-SP para transporte de produtos farmacêuticos, cosméticos e correlatos.</p></div>
-          </div>
-        </div>
-      </section>
-    </section>
-
-    <!-- ============ CONTATO ============ -->
-    <section class="page" data-page="contato" data-title="Contato — Transportes Imigrantes">
-      <div class="wrap banner">
-        <span class="eyebrow">Entre em contato</span>
-        <h1 tabindex="-1">Atendimento comercial</h1>
-        <p class="lead">Solicite uma proposta personalizada e conte com uma equipe especializada para sua operação logística. Será uma honra ser seu parceiro logístico.</p>
-      </div>
-
-      <section class="tight">
-        <div class="wrap contact-grid">
-          <div>
-            <div class="manifest">
-              <div class="row"><div class="k">E-mail</div><div class="v"><a href="mailto:administrativo@transportesimigrantes.com.br">administrativo@transportesimigrantes.com.br</a></div></div>
-              <div class="row"><div class="k">WhatsApp</div><div class="v"><a href="https://wa.me/5513978043399" target="_blank" rel="noopener">(13) 97804-3399</a></div></div>
-              <div class="row"><div class="k">Telefone</div><div class="v"><a href="tel:+551332197180">(13) 3219-7180</a></div></div>
-              <div class="row"><div class="k">Endereço</div><div class="v">Av. Dr. Pedro Lessa, 3076 - Conj. 11 - Santos - SP<br><a href="https://www.google.com/maps/search/?api=1&query=Av.+Dr.+Pedro+Lessa%2C+3076+-+Conj.+11+-+Santos+-+SP" target="_blank" rel="noopener" style="font-size:.86rem; color:var(--brand);">Ver no mapa →</a></div></div>
-              <div class="row"><div class="k">Horário</div><div class="v">Segunda a Sexta: 08h30 às 18h00</div></div>
-            </div>
-            <div class="btn-row" style="margin-top:22px;">
-              <a class="btn btn-primary" href="https://wa.me/5513978043399?text=Ol%C3%A1%2C%20vim%20pelo%20site%20e%20gostaria%20de%20solicitar%20uma%20proposta." target="_blank" rel="noopener">Falar no WhatsApp</a>
-              <a class="btn btn-outline" href="mailto:administrativo@transportesimigrantes.com.br">Enviar e-mail</a>
-            </div>
-            <p style="margin-top:12px; font-size:.78rem; color:var(--text-mute); max-width:44ch;">Ao clicar em "Falar no WhatsApp", você será redirecionado ao WhatsApp e a conversa passa a acontecer diretamente com nossa equipe, fora deste site.</p>
-          </div>
-          <div class="photo-card" style="aspect-ratio:4/4.6;">
-            <img src="images/contato-caminhao-container.jpg" alt="Caminhão da Transportes Imigrantes com contêiner" width="900" height="1035">
-            <span class="photo-tag">Porto de Santos · SP</span>
-          </div>
-        </div>
-      </section>
-    </section>
-
-  </main>
-
-  <footer>
+  <div class="hero-facts">
     <div class="wrap">
-      <div class="foot-grid">
-        <div>
-          <div class="brand-lockup" style="margin-bottom:14px;">
-            <img class="mark" src="images/logo.png" alt="">
-            <span class="word" style="color:var(--on-ink);" translate="no">Transportes<b>Imigrantes</b></span>
-          </div>
-          <p>Transporte rodoviário de cargas de importação e exportação, com distribuição nacional. Sede no Porto de Santos desde 1974.</p>
-          <p class="mono" style="margin-top:12px; font-size:.76rem; color:var(--text-mute);">Transportes Rodoviários Imigrantes Ltda<br>CNPJ 45.062.080/0001-48 · RNTRC 00059000-9</p>
-        </div>
-        <div>
-          <h4>Navegação</h4>
-          <div class="flinks">
-            <a href="#inicio" data-nav>Início</a>
-            <a href="#sobre" data-nav>Sobre</a>
-            <a href="#servicos" data-nav>Serviços</a>
-            <a href="#diferenciais" data-nav>Diferenciais</a>
-            <a href="#contato" data-nav>Contato</a>
-          </div>
-        </div>
-        <div>
-          <h4>Contato</h4>
-          <div class="flinks">
-            <a href="mailto:administrativo@transportesimigrantes.com.br">administrativo@transportesimigrantes.com.br</a>
-            <a href="https://wa.me/5513978043399" target="_blank" rel="noopener">WhatsApp (13) 97804-3399</a>
-            <a href="tel:+551332197180">Tel. (13) 3219-7180</a>
-            <span>Av. Dr. Pedro Lessa, 3076 - Santos - SP</span>
-          </div>
-        </div>
+      <div class="fact"><span class="v"><span data-anos>52</span> anos</span><span class="k">De estrada · desde 1974</span></div>
+      <div class="fact"><span class="v">27 terminais</span><span class="k">Cheios e vazios em Santos</span></div>
+      <div class="fact"><span class="v">FCL · LCL</span><span class="k">DTA · REDEX · IMP/EXP</span></div>
+      <div class="fact"><span class="v">Santos/SP</span><span class="k">Base no porto</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= SERVIÇOS ================= -->
+<section class="sec" id="servicos" aria-labelledby="svcTitle">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="tag" data-reveal><b>01</b> Serviços</div>
+      <h2 class="h-l" id="svcTitle" data-reveal>Cinco jeitos de<br>tirar sua carga do porto</h2>
+      <p class="lead" data-reveal>Cada modalidade tem sua documentação, seu prazo e seu tipo de carga. Escolha a sua e fale direto com o comercial.</p>
+    </div>
+
+    <div class="board" role="list">
+      <div class="board-head" aria-hidden="true"><span>Código</span><span>Serviço</span><span>Como funciona</span><span></span></div>
+
+      <div class="svc" role="listitem" data-reveal>
+        <div class="flap" data-text="FCL" aria-hidden="true"></div>
+        <h3>Contêiner completo</h3>
+        <p>O contêiner inteiro é da sua carga. Transporte dedicado do terminal ao destino, para grandes volumes e menos manuseio.</p>
+        <span class="go" aria-hidden="true">→</span>
+        <a class="cover" href="https://wa.me/5513978043399?text=Ol%C3%A1%2C%20vim%20pelo%20site%20e%20gostaria%20de%20uma%20proposta%20para%20transporte%20FCL." target="_blank" rel="noopener"><span class="sr-only">Pedir proposta de FCL, contêiner completo</span></a>
       </div>
-      <div class="foot-bottom">
-        <span>© Transportes Rodoviários Imigrantes — desde 1974</span>
-        <span>Rascunho de site institucional</span>
+
+      <div class="svc" role="listitem" data-reveal>
+        <div class="flap" data-text="LCL" aria-hidden="true"></div>
+        <h3>Carga fracionada</h3>
+        <p>Para volumes menores, que dividem o contêiner com outras cargas. Você paga pelo espaço que usa.</p>
+        <span class="go" aria-hidden="true">→</span>
+        <a class="cover" href="https://wa.me/5513978043399?text=Ol%C3%A1%2C%20vim%20pelo%20site%20e%20gostaria%20de%20uma%20proposta%20para%20transporte%20LCL." target="_blank" rel="noopener"><span class="sr-only">Pedir proposta de LCL, carga fracionada</span></a>
+      </div>
+
+      <div class="svc" role="listitem" data-reveal>
+        <div class="flap" data-text="DTA" aria-hidden="true"></div>
+        <h3>Trânsito aduaneiro</h3>
+        <p>Remoção de mercadoria ainda não nacionalizada entre recintos alfandegados, com a documentação em ordem e rastreio no caminho.</p>
+        <span class="go" aria-hidden="true">→</span>
+        <a class="cover" href="https://wa.me/5513978043399?text=Ol%C3%A1%2C%20vim%20pelo%20site%20e%20gostaria%20de%20uma%20proposta%20para%20DTA." target="_blank" rel="noopener"><span class="sr-only">Pedir proposta de DTA, trânsito aduaneiro</span></a>
+      </div>
+
+      <div class="svc" role="listitem" data-reveal>
+        <div class="flap" data-text="REDEX" aria-hidden="true"></div>
+        <h3>Exportação via REDEX</h3>
+        <p>Levamos a carga de exportação até recintos habilitados e damos suporte ao despacho até o embarque.</p>
+        <span class="go" aria-hidden="true">→</span>
+        <a class="cover" href="https://wa.me/5513978043399?text=Ol%C3%A1%2C%20vim%20pelo%20site%20e%20gostaria%20de%20uma%20proposta%20para%20exporta%C3%A7%C3%A3o%20via%20REDEX." target="_blank" rel="noopener"><span class="sr-only">Pedir proposta de REDEX, exportação</span></a>
+      </div>
+
+      <div class="svc" role="listitem" data-reveal>
+        <div class="flap" data-text="IMP·EXP" aria-hidden="true"></div>
+        <h3>Apoio logístico</h3>
+        <p>Ligamos porto, aeroporto e interior numa operação só, da retirada no terminal à entrega na sua porta.</p>
+        <span class="go" aria-hidden="true">→</span>
+        <a class="cover" href="https://wa.me/5513978043399?text=Ol%C3%A1%2C%20vim%20pelo%20site%20e%20gostaria%20de%20uma%20proposta%20de%20apoio%20log%C3%ADstico%20de%20importa%C3%A7%C3%A3o%2Fexporta%C3%A7%C3%A3o." target="_blank" rel="noopener"><span class="sr-only">Pedir proposta de apoio logístico de importação e exportação</span></a>
       </div>
     </div>
-  </footer>
+  </div>
+</section>
 
-</div>
+<!-- ================= TERMINAIS ================= -->
+<section class="sec" id="terminais" aria-labelledby="termTitle" style="background:var(--paper-2);">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="tag" data-reveal><b>02</b> Terminais</div>
+      <h2 class="h-l" id="termTitle" data-reveal>Do terminal<br>ao seu destino</h2>
+      <p class="lead" data-reveal>Retiramos e entregamos nos principais terminais e depósitos da Baixada Santista: carregamento do contêiner cheio e retirada do vazio.</p>
+    </div>
 
-<script>
-(function(){
-  var pages = Array.prototype.slice.call(document.querySelectorAll('.page'));
-  var navLinks = Array.prototype.slice.call(document.querySelectorAll('a[data-nav]'));
-  var burger = document.getElementById('burgerBtn');
-  var navEl = document.getElementById('navlinks');
-  var mainEl = document.getElementById('main-content');
-  var skipLink = document.getElementById('skipLink');
-  var defaultPage = 'inicio';
-  var firstRender = true;
-  var usingKeyboard = false;
-  window.addEventListener('keydown', function(e){ if(e.key === 'Tab'){ usingKeyboard = true; } });
-  window.addEventListener('mousedown', function(){ usingKeyboard = false; });
+    <div class="term-grid">
+      <div class="term-col" data-reveal>
+        <h3><span>Contêiner cheio<small>Carregamento</small></span><span class="count" aria-hidden="true">13</span></h3>
+        <ul class="term-list" aria-label="13 terminais de contêiner cheio">
+          <li><span>C-01</span>BTP (Brasil Terminal Portuário)</li>
+          <li><span>C-02</span>Santos Brasil</li>
+          <li><span>C-03</span>DP World</li>
+          <li><span>C-04</span>Transbrasa</li>
+          <li><span>C-05</span>Ecoporto</li>
+          <li><span>C-06</span>Multilog</li>
+          <li><span>C-07</span>Bandeirantes / Deicmar</li>
+          <li><span>C-08</span>Eudmarco</li>
+          <li><span>C-09</span>Localfrio T1</li>
+          <li><span>C-10</span>Localfrio T2</li>
+          <li><span>C-11</span>Marimex</li>
+          <li><span>C-12</span>EADI Aurora</li>
+          <li><span>C-13</span>Embragen</li>
+        </ul>
+      </div>
+      <div class="term-col" data-reveal>
+        <h3><span>Contêiner vazio<small>Retirada e devolução</small></span><span class="count" aria-hidden="true">14</span></h3>
+        <ul class="term-list" aria-label="14 terminais de contêiner vazio">
+          <li><span>V-01</span>Lechman</li>
+          <li><span>V-02</span>Atlantis</li>
+          <li><span>V-03</span>CCIS</li>
+          <li><span>V-04</span>Fassina</li>
+          <li><span>V-05</span>Depotce</li>
+          <li><span>V-06</span>Depotainer</li>
+          <li><span>V-07</span>Delta</li>
+          <li><span>V-08</span>Ziran</li>
+          <li><span>V-09</span>Mafro</li>
+          <li><span>V-10</span>Personnalite</li>
+          <li><span>V-11</span>Medlog</li>
+          <li><span>V-12</span>Rasio Terminais</li>
+          <li><span>V-13</span>Transtec World</li>
+          <li><span>V-14</span>Perlog</li>
+        </ul>
+      </div>
+    </div>
+    <p class="term-note" data-reveal>O seu terminal não está na lista? <a href="https://wa.me/5513978043399?text=Ol%C3%A1%2C%20vim%20pelo%20site.%20Voc%C3%AAs%20atendem%20o%20terminal%20" target="_blank" rel="noopener" data-origem="terminais">Pergunte pelo WhatsApp</a>.</p>
+  </div>
+</section>
 
-  function pageFromHash(){
-    var h = (location.hash || '').replace('#','').split('?')[0];
-    var valid = pages.some(function(p){ return p.getAttribute('data-page') === h; });
-    return valid ? h : defaultPage;
-  }
+<!-- ================= COBERTURA ================= -->
+<section class="sec on-ink cover-sec" id="cobertura" aria-labelledby="covTitle">
+  <div class="wrap cover-grid">
+    <div class="cover-copy">
+      <div class="tag" data-reveal><b>03</b> Cobertura</div>
+      <h2 class="h-l" id="covTitle" data-reveal>Saiu de Santos,<br>chega onde<br>precisa chegar.</h2>
+      <p class="lead" data-reveal>Retiramos o contêiner no terminal e seguimos pela estrada até o seu destino no Sudeste, Sul e Mato Grosso do Sul.</p>
+      <div class="route-from" data-reveal><span class="dot"></span> Origem: Porto de Santos · SP</div>
+      <ul class="city-list" id="cityList" data-reveal></ul>
+    </div>
+    <div class="map-box" id="mapBox">
+      <svg id="brMap" viewBox="105 165 305 250" role="img" aria-label="Mapa do Sudeste e do Sul do Brasil com rotas partindo do Porto de Santos para cidades do Sudeste, do Sul e de Mato Grosso do Sul"></svg>
+      <p class="map-note">Mapa ilustrativo</p>
+    </div>
+  </div>
+</section>
 
-  function render(){
-    var current = pageFromHash();
-    var activePage = null;
-    pages.forEach(function(p){
-      var isActive = p.getAttribute('data-page') === current;
-      p.classList.toggle('active', isActive);
-      if(isActive){
-        activePage = p;
-        if(p.getAttribute('data-title')){ document.title = p.getAttribute('data-title'); }
-      }
-    });
-    navLinks.forEach(function(a){
-      var target = (a.getAttribute('href')||'').replace('#','');
-      a.classList.toggle('active', target === current);
-    });
-    navEl.classList.remove('open');
-    burger.setAttribute('aria-expanded','false');
-    burger.setAttribute('aria-label','Abrir menu');
-    window.scrollTo(0,0);
+<!-- ================= HISTÓRIA ================= -->
+<section class="sec" id="historia" aria-labelledby="histTitle">
+  <div class="wrap hist-grid">
+    <div class="hist-copy">
+      <div class="tag" data-reveal><b>04</b> História</div>
+      <div data-reveal style="margin-top:28px;">
+        <div class="year-big" id="yearCounter" aria-hidden="true">1974</div>
+        <div class="year-cap"><span>1974</span><span><span data-anos>52</span> anos de estrada</span><span data-ano-atual>2026</span></div>
+      </div>
+      <h2 class="h-l" id="histTitle" style="margin-top:40px; font-size:clamp(2rem,4vw,3rem);" data-reveal>Mesma base, outra estrada.</h2>
+      <p data-reveal>A Transportes Rodoviários Imigrantes nasceu em 1974, encostada no Porto de Santos. A frota mudou, o porto cresceu e a papelada ficou mais complexa, mas o jeito de trabalhar continua o mesmo: perto do cliente, acompanhando cada contêiner até o destino.</p>
+    </div>
 
-    // move focus to the new page's heading so keyboard/screen-reader users
-    // land on the new content instead of staying on the nav link they clicked.
-    // Only do this for keyboard-driven navigation — a scripted .focus() call
-    // still shows a visible outline for mouse users in some browsers, which
-    // looks like a stray box around the heading for people just clicking.
-    if(!firstRender && activePage && usingKeyboard){
-      var heading = activePage.querySelector('h1');
-      if(heading){ heading.focus({preventScroll:true}); }
-    }
-    firstRender = false;
-  }
+    <figure data-reveal>
+      <div class="compare" id="compare">
+        <img src="images/entao-caminhao-44.jpg" alt="Caminhão antigo da frota, unidade 44, com as faixas vermelhas da marca Imigrantes" width="640" height="512" loading="lazy" decoding="async">
+        <img class="after" src="images/hoje-caminhao-selo-50anos.jpg" alt="Caminhão atual da frota com o selo de 50 anos" width="640" height="512" loading="lazy" decoding="async">
+        <span class="lbl l">Antes · Nº 44</span>
+        <span class="lbl r">Hoje</span>
+        <input type="range" min="0" max="100" value="50" aria-label="Arraste para comparar o caminhão antigo com o atual">
+        <span class="handle" aria-hidden="true"></span>
+      </div>
+      <figcaption class="compare-cap">← Arraste para comparar a frota de antes com a de hoje →</figcaption>
+    </figure>
+  </div>
+</section>
 
-  window.addEventListener('hashchange', render);
-  document.addEventListener('DOMContentLoaded', render);
-  render();
+<!-- ================= DIFERENCIAIS ================= -->
+<section class="sec" id="diferenciais" aria-labelledby="whyTitle" style="background:var(--paper-2);">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="tag" data-reveal><b>05</b> Diferenciais</div>
+      <h2 class="h-l" id="whyTitle" data-reveal>Sua carga<br>em boas mãos</h2>
+      <p class="lead" data-reveal>Seguro, rastreio e documentação em dia em todas as viagens. Para quem trabalha com comércio exterior, isso não é diferencial: é o básico bem feito.</p>
+    </div>
 
-  burger.addEventListener('click', function(){
-    var open = navEl.classList.toggle('open');
-    burger.setAttribute('aria-expanded', open ? 'true' : 'false');
-    burger.setAttribute('aria-label', open ? 'Fechar menu' : 'Abrir menu');
-  });
+    <ol class="why">
+      <li data-reveal><span class="n">01</span><h3>Carga segurada</h3><p>Cobertura por RCTR-C e RCF-DC durante o transporte e a movimentação.</p></li>
+      <li data-reveal><span class="n">02</span><h3>Rastreio da frota</h3><p>Monitoramento contínuo dos caminhões, para você saber onde está o seu contêiner.</p></li>
+      <li data-reveal><span class="n">03</span><h3>Do lado do porto</h3><p>Sede em Santos, perto dos terminais e recintos alfandegados. Menos tempo entre a liberação e a estrada.</p></li>
+      <li data-reveal><span class="n">04</span><h3>Papelada em dia</h3><p>Emissão e controle de toda a documentação de transporte da operação.</p><span class="docs">CT-e · MDF-e · CIOT</span></li>
+      <li data-reveal><span class="n">05</span><h3>Operação sob medida</h3><p>Planejamos cada viagem conforme a carga, o prazo e as exigências do seu processo.</p></li>
+      <li data-reveal><span class="n">06</span><h3>Cargas reguladas</h3><p>Habilitações para transportar produtos controlados, perigosos e de saúde.</p></li>
+    </ol>
 
-  if(skipLink && mainEl){
-    skipLink.addEventListener('click', function(e){
-      e.preventDefault();
-      mainEl.focus({preventScroll:false});
-    });
-  }
-})();
-</script>
+    <div class="licenses" data-reveal>
+      <h3 class="tag" style="padding:14px 0 6px;"><b>Habilitações</b> Aptos a operar junto a</h3>
+      <dl>
+      <div class="lic-row"><dt>ANVISA</dt><dd>Produtos para saúde e correlatos; cosméticos, perfumes e produtos de higiene; domissanitários e saneantes.</dd></div>
+      <div class="lic-row"><dt>CRF-SP</dt><dd>Certidão de Regularidade para transporte de produtos farmacêuticos, cosméticos e correlatos.</dd></div>
+      <div class="lic-row"><dt>IMO</dt><dd>Mercadorias perigosas.</dd></div>
+      <div class="lic-row"><dt>SIVISA</dt><dd>Alimentos e embalagens.</dd></div>
+      <div class="lic-row"><dt>Exército · Polícia Civil</dt><dd>Cargas controladas.</dd></div>
+      </dl>
+    </div>
+  </div>
+</section>
 
-</body></html>
+<!-- ================= OPERAÇÃO ================= -->
+<section class="sec on-ink" id="operacao" aria-labelledby="opsTitle">
+  <div class="wrap ops-grid">
+    <div>
+      <div class="tag" data-reveal><b>06</b> Operação</div>
+      <h2 class="h-l" id="opsTitle" style="margin:22px 0 36px; font-size:clamp(2.2rem,4.4vw,3.8rem);" data-reveal>Desova e<br>movimentação</h2>
+      <ol class="ops-list">
+        <li data-reveal><span class="n">OP-01</span><h3>Desova de contêiner</h3><p>Retirada organizada da carga, sem travar o fluxo e sem risco para a mercadoria.</p></li>
+        <li data-reveal><span class="n">OP-02</span><h3>Empilhadeira e guindaste</h3><p>Equipamento para paletizados, volumes pesados e cargas especiais.</p></li>
+        <li data-reveal><span class="n">OP-03</span><h3>Controle e segurança</h3><p>Cada etapa planejada e acompanhada, protegendo a carga e a equipe.</p></li>
+      </ol>
+    </div>
+    <div class="reel" data-reveal>
+      <figure><img src="images/desova-conteiner.jpg" alt="Contêiner aberto com carga sendo desovada" width="480" height="360" loading="lazy" decoding="async"><figcaption><b>01</b>Desova</figcaption></figure>
+      <figure><img src="images/movimentacao-paletizada.jpg" alt="Carreta com contêiner e carga especial em área coberta" width="480" height="360" loading="lazy" decoding="async"><figcaption><b>02</b>Movimentação</figcaption></figure>
+      <figure><img src="images/apoio-guindaste.jpg" alt="Guindaste içando equipamento sobre carreta" width="480" height="360" loading="lazy" decoding="async"><figcaption><b>03</b>Guindaste</figcaption></figure>
+      <figure><img src="images/operacao-carga-especial.jpg" alt="Carreta com carga especial sinalizada como veículo longo" width="480" height="360" loading="lazy" decoding="async"><figcaption><b>04</b>Carga especial</figcaption></figure>
+    </div>
+  </div>
+</section>
+
+<!-- ================= CONTATO ================= -->
+<div class="hazard" aria-hidden="true"></div>
+<section class="sec on-ink" id="contato" aria-labelledby="ctTitle" style="background:var(--ink-2);">
+  <div class="wrap contact-grid">
+    <div>
+      <div class="tag" data-reveal><b>07</b> Contato</div>
+      <h2 class="h-xl" id="ctTitle" style="margin-top:22px;" data-reveal>Tem carga<br>saindo do<br>porto?</h2>
+      <p class="lead" style="margin-top:22px;" data-reveal>Monte a cotação e envie pelo WhatsApp ou por e-mail. Se preferir, fale direto com a nossa equipe pelos contatos abaixo.</p>
+
+      <div class="contact-rows" data-reveal>
+        <div class="c-row"><span class="k">WhatsApp</span><a class="v" href="https://wa.me/5513978043399" target="_blank" rel="noopener">(13) 97804-3399</a></div>
+        <div class="c-row"><span class="k">Telefone</span><a class="v" href="tel:+551332197180">(13) 3219-7180</a></div>
+        <div class="c-row"><span class="k">E-mail</span><a class="v" href="mailto:administrativo@transportesimigrantes.com.br">administrativo@transportesimigrantes.com.br</a></div>
+        <div class="c-row"><span class="k">Endereço</span><span class="v">Av. Dr. Pedro Lessa, 3076, conj. 11<span class="sub">Santos/SP · CEP 11025-016 · <a href="https://www.google.com/maps/search/?api=1&query=Av.+Dr.+Pedro+Lessa%2C+3076+-+Santos+-+SP" target="_blank" rel="noopener" style="color:var(--red-light);">ver no mapa ↗</a></span></span></div>
+        <div class="c-row"><span class="k">Horário</span><span class="v">Segunda a sexta, 8h30 às 18h</span></div>
+      </div>
+    </div>
+
+    <form class="quote" id="cotacao" novalidate data-reveal aria-labelledby="quoteTitle">
+      <div class="quote-head"><h3 id="quoteTitle">Cotação rápida</h3><span>1 minuto</span></div>
+      <div class="q-grid">
+        <div class="q-field q-full">
+          <span class="q-lbl" id="qOpLbl">Operação</span>
+          <div class="seg" role="radiogroup" aria-labelledby="qOpLbl">
+            <label><input type="radio" name="operacao" value="Importação" checked>Importação</label>
+            <label><input type="radio" name="operacao" value="Exportação">Exportação</label>
+          </div>
+        </div>
+        <div class="q-field">
+          <label for="qServico">Serviço</label>
+          <select id="qServico" name="servico" required>
+            <option value="FCL – contêiner completo">FCL · contêiner completo</option>
+            <option value="LCL – carga fracionada">LCL · carga fracionada</option>
+            <option value="DTA – trânsito aduaneiro">DTA · trânsito aduaneiro</option>
+            <option value="REDEX – exportação">REDEX · exportação</option>
+            <option value="Apoio logístico">Apoio logístico</option>
+            <option value="Não sei / outro">Não sei / outro</option>
+          </select>
+        </div>
+        <div class="q-field">
+          <label for="qConteiner">Contêiner</label>
+          <select id="qConteiner" name="conteiner">
+            <option value="20' Dry">20' Dry</option>
+            <option value="40' Dry">40' Dry</option>
+            <option value="40' High Cube">40' High Cube</option>
+            <option value="Reefer (refrigerado)">Reefer (refrigerado)</option>
+            <option value="Flat rack / Open top">Flat rack / Open top</option>
+            <option value="Não sei">Não sei</option>
+          </select>
+        </div>
+        <div class="q-field">
+          <label for="qTerminal">Terminal <span class="opt">(opcional)</span></label>
+          <input id="qTerminal" name="terminal" list="qTerminais" autocomplete="off" placeholder="Ex.: BTP">
+          <datalist id="qTerminais"></datalist>
+        </div>
+        <div class="q-field">
+          <label for="qDestino" id="qDestinoLbl">Destino</label>
+          <input id="qDestino" name="destino" required autocomplete="address-level2" placeholder="Cidade / UF">
+        </div>
+        <div class="q-field">
+          <label for="qCarga">Mercadoria <span class="opt">(opcional)</span></label>
+          <input id="qCarga" name="carga" placeholder="Ex.: peças automotivas">
+        </div>
+        <div class="q-field">
+          <label for="qPeso">Peso aproximado <span class="opt">(opcional)</span></label>
+          <input id="qPeso" name="peso" inputmode="decimal" placeholder="Ex.: 18 t">
+        </div>
+        <!-- só na importação: o valor entra no cálculo do seguro da carga -->
+        <div class="q-field q-full" id="qValorWrap">
+          <label for="qValor">Valor da mercadoria <span class="opt">(para o seguro da carga)</span></label>
+          <div class="q-money">
+            <select id="qMoeda" name="moeda" aria-label="Moeda">
+              <option value="US$">US$</option>
+              <option value="R$">R$</option>
+              <option value="€">€</option>
+            </select>
+            <input id="qValor" name="valor" inputmode="decimal" autocomplete="off" placeholder="Ex.: 85.000,00" required>
+          </div>
+        </div>
+        <div class="q-field q-full">
+          <label class="q-check"><input type="checkbox" name="imo" value="sim"> Carga perigosa (IMO)</label>
+        </div>
+        <div class="q-field">
+          <label for="qNome">Seu nome</label>
+          <input id="qNome" name="nome" required autocomplete="name">
+        </div>
+        <div class="q-field">
+          <label for="qEmpresa">Empresa <span class="opt">(opcional)</span></label>
+          <input id="qEmpresa" name="empresa" autocomplete="organization">
+        </div>
+      </div>
+      <div class="q-actions">
+        <button class="btn btn-red" type="submit" data-canal="whatsapp">Enviar pelo WhatsApp <span class="arr" aria-hidden="true">→</span></button>
+        <button class="btn btn-line-dark" type="submit" data-canal="email">Enviar por e-mail <span class="arr" aria-hidden="true">→</span></button>
+      </div>
+      <p class="q-note">Nada fica salvo neste site: os dados vão só na mensagem que você envia para a nossa equipe.</p>
+    </form>
+  </div>
+</section>
+
+</main>
+
+<!-- ================= RODAPÉ ================= -->
+<footer class="foot">
+  <div class="wrap">
+    <div class="foot-grid">
+      <div>
+        <a href="#topo" class="brand" style="color:var(--on-ink);">
+          <img src="images/logo.png" alt="" width="268" height="194" loading="lazy">
+          <span class="word" translate="no"><small>Transportes</small>Imigrantes</span>
+        </a>
+        <p style="margin-top:14px; max-width:40ch;">Transporte rodoviário de contêineres de importação e exportação, com entregas no Sudeste, Sul e Mato Grosso do Sul.</p>
+        <p class="legal">Transportes Rodoviários Imigrantes Ltda<br>CNPJ 45.062.080/0001-48 · RNTRC 00059000-9</p>
+      </div>
+      <div>
+        <h4>Navegação</h4>
+        <ul>
+          <li><a href="#servicos">Serviços</a></li>
+          <li><a href="#terminais">Terminais</a></li>
+          <li><a href="#cobertura">Cobertura</a></li>
+          <li><a href="#historia">História</a></li>
+          <li><a href="#diferenciais">Diferenciais</a></li>
+          <li><a href="#operacao">Operação</a></li>
+          <li><a href="#contato">Contato</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Contato</h4>
+        <ul>
+          <li><a href="https://wa.me/5513978043399" target="_blank" rel="noopener">WhatsApp (13) 97804-3399</a></li>
+          <li><a href="tel:+551332197180">Tel. (13) 3219-7180</a></li>
+          <li><a href="mailto:administrativo@transportesimigrantes.com.br">administrativo@transportesimigrantes.com.br</a></li>
+          <li>Av. Dr. Pedro Lessa, 3076 · Santos/SP</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="giant" aria-hidden="true" translate="no">Imigrantes</div>
+  <div class="foot-bottom">
+    <div class="wrap" style="display:flex; justify-content:space-between; flex-wrap:wrap; gap:8px; width:100%;">
+      <span>© <span data-ano-atual>2026</span> Transportes Rodoviários Imigrantes · desde 1974</span>
+      <a href="#topo">Voltar ao topo ↑</a>
+    </div>
+  </div>
+</footer>
+
+<a class="wa-float" id="waFloat" href="https://wa.me/5513978043399?text=Ol%C3%A1%2C%20vim%20pelo%20site%20e%20gostaria%20de%20solicitar%20uma%20proposta." target="_blank" rel="noopener" aria-label="Falar no WhatsApp">
+  <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 20l1.3-3.9A8 8 0 1 1 8 19l-4 1z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><path d="M9 9.5c.3 2 2.2 4.2 4.6 4.8l1-1.2 2 .9c-.2 1-1 1.8-2.2 1.8-3 0-6.6-3.4-6.6-6.4 0-1.2.8-2 1.8-2.2l.9 2-1 1z" fill="currentColor"/></svg>
+  <span>Pedir proposta</span>
+</a>
+
+<script src="js/main.js" defer></script>
+</body>
+</html>
