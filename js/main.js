@@ -481,6 +481,78 @@
     track("cotacao_enviada", { canal:canal, servico:v("servico"), operacao:form.querySelector("input[name=operacao]:checked").value });
   });
 
+  /* ---------- serviços: o clique leva à cotação com o serviço já escolhido ---------- */
+  var servSelect = document.getElementById("qServico");
+  document.querySelectorAll(".svc a.cover[data-servico]").forEach(function(a){
+    a.addEventListener("click", function(e){
+      e.preventDefault();
+      var val = a.getAttribute("data-servico");
+      servSelect.value = val;
+      if(/REDEX/.test(val)){ // REDEX é sempre exportação
+        var exp = form.querySelector('input[name=operacao][value="Exportação"]');
+        if(exp && !exp.checked){ exp.checked = true; exp.dispatchEvent(new Event("change", { bubbles:true })); }
+      }
+      form.scrollIntoView({ behavior: reduce ? "auto" : "smooth", block:"start" });
+      servSelect.classList.remove("prefilled"); void servSelect.offsetWidth; servSelect.classList.add("prefilled");
+      // foco no campo de serviço (anuncia a escolha ao leitor de tela) sem atrapalhar a rolagem
+      setTimeout(function(){ servSelect.focus({ preventScroll:true }); }, reduce ? 0 : 700);
+      track("servico_escolhido", { servico:val });
+    });
+  });
+
+  /* ---------- terminais: abas Cheio | Vazio no celular ---------- */
+  var tabsBox = document.getElementById("termTabs");
+  var tabs = [document.getElementById("tabCheio"), document.getElementById("tabVazio")];
+  var panels = [document.getElementById("panelCheio"), document.getElementById("panelVazio")];
+  var tabAtual = 0;
+  function selectTab(i, focar){
+    tabAtual = i;
+    tabs.forEach(function(t, j){
+      t.setAttribute("aria-selected", j === i ? "true" : "false");
+      t.tabIndex = j === i ? 0 : -1;
+      panels[j].classList.toggle("tab-hidden", j !== i);
+    });
+    if(focar){ tabs[i].focus(); }
+  }
+  function setupTabs(celular){
+    tabsBox.hidden = !celular;
+    if(celular){
+      tabsBox.setAttribute("role", "tablist");
+      tabs.forEach(function(t, j){
+        t.setAttribute("role", "tab");
+        panels[j].setAttribute("role", "tabpanel");
+        panels[j].setAttribute("aria-labelledby", t.id);
+      });
+      selectTab(tabAtual, false);
+    } else {
+      tabsBox.removeAttribute("role");
+      tabs.forEach(function(t, j){
+        t.removeAttribute("role"); t.removeAttribute("aria-selected"); t.removeAttribute("tabindex");
+        panels[j].removeAttribute("role"); panels[j].removeAttribute("aria-labelledby");
+        panels[j].classList.remove("tab-hidden");
+      });
+    }
+  }
+  tabs.forEach(function(t, j){
+    t.addEventListener("click", function(){ selectTab(j, false); track("terminais_aba", { aba:j ? "vazio" : "cheio" }); });
+  });
+  tabsBox.addEventListener("keydown", function(e){ // setas, Home e End, como em abas nativas
+    var i = { ArrowRight:(tabAtual + 1) % 2, ArrowLeft:(tabAtual + 1) % 2, Home:0, End:1 }[e.key];
+    if(i === undefined) return;
+    e.preventDefault(); selectTab(i, true);
+  });
+
+  /* ---------- habilitações: fechadas no celular, abertas no desktop ---------- */
+  var licencas = document.getElementById("licencas");
+  var mqCelular = window.matchMedia("(max-width:820px)");
+  function ajustaCelular(celular){ setupTabs(celular); licencas.open = !celular; }
+  // o ajuste inicial acontece sem animação (senão a lista "recolhe" à toa ao carregar)
+  licencas.classList.add("sem-transicao");
+  ajustaCelular(mqCelular.matches);
+  void licencas.offsetHeight;
+  requestAnimationFrame(function(){ requestAnimationFrame(function(){ licencas.classList.remove("sem-transicao"); }); });
+  mqCelular.addEventListener("change", function(m){ ajustaCelular(m.matches); });
+
   onScroll();
   doc.classList.add("booted"); // avisa a rede de segurança do <head> que o script rodou
 })();

@@ -413,6 +413,17 @@ button{ font:inherit; color:inherit; background:none; border:0; cursor:pointer; 
 }
 .term-list li span{ font-family:var(--mono); font-size:.75rem; color:var(--mute); }
 .term-note{ margin-top:28px; color:var(--soft); }
+/* abas Cheio | Vazio (só no celular, ligadas pelo JS) */
+.term-tabs{ display:grid; grid-template-columns:1fr 1fr; gap:6px; padding:5px; margin-bottom:28px; background:var(--paper); border:1px solid var(--line); border-radius:var(--radius); }
+.term-tabs[hidden]{ display:none; }
+.term-tabs button{
+  min-height:48px; border-radius:var(--radius-sm); font-weight:600; font-size:1rem; color:var(--soft);
+  transition:background-color .3s var(--ease), color .3s var(--ease);
+}
+.term-tabs button span{ font-family:var(--mono); font-size:.8rem; margin-left:6px; opacity:.8; }
+.term-tabs button[aria-selected="true"]{ background:var(--ink); color:#fff; }
+.term-tabs button:focus-visible{ outline-offset:2px; }
+.term-grid .term-col.tab-hidden{ display:none; }
 .term-note a{ color:var(--red); font-weight:600; border-bottom:1px solid currentColor; }
 @media (max-width:820px){ .term-grid{ grid-template-columns:1fr; gap:44px; } }
 
@@ -590,6 +601,32 @@ button{ font:inherit; color:inherit; background:none; border:0; cursor:pointer; 
 /* habilitações em tabela */
 .licenses{ margin-top:clamp(40px,6vw,72px); border-top:2px solid var(--ink); }
 .licenses dl{ margin:0; }
+/* habilitações em acordeão: o título vira o botão de abrir/fechar */
+.licenses summary{
+  display:flex; justify-content:space-between; align-items:center; gap:16px;
+  min-height:48px; padding:6px 0; cursor:pointer; list-style:none;
+}
+.licenses summary::-webkit-details-marker{ display:none; }
+.licenses summary .tag{ padding:8px 0; }
+.licenses summary::after{
+  content:""; flex:none; width:32px; height:32px; border-radius:50%; border:1.5px solid var(--line);
+  background:
+    linear-gradient(var(--ink),var(--ink)) center / 12px 2px no-repeat,
+    linear-gradient(var(--ink),var(--ink)) center / 2px 12px no-repeat;
+  transition:transform .45s var(--ease), background-color .3s var(--ease), border-color .3s var(--ease);
+}
+.licenses[open] summary::after{
+  transform:rotate(45deg); border-color:var(--red); background-color:var(--red);
+  background-image:linear-gradient(#fff,#fff), linear-gradient(#fff,#fff);
+}
+.licenses summary:focus-visible{ outline-offset:4px; border-radius:4px; }
+@supports (interpolate-size: allow-keywords){
+  .licenses{ interpolate-size:allow-keywords; }
+  .licenses::details-content{ height:0; overflow:clip; transition:height .45s var(--ease), content-visibility .45s allow-discrete; }
+  .licenses[open]::details-content{ height:auto; }
+}
+@media (prefers-reduced-motion:reduce){ .licenses::details-content{ transition:none; } }
+.licenses.sem-transicao::details-content{ transition:none; }
 .lic-row{ display:grid; grid-template-columns:minmax(0,.7fr) minmax(0,1.3fr); gap:24px; padding:18px 0; border-bottom:1px solid var(--line); }
 .lic-row dt{ font-family:var(--display); font-weight:800; font-size:1.45rem; text-transform:uppercase; line-height:1.1; }
 .lic-row dd{ margin:0; color:var(--soft); }
@@ -726,6 +763,10 @@ button{ font:inherit; color:inherit; background:none; border:0; cursor:pointer; 
 .quote .seg input{ position:absolute; opacity:0; inset:0; margin:0; cursor:pointer; }
 .quote .seg label:has(input:checked){ background:var(--ink); color:#fff; }
 .quote .seg label:has(input:focus-visible){ outline:3px solid var(--ink); outline-offset:2px; }
+/* destaque rápido no campo preenchido a partir de um serviço */
+.quote select.prefilled{ animation:prefill 1.6s var(--ease); }
+@keyframes prefill{ 0%,40%{ border-color:var(--red); box-shadow:0 0 0 4px rgba(190,2,5,.18); } 100%{ box-shadow:0 0 0 0 rgba(190,2,5,0); } }
+@media (prefers-reduced-motion:reduce){ .quote select.prefilled{ animation:none; } }
 .q-field > .q-check{
   display:flex; align-items:center; gap:10px; min-height:44px; cursor:pointer;
   font-family:var(--sans); font-size:.95rem; font-weight:500; letter-spacing:0; text-transform:none; color:var(--text);
@@ -859,13 +900,13 @@ button{ font:inherit; color:inherit; background:none; border:0; cursor:pointer; 
            <video autoplay muted loop playsinline poster="images/hero.jpg"><source src="video/hero.mp4" type="video/mp4"></video> -->
       <img src="images/inicio-caminhao-container.jpg" alt="Cavalo mecânico da Transportes Imigrantes engatado em um contêiner azul" width="900" height="990" fetchpriority="high">
     </div>
-    <span class="stamp" aria-hidden="true">1974</span>
+    <span class="stamp" aria-hidden="true" data-nosnippet>1974</span>
   </div>
 
   <div class="hero-facts">
     <div class="wrap">
       <div class="fact"><span class="v"><span data-anos>52</span> anos</span><span class="k">De estrada · desde 1974</span></div>
-      <div class="fact"><span class="v">27 terminais</span><span class="k">Cheios e vazios em Santos</span></div>
+      <div class="fact"><span class="v">27 terminais</span><span class="k">Cheios e vazios na Baixada Santista</span></div>
       <div class="fact"><span class="v">FCL · LCL</span><span class="k">DTA · REDEX · IMP/EXP</span></div>
       <div class="fact"><span class="v">IMO · ANVISA</span><span class="k">Cargas reguladas</span></div>
     </div>
@@ -885,43 +926,43 @@ button{ font:inherit; color:inherit; background:none; border:0; cursor:pointer; 
       <div class="board-head" aria-hidden="true"><span>Código</span><span>Serviço</span><span>Como funciona</span><span></span></div>
 
       <div class="svc" role="listitem" data-reveal>
-        <div class="flap" data-text="FCL" aria-hidden="true"></div>
+        <div class="flap" data-nosnippet data-text="FCL" aria-hidden="true"></div>
         <h3>Contêiner completo</h3>
         <p>O contêiner inteiro é da sua carga. Transporte dedicado do terminal ao destino, para grandes volumes e menos manuseio.</p>
         <span class="go" aria-hidden="true">→</span>
-        <a class="cover" href="https://wa.me/5513978043399?text=Ol%C3%A1%2C%20vim%20pelo%20site%20e%20gostaria%20de%20uma%20cota%C3%A7%C3%A3o%20para%20transporte%20FCL." target="_blank" rel="noopener"><span class="sr-only">Pedir cotação de FCL, contêiner completo</span></a>
+        <a class="cover" href="#cotacao" data-servico="FCL – contêiner completo"><span class="sr-only">Pedir cotação de FCL, contêiner completo</span></a>
       </div>
 
       <div class="svc" role="listitem" data-reveal>
-        <div class="flap" data-text="LCL" aria-hidden="true"></div>
+        <div class="flap" data-nosnippet data-text="LCL" aria-hidden="true"></div>
         <h3>Carga fracionada</h3>
         <p>Para volumes menores, que dividem o contêiner com outras cargas. Você paga pelo espaço que usa.</p>
         <span class="go" aria-hidden="true">→</span>
-        <a class="cover" href="https://wa.me/5513978043399?text=Ol%C3%A1%2C%20vim%20pelo%20site%20e%20gostaria%20de%20uma%20cota%C3%A7%C3%A3o%20para%20transporte%20LCL." target="_blank" rel="noopener"><span class="sr-only">Pedir cotação de LCL, carga fracionada</span></a>
+        <a class="cover" href="#cotacao" data-servico="LCL – carga fracionada"><span class="sr-only">Pedir cotação de LCL, carga fracionada</span></a>
       </div>
 
       <div class="svc" role="listitem" data-reveal>
-        <div class="flap" data-text="DTA" aria-hidden="true"></div>
+        <div class="flap" data-nosnippet data-text="DTA" aria-hidden="true"></div>
         <h3>Trânsito aduaneiro</h3>
         <p>Remoção de mercadoria ainda não nacionalizada entre recintos alfandegados, com a documentação em ordem e rastreio no caminho.</p>
         <span class="go" aria-hidden="true">→</span>
-        <a class="cover" href="https://wa.me/5513978043399?text=Ol%C3%A1%2C%20vim%20pelo%20site%20e%20gostaria%20de%20uma%20cota%C3%A7%C3%A3o%20para%20DTA." target="_blank" rel="noopener"><span class="sr-only">Pedir cotação de DTA, trânsito aduaneiro</span></a>
+        <a class="cover" href="#cotacao" data-servico="DTA – trânsito aduaneiro"><span class="sr-only">Pedir cotação de DTA, trânsito aduaneiro</span></a>
       </div>
 
       <div class="svc" role="listitem" data-reveal>
-        <div class="flap" data-text="REDEX" aria-hidden="true"></div>
+        <div class="flap" data-nosnippet data-text="REDEX" aria-hidden="true"></div>
         <h3>Exportação via REDEX</h3>
         <p>Levamos a carga de exportação até recintos habilitados e damos suporte ao despacho até o embarque.</p>
         <span class="go" aria-hidden="true">→</span>
-        <a class="cover" href="https://wa.me/5513978043399?text=Ol%C3%A1%2C%20vim%20pelo%20site%20e%20gostaria%20de%20uma%20cota%C3%A7%C3%A3o%20para%20exporta%C3%A7%C3%A3o%20via%20REDEX." target="_blank" rel="noopener"><span class="sr-only">Pedir cotação de REDEX, exportação</span></a>
+        <a class="cover" href="#cotacao" data-servico="REDEX – exportação"><span class="sr-only">Pedir cotação de REDEX, exportação</span></a>
       </div>
 
       <div class="svc" role="listitem" data-reveal>
-        <div class="flap" data-text="IMP·EXP" aria-hidden="true"></div>
+        <div class="flap" data-nosnippet data-text="IMP·EXP" aria-hidden="true"></div>
         <h3>Apoio logístico</h3>
         <p>Ligamos porto, aeroporto e interior numa operação só, da retirada no terminal à entrega na sua porta.</p>
         <span class="go" aria-hidden="true">→</span>
-        <a class="cover" href="https://wa.me/5513978043399?text=Ol%C3%A1%2C%20vim%20pelo%20site%20e%20gostaria%20de%20uma%20cota%C3%A7%C3%A3o%20de%20apoio%20log%C3%ADstico%20de%20importa%C3%A7%C3%A3o%2Fexporta%C3%A7%C3%A3o." target="_blank" rel="noopener"><span class="sr-only">Pedir cotação de apoio logístico de importação e exportação</span></a>
+        <a class="cover" href="#cotacao" data-servico="Apoio logístico"><span class="sr-only">Pedir cotação de apoio logístico de importação e exportação</span></a>
       </div>
     </div>
   </div>
@@ -933,11 +974,16 @@ button{ font:inherit; color:inherit; background:none; border:0; cursor:pointer; 
     <div class="sec-head">
       <div class="tag" data-reveal><b>02</b> Terminais</div>
       <h2 class="h-l" id="termTitle" data-reveal>Do terminal<br>ao seu destino</h2>
-      <p class="lead" data-reveal>Retiramos e entregamos nos principais terminais e depósitos da Baixada Santista: carregamento do contêiner cheio e retirada do vazio.</p>
+      <p class="lead" data-reveal>Retiramos e entregamos nos principais terminais e depósitos da Baixada Santista: carregamento do contêiner cheio, retirada e devolução do vazio.</p>
     </div>
 
+    <!-- abas só no celular (o JS liga); no desktop as duas colunas ficam lado a lado -->
+    <div class="term-tabs" id="termTabs" aria-label="Tipo de contêiner" hidden>
+      <button type="button" id="tabCheio" aria-controls="panelCheio">Cheio <span>13</span></button>
+      <button type="button" id="tabVazio" aria-controls="panelVazio">Vazio <span>14</span></button>
+    </div>
     <div class="term-grid">
-      <div class="term-col" data-reveal>
+      <div class="term-col" id="panelCheio" data-reveal>
         <h3><span>Contêiner cheio<small>Carregamento</small></span><span class="count" aria-hidden="true">13</span></h3>
         <ul class="term-list" aria-label="13 terminais de contêiner cheio">
           <li><span>C-01</span>BTP (Brasil Terminal Portuário)</li>
@@ -955,7 +1001,7 @@ button{ font:inherit; color:inherit; background:none; border:0; cursor:pointer; 
           <li><span>C-13</span>Embragen</li>
         </ul>
       </div>
-      <div class="term-col" data-reveal>
+      <div class="term-col" id="panelVazio" data-reveal>
         <h3><span>Contêiner vazio<small>Retirada e devolução</small></span><span class="count" aria-hidden="true">14</span></h3>
         <ul class="term-list" aria-label="14 terminais de contêiner vazio">
           <li><span>V-01</span>Lechman</li>
@@ -1002,7 +1048,7 @@ button{ font:inherit; color:inherit; background:none; border:0; cursor:pointer; 
     <div class="hist-copy">
       <div class="tag" data-reveal><b>04</b> História</div>
       <div data-reveal style="margin-top:28px;">
-        <div class="year-big" id="yearCounter" aria-hidden="true">1974</div>
+        <div class="year-big" id="yearCounter" aria-hidden="true" data-nosnippet>1974</div>
         <div class="year-cap"><span>1974</span><span><span data-anos>52</span> anos de estrada</span><span data-ano-atual>2026</span></div>
       </div>
       <h2 class="h-l" id="histTitle" style="margin-top:40px; font-size:clamp(2rem,4vw,3rem);" data-reveal>Mesma base, outra estrada.</h2>
@@ -1029,20 +1075,21 @@ button{ font:inherit; color:inherit; background:none; border:0; cursor:pointer; 
     <div class="sec-head">
       <div class="tag" data-reveal><b>05</b> Diferenciais</div>
       <h2 class="h-l" id="whyTitle" data-reveal>Sua carga<br>em boas mãos</h2>
-      <p class="lead" data-reveal>Seguro, rastreio e documentação em dia em todas as viagens. Para quem trabalha com comércio exterior, isso não é diferencial: é o básico bem feito.</p>
+      <p class="lead" data-reveal>Seguro, rastreio e documentação em dia em todas as viagens. É o que o comércio exterior exige, e é o que entregamos.</p>
     </div>
 
     <ol class="why">
       <li data-reveal><span class="n">01</span><h3>Carga segurada</h3><p>Cobertura por RCTR-C e RCF-DC durante o transporte e a movimentação.</p></li>
-      <li data-reveal><span class="n">02</span><h3>Rastreio da frota</h3><p>Monitoramento contínuo dos caminhões, para você saber onde está o seu contêiner.</p></li>
+      <li data-reveal><span class="n">02</span><h3>Rastreio da frota</h3><p>Monitoramento contínuo dos caminhões. A nossa equipe informa a posição do seu contêiner quando você precisar.</p></li>
       <li data-reveal><span class="n">03</span><h3>Do lado do porto</h3><p>Sede em Santos, perto dos terminais e recintos alfandegados. Menos tempo entre a liberação e a estrada.</p></li>
       <li data-reveal><span class="n">04</span><h3>Papelada em dia</h3><p>Emissão e controle de toda a documentação de transporte da operação.</p><span class="docs">CT-e · MDF-e · CIOT</span></li>
       <li data-reveal><span class="n">05</span><h3>Operação sob medida</h3><p>Planejamos cada viagem conforme a carga, o prazo e as exigências do seu processo.</p></li>
       <li data-reveal><span class="n">06</span><h3>Cargas reguladas</h3><p>Habilitações para transportar produtos controlados, perigosos e de saúde.</p></li>
     </ol>
 
-    <div class="licenses" data-reveal>
-      <h3 class="tag" style="padding:14px 0 6px;"><b>Habilitações</b> Aptos a operar junto a</h3>
+    <!-- aberto por padrão; o JS fecha no celular para encurtar a página -->
+    <details class="licenses" id="licencas" open data-reveal>
+      <summary><h3 class="tag"><b>Habilitações</b> Aptos a operar junto a</h3></summary>
       <dl>
       <div class="lic-row"><dt>ANVISA</dt><dd>Produtos para saúde e correlatos; cosméticos, perfumes e produtos de higiene; domissanitários e saneantes.</dd></div>
       <div class="lic-row"><dt>CRF-SP</dt><dd>Certidão de Regularidade para transporte de produtos farmacêuticos, cosméticos e correlatos.</dd></div>
@@ -1050,7 +1097,7 @@ button{ font:inherit; color:inherit; background:none; border:0; cursor:pointer; 
       <div class="lic-row"><dt>SIVISA</dt><dd>Alimentos e embalagens.</dd></div>
       <div class="lic-row"><dt>Exército · Polícia Civil</dt><dd>Cargas controladas.</dd></div>
       </dl>
-    </div>
+    </details>
   </div>
 </section>
 
@@ -1148,7 +1195,7 @@ button{ font:inherit; color:inherit; background:none; border:0; cursor:pointer; 
         <div class="c-row"><span class="k">Telefone</span><a class="v" href="tel:+551332197180">(13) 3219-7180</a></div>
         <div class="c-row"><span class="k">E-mail</span><a class="v" href="mailto:administrativo@transportesimigrantes.com.br">administrativo@transportesimigrantes.com.br</a></div>
         <div class="c-row"><span class="k">Endereço</span><span class="v">Av. Dr. Pedro Lessa, 3076, conj. 11<span class="sub">Santos/SP · CEP 11025-016 · <a href="https://www.google.com/maps/search/?api=1&query=Av.+Dr.+Pedro+Lessa%2C+3076+-+Santos+-+SP" target="_blank" rel="noopener" style="color:var(--red-light);">ver no mapa ↗</a></span></span></div>
-        <div class="c-row"><span class="k">Horário</span><span class="v">Segunda a sexta, 8h30 às 18h</span></div>
+        <div class="c-row"><span class="k">Horário</span><span class="v">Segunda a sexta, 8h30 às 18h<span class="sub">Fora do horário, respondemos no próximo dia útil.</span></span></div>
       </div>
     </div>
 
@@ -1230,7 +1277,7 @@ button{ font:inherit; color:inherit; background:none; border:0; cursor:pointer; 
         <button class="btn btn-line-dark" type="submit" data-canal="email">Enviar por e-mail <span class="arr" aria-hidden="true">→</span></button>
       </div>
       <p class="q-status" id="qStatus" role="status"></p>
-      <p class="q-note">Nada fica salvo neste site: os dados vão só na mensagem que você envia para a nossa equipe.</p>
+      <p class="q-note">Nada fica salvo neste site: os dados vão só na mensagem que você envia para a nossa equipe. Atendemos de segunda a sexta, das 8h30 às 18h; fora desse horário, respondemos no próximo dia útil.</p>
     </form>
   </div>
 </section>
@@ -1273,7 +1320,7 @@ button{ font:inherit; color:inherit; background:none; border:0; cursor:pointer; 
       </div>
     </div>
   </div>
-  <div class="giant" aria-hidden="true" translate="no">Imigrantes</div>
+  <div class="giant" aria-hidden="true" data-nosnippet translate="no">Imigrantes</div>
   <div class="foot-bottom">
     <div class="wrap" style="display:flex; justify-content:space-between; flex-wrap:wrap; gap:8px; width:100%;">
       <span>© <span data-ano-atual>2026</span> Transportes Rodoviários Imigrantes · desde 1974</span>
