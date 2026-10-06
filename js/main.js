@@ -636,4 +636,98 @@
     }, { rootMargin:"0px 0px -10% 0px" }).observe(shape);
     document.addEventListener("visibilitychange", function(){ if(document.hidden) stop(); else if(visible) start(); });
   })();
+
+  /* ---------- odômetro: 52 anos e 27 terminais no topo, 13 e 14 nos terminais ----------
+     Cada dígito é uma fita 0–9; o valor sobe com aceleração e desaceleração suaves (como no vídeo)
+     e a coluna da esquerda só gira quando a da direita passa do 9. O número final fica para leitores de tela. */
+  (function(){
+    var els = document.querySelectorAll("[data-odo]");
+    if(!els.length) return;
+    function ease(x){ x = Math.max(0, Math.min(1, x)); return x < .5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2; }
+    var odos = Array.prototype.map.call(els, function(el){
+      var n = parseInt(el.textContent, 10), digits = String(n).length;
+      if(isNaN(n)) return null;
+      var hidden = el.getAttribute("aria-hidden") === "true";
+      el.textContent = "";
+      if(!hidden){ var sr = document.createElement("span"); sr.className = "sr-only"; sr.textContent = n; el.appendChild(sr); }
+      var box = document.createElement("span"); box.className = "odo"; box.setAttribute("aria-hidden", "true");
+      var strips = [];
+      for(var d = 0; d < digits; d++){
+        var c = document.createElement("span"); c.className = "odo-c";
+        var s = document.createElement("span"); s.className = "odo-s";
+        for(var k = 0; k <= 10; k++){ var i = document.createElement("i"); i.textContent = k % 10; s.appendChild(i); }
+        c.appendChild(s); box.appendChild(c); strips.push({ c:c, s:s, u:Math.pow(10, digits - 1 - d) });
+      }
+      el.appendChild(box);
+      return { el:el, n:n, strips:strips, done:false };
+    }).filter(Boolean);
+    function set(o, v){
+      o.strips.forEach(function(st, idx){
+        var u = st.u, p = u === 1 ? v % 10 : (Math.floor(v / u) % 10) + Math.min(1, Math.max(0, (v % u) - (u - 1)));
+        st.s.style.transform = "translateY(" + (-p * 1.1).toFixed(4) + "em)";
+        // zero à esquerda fica invisível até o número precisar dele (a largura não muda)
+        if(idx < o.strips.length - 1) st.c.style.opacity = Math.max(0, Math.min(1, v - (u - 1))).toFixed(3);
+      });
+    }
+    function finish(o){ set(o, o.n); o.el.querySelector(".odo").outerHTML = '<span aria-hidden="true">' + o.n + '</span>'; }
+    function run(o, delay){
+      if(o.done) return; o.done = true;
+      if(reduce){ finish(o); return; }
+      set(o, 0);
+      var t0 = null, dur = 1500 + o.n * 6;
+      setTimeout(function(){
+        requestAnimationFrame(function step(ts){
+          if(!t0) t0 = ts;
+          var p = (ts - t0) / dur;
+          set(o, o.n * ease(p));
+          if(p < 1) requestAnimationFrame(step); else finish(o);
+        });
+      }, delay || 0);
+    }
+    odos.forEach(function(o){ set(o, reduce ? o.n : 0); });
+    var io = new IntersectionObserver(function(es){
+      es.forEach(function(e){
+        if(!e.isIntersecting) return;
+        var o = odos.filter(function(x){ return x.el === e.target; })[0];
+        // no topo, espera a entrada do hero; nos terminais, começa quando aparece
+        if(o){ run(o, o.el.closest(".hero") ? 900 : 150); io.unobserve(e.target); }
+      });
+    }, { threshold:0.6 });
+    odos.forEach(function(o){ io.observe(o.el); });
+  })();
+
+  /* ---------- mapa vivo: depois que cada rota se desenha, um contêiner anda por ela em loop ---------- */
+  (function(){
+    if(reduce || typeof routes === "undefined" || !svg) return;
+    var NSv = "http://www.w3.org/2000/svg";
+    var boxes = routes.map(function(rt, i){
+      var r = document.createElementNS(NSv, "rect");
+      r.setAttribute("class", "rbox"); r.setAttribute("width", "8"); r.setAttribute("height", "3.4"); r.setAttribute("rx", ".6");
+      r.setAttribute("x", "-4"); r.setAttribute("y", "-1.7");
+      svg.appendChild(r);
+      // viagens mais longas duram mais; cada rota tem a sua fase para não andarem juntas
+      return { rt:rt, el:r, period:3.2 + rt.L / 55, phase:i * 0.83 };
+    });
+    function ease(x){ return x < .5 ? 2 * x * x : 1 - Math.pow(-2 * x + 2, 2) / 2; }
+    var running = false, raf = 0, t0 = 0;
+    function frame(ts){
+      if(!t0) t0 = ts;
+      var t = (ts - t0) / 1000;
+      boxes.forEach(function(b){
+        if(!b.rt.dot.classList.contains("on")){ b.el.style.opacity = 0; return; }
+        var u = ((t + b.phase) % b.period) / b.period, travel = 0.72;
+        if(u > travel){ b.el.style.opacity = 0; return; }
+        var q = ease(u / travel), L = b.rt.L, a = b.rt.path.getPointAtLength(L * q), z = b.rt.path.getPointAtLength(Math.min(L, L * q + 0.6));
+        var ang = Math.atan2(z.y - a.y, z.x - a.x) * 180 / Math.PI;
+        var op = Math.min(1, (u / travel) / 0.08, (1 - u / travel) / 0.1);
+        b.el.setAttribute("transform", "translate(" + a.x.toFixed(2) + " " + a.y.toFixed(2) + ") rotate(" + ang.toFixed(1) + ")");
+        b.el.style.opacity = (0.95 * op).toFixed(3);
+      });
+      raf = requestAnimationFrame(frame);
+    }
+    function start(){ if(!running){ running = true; raf = requestAnimationFrame(frame); } }
+    function stop(){ if(running){ running = false; cancelAnimationFrame(raf); } }
+    new IntersectionObserver(function(es){ if(es[0].isIntersecting && !document.hidden) start(); else stop(); }).observe(svg);
+    document.addEventListener("visibilitychange", function(){ if(document.hidden) stop(); });
+  })();
 })();
