@@ -555,4 +555,85 @@
 
   onScroll();
   doc.classList.add("booted"); // avisa a rede de segurança do <head> que o script rodou
+
+  /* ---------- fluxo da cotação em loop (Contato) ----------
+     Uma forma só, sem cortes: cada estado muda largura, altura, raio e cor com molas
+     criticamente amortecidas. Cada quadro é calculado a partir do tempo (sem transições CSS),
+     então o loop fecha sem salto: o último estado volta ao primeiro. */
+  (function(){
+    var shape = document.getElementById("flowShape");
+    if(!shape) return;
+    var parts = shape.querySelectorAll(".fs");
+    var run = shape.querySelector(".fs-run"), line = shape.querySelector(".fs-line");
+    var check = shape.querySelector(".fs-check"), spin = shape.querySelector(".fs-spin");
+    // estados: largura, altura, raio, cor (0 = tinta, 1 = vermelho), contorno vermelho, início (s)
+    var S = [
+      { w:232, h:58, r:29, c:1, o:0, t:0 },     // Pedir cotação
+      { w:58,  h:58, r:29, c:0, o:0, t:1.7 },   // carregando
+      { w:58,  h:58, r:29, c:1, o:0, t:2.5 },   // ✓
+      { w:290, h:58, r:29, c:0, o:0, t:3.3 },   // Retirada no terminal
+      { w:420, h:72, r:14, c:0, o:0, t:5.1 },   // Santos → Sua porta
+      { w:300, h:58, r:29, c:1, o:0, t:8.0 },   // Entregue na sua porta
+      { w:250, h:58, r:29, c:0, o:1, t:9.8 }    // Vazio devolvido
+    ];
+    var T = 11.6; // volta ao botão
+    var RESP = 0.42; // tempo de resposta da mola (s): firme, sem quique
+    var w0 = 2 * Math.PI / RESP;
+    function spring(x){ return x <= 0 ? 0 : 1 - Math.exp(-w0 * x) * (1 + w0 * x); } // amortecimento crítico
+    function prop(t, k){
+      // valor = estado inicial + soma de uma mola por mudança, em dois ciclos (o loop fecha sem salto)
+      var v = S[0][k], tt = T + (t % T);
+      for(var cyc = 0; cyc < 2; cyc++){
+        for(var i = 1; i <= S.length; i++){
+          var a = S[i - 1][k], b = S[i % S.length][k], at = (i < S.length ? S[i].t : T) + cyc * T;
+          v += (b - a) * spring(tt - at);
+        }
+      }
+      return v;
+    }
+    function ease(x){ x = Math.max(0, Math.min(1, x)); return x < .5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2; }
+    function mixC(c, o){
+      var r = Math.round(36 + (190 - 36) * c), g = Math.round(40 + (2 - 40) * c), b = Math.round(47 + (5 - 47) * c);
+      return { bg:"rgb(" + r + "," + g + "," + b + ")", ring:"inset 0 0 0 2px rgba(255,90,95," + (0.9 * o).toFixed(3) + ")" };
+    }
+    function frame(t){
+      var first = t < T;
+      t = ((t % T) + T) % T;
+      var c = mixC(prop(t, "c"), prop(t, "o"));
+      shape.style.width = prop(t, "w").toFixed(2) + "px";
+      shape.style.height = prop(t, "h").toFixed(2) + "px";
+      shape.style.borderRadius = prop(t, "r").toFixed(2) + "px";
+      shape.style.background = c.bg; shape.style.boxShadow = c.ring;
+      // conteúdo de cada estado: entra com um leve desfoque depois que a forma começa a mudar, sai antes da próxima
+      for(var i = 0; i < S.length; i++){
+        var a = S[i].t, z = i + 1 < S.length ? S[i + 1].t : T;
+        var tout = 1 - ease((t - (z - 0.03)) / 0.12), op; // o texto sai junto com o início da mudança da forma
+        if(i === 0) op = (t < z ? tout : 0) * (first ? 1 : ease((t - 0.14) / 0.22)); // no 1º ciclo já aparece; depois volta com a forma // o botão volta no fim do ciclo
+        else op = Math.min(ease((t - a - 0.14) / 0.22), tout);
+        parts[i].style.opacity = op.toFixed(3);
+        parts[i].style.filter = op > 0 && op < 1 ? "blur(" + (4 * (1 - op)).toFixed(2) + "px)" : "none";
+      }
+      if(spin) spin.style.transform = "rotate(" + ((t * 540) % 360).toFixed(1) + "deg)";
+      if(check) check.style.strokeDashoffset = (1 - ease((t - S[2].t - 0.18) / 0.35)).toFixed(3);
+      if(run && line){
+        var p = ease((t - S[4].t - 0.4) / 2.0), L = line.clientWidth - 30;
+        run.style.transform = "translateX(" + (p * L).toFixed(2) + "px)";
+      }
+    }
+    if(reduce){ frame(S[5].t + 1); return; } // movimento reduzido: mostra só "Entregue na sua porta", parado
+    var visible = false, raf = 0, t0 = 0, tAcc = 0;
+    function loop(now){
+      if(!t0) t0 = now;
+      frame(tAcc + (now - t0) / 1000);
+      raf = requestAnimationFrame(loop);
+    }
+    function start(){ if(raf) return; t0 = 0; raf = requestAnimationFrame(loop); }
+    function stop(){ if(!raf) return; cancelAnimationFrame(raf); raf = 0; if(t0) tAcc += (performance.now() - t0) / 1000; }
+    frame(0);
+    new IntersectionObserver(function(es){
+      visible = es[0].isIntersecting;
+      if(visible && !document.hidden) start(); else stop();
+    }, { rootMargin:"0px 0px -10% 0px" }).observe(shape);
+    document.addEventListener("visibilitychange", function(){ if(document.hidden) stop(); else if(visible) start(); });
+  })();
 })();

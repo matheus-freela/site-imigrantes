@@ -1,0 +1,155 @@
+{
+  "key": "F major",
+  "bpm": 120,
+  "chords": [
+    "Dm9",
+    "Bbmaj9",
+    "Gm9 C7sus4",
+    "Fadd9",
+    "Dm9",
+    "Bbmaj9",
+    "Gm9",
+    "C9sus4",
+    "Dm9 C7sus4",
+    "Fadd9",
+    "Bbmaj9",
+    "Dm9",
+    "Bbmaj9",
+    "Gm9 C9sus4",
+    "Gm9 C9sus4",
+    "Fmaj9"
+  ],
+  "sections": [
+    {
+      "bars": [
+        1,
+        2
+      ],
+      "style": "intro",
+      "level": 0.55
+    },
+    {
+      "bars": [
+        3,
+        3
+      ],
+      "style": "build",
+      "layers": {
+        "arp": 0.6
+      },
+      "level": 0.75
+    },
+    {
+      "bars": [
+        4,
+        8
+      ],
+      "style": "groove",
+      "level": 0.72,
+      "layers": {
+        "arp": 0.7
+      }
+    },
+    {
+      "bars": [
+        9,
+        9
+      ],
+      "style": "breakdown",
+      "level": 0.6,
+      "layers": {
+        "drums": 0,
+        "arp": 0.4
+      }
+    },
+    {
+      "bars": [
+        10,
+        10
+      ],
+      "style": "resolve",
+      "layers": {
+        "arp": 0.35
+      }
+    },
+    {
+      "bars": [
+        11,
+        13
+      ],
+      "style": "groove",
+      "level": 0.68,
+      "layers": {
+        "arp": 0.6
+      }
+    },
+    {
+      "bars": [
+        14,
+        14
+      ],
+      "style": "breakdown",
+      "level": 0.6
+    },
+    {
+      "bars": [
+        15,
+        15
+      ],
+      "style": "resolve",
+      "level": 0.6,
+      "layers": {
+        "drums": 0
+      }
+    },
+    {
+      "bars": [
+        16,
+        16
+      ],
+      "style": "hold"
+    }
+  ],
+  "signature": {
+    "tick": "F6",
+    "tock": "C6",
+    "motif": [
+      0,
+      7,
+      12
+    ],
+    "rhythm": [
+      0,
+      0.5,
+      1
+    ]
+  },
+  "typing": "off",
+  "progress": {
+    "match": "step",
+    "kind": "pop",
+    "resolve": "@pull"
+  },
+  "motifs": [],
+  "drops": [
+    {
+      "at": "@pull",
+      "silence": "1/8",
+      "suck": 0.2
+    }
+  ],
+  "silences": [],
+  "payoff": "@pull",
+  "mix": {
+    "music": 1,
+    "sfx": 1,
+    "reverb": 0.9,
+    "sidechain": 0.5,
+    "duck_db": 3
+  },
+  "master": {
+    "lufs": -14,
+    "ceiling": 0.77,
+    "fade": 1.3
+  }
+}

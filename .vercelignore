@@ -5,3 +5,6 @@ README.md
 Dossi*.html
 *.docx
 *.pdf
+
+# vídeos/animações (fonte em motion/, não vai para o site)
+motion/

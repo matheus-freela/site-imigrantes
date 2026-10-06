@@ -1,0 +1,153 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<title>Imigrantes — vinheta do logo</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+@font-face{font-family:"Big Shoulders";font-weight:800;src:url(../../fonts/big-shoulders-latin.woff2) format("woff2");}
+@font-face{font-family:"Big Shoulders";font-weight:900;src:url(../../fonts/big-shoulders-latin.woff2) format("woff2");}
+@font-face{font-family:"Big Shoulders Stencil";font-weight:900;src:url(../../fonts/big-shoulders-stencil-latin.woff2) format("woff2");}
+@font-face{font-family:"IBM Plex Sans";font-weight:100 700;src:url(../../fonts/ibm-plex-sans-latin.woff2) format("woff2");}
+html,body{margin:0;background:#0b0c0e;}
+body{min-height:100vh;overflow:hidden;}
+#stage{position:absolute;width:1920px;height:1080px;overflow:hidden;background:#F3F2EF;transform-origin:0 0;font-family:"IBM Plex Sans",sans-serif;color:#101215;}
+.render body{background:#F3F2EF;}
+.render #stage{transform:none!important;left:0;top:0;}
+svg{position:absolute;left:0;top:0;}
+#word{position:absolute;left:0;top:0;font-family:"Big Shoulders",sans-serif;text-transform:uppercase;white-space:nowrap;transform-origin:0 0;}
+#word .w{display:block;overflow:hidden;padding-top:.16em;margin-top:-.16em;}
+#word .i{display:block;}
+#word .small{font-weight:800;font-size:58px;letter-spacing:.14em;color:#474C55;line-height:.9;}
+#word .large{font-weight:900;font-size:164px;letter-spacing:.01em;line-height:.9;}
+#since{position:absolute;left:0;top:0;font-size:44px;font-weight:500;color:#474C55;white-space:nowrap;transform-origin:0 0;letter-spacing:.02em;}
+</style>
+</head>
+<body>
+<div id="stage">
+  <svg id="svg" text-rendering="geometricPrecision" width="1920" height="1080" viewBox="0 0 1920 1080" xmlns="http://www.w3.org/2000/svg">
+    <defs id="defs"></defs>
+    <path id="ground" d="M520 666H1400" stroke="#101215" stroke-width="3" pathLength="1" stroke-dasharray="1 1"/>
+    <g id="mark"></g>
+    <g id="boxes"></g>
+  </svg>
+  <div id="word"><span class="w"><span class="i small">Transportes</span></span><span class="w"><span class="i large">Imigrantes</span></span></div>
+  <div id="since">Desde 1974</div>
+</div>
+<script src="motion.js"></script>
+<script src="timeline.js"></script>
+<script src="assets/mark.js"></script>
+<script>
+'use strict';
+const RENDER = location.search.includes('render');
+if (RENDER) document.documentElement.classList.add('render');
+const { E, clamp, mix, lmix, tw, prog, arrive, hitPulse } = MOTION;
+const { CUE, DUR, TOTAL } = FILM;
+const NS = 'http://www.w3.org/2000/svg', $ = (id) => document.getElementById(id);
+const el = (tag, a = {}, p) => { const e = document.createElementNS(NS, tag); for (const k in a) e.setAttribute(k, a[k]); if (p) p.appendChild(e); return e; };
+const C = { paper: '#F3F2EF', ink: '#101215', ink3: '#24282F', red: '#BE0205', redDeep: '#8E0104', gray: '#8D8D8D', grayDeep: '#6E7177' };
+const CW = 440, CH = 106, X0 = 960 - CW / 2, Y_GRAY = 666 - CH, Y_RED = Y_GRAY - CH;
+
+// ---- contêineres (vista lateral, portas à esquerda)
+function box(parent, fill, line) {
+  const g = el('g', {}, parent);
+  el('rect', { x: 0, y: 0, width: CW, height: CH, fill, stroke: line, 'stroke-width': 3 }, g);
+  let d = ''; for (let x = 66; x <= CW - 12; x += 18) d += `M${x} 9V${CH - 9}`;
+  el('path', { d, stroke: 'rgba(16,18,21,.18)', 'stroke-width': 2 }, g);
+  el('path', { d: `M52 4V${CH - 4}M18 8V${CH - 8}M38 8V${CH - 8}`, stroke: 'rgba(16,18,21,.32)', 'stroke-width': 3, 'stroke-linecap': 'round' }, g);
+  for (const [x, y] of [[0, 0], [CW - 14, 0], [0, CH - 12], [CW - 14, CH - 12]]) el('rect', { x, y, width: 14, height: 12, fill: C.ink }, g);
+  const t = el('text', { x: 72, y: 42, fill: 'rgba(243,242,239,.92)', 'font-family': 'Big Shoulders Stencil', 'font-weight': 900, 'font-size': 32, 'letter-spacing': 1 }, g); t.textContent = "40' HC";
+  return g;
+}
+const boxes = $('boxes');
+const gray = box(boxes, C.gray, C.grayDeep);
+const red = box(boxes, C.red, C.redDeep);
+const spr = el('g', {}, boxes);
+el('path', { d: `M30 0L170 -1300M${CW - 30} 0L${CW - 170} -1300`, stroke: C.ink, 'stroke-width': 4 }, spr);
+el('rect', { x: 0, y: -20, width: CW, height: 20, fill: C.ink }, spr);
+
+// ---- marca revelada ao longo das setas (mesmas máscaras do item 1)
+const defs = $('defs'), markG = $('mark');
+const mRed = el('mask', { id: 'mRed', maskUnits: 'userSpaceOnUse', x: -50, y: -50, width: 400, height: 300 }, defs);
+const mGray = el('mask', { id: 'mGray', maskUnits: 'userSpaceOnUse', x: -50, y: -50, width: 400, height: 300 }, defs);
+const redPath = el('path', { d: 'M158 156C130 140 104 120 98 98C94 70 128 52 162 56C190 60 210 70 236 86', fill: 'none', stroke: '#fff', 'stroke-width': 74, pathLength: 1, 'stroke-dasharray': '1 1' }, mRed);
+const grayPath = el('path', { d: 'M142 84C120 116 102 144 106 172C112 204 160 200 196 158C212 140 224 120 240 100', fill: 'none', stroke: '#fff', 'stroke-width': 84, pathLength: 1, 'stroke-dasharray': '1 1' }, mGray);
+el('path', { d: MARK.gray, fill: C.gray }, el('g', { mask: 'url(#mGray)' }, markG));
+el('path', { d: MARK.red, fill: C.red }, el('g', { mask: 'url(#mRed)' }, markG));
+
+const wordI = [...document.querySelectorAll('#word .i')], since = $('since'), word = $('word');
+const LK = { markH: 290, gap: 56 };
+let scaleNow = 1;
+function layout() {
+  const ms = LK.markH / 194, mw = 268 * ms;
+  const ww = Math.max(...wordI.map((i) => i.getBoundingClientRect().width / scaleNow));
+  LK.ms = ms; LK.mx = (1920 - (mw + LK.gap + ww)) / 2 - 10; LK.my = 360;
+  LK.wx = LK.mx + mw + LK.gap; LK.wy = LK.my + 34;
+  LK.sy = LK.wy + word.getBoundingClientRect().height / scaleNow + 22;
+  LK.redTail = [LK.mx + 158 * ms, LK.my + 156 * ms]; LK.grayTail = [LK.mx + 142 * ms, LK.my + 84 * ms];
+  LK.cy = LK.my + 145;
+}
+
+function place(g, x, y, sx = 1, sy = sx) { g.setAttribute('transform', `translate(${x.toFixed(3)} ${y.toFixed(3)}) scale(${sx.toFixed(5)} ${sy.toFixed(5)})`); }
+function toward(g, from, to, p, k, fade) { // centro do contêiner vai até `to` encolhendo para k
+  const s = lmix(1, k, p), cx = mix(from[0], to[0], p), cy = mix(from[1], to[1], p);
+  place(g, cx - CW * s / 2, cy - CH * s / 2, s); g.setAttribute('opacity', (1 - fade).toFixed(3));
+}
+
+function seek(fr) {
+  const f = clamp(fr, 0, TOTAL - 0.001);
+  // chão
+  $('ground').setAttribute('stroke-dashoffset', (prog(f, CUE.morph, CUE.morph + 24, E.in)).toFixed(4));
+  // cinza desliza e para; vermelho desce e trava; leve achatamento no contato
+  const gx = tw(f, -8, DUR.slide, X0 - 760, X0, E.out); // já em movimento no quadro 0
+  const ry = tw(f, CUE.seat - DUR.lower, CUE.seat, -260, Y_RED, E.contact);
+  const sq = hitPulse(f - CUE.seat, 1, 4), syy = 1 - 0.04 * sq, sxx = 1 + 0.02 * sq;
+  if (f < CUE.morph) {
+    place(gray, gx - (sxx - 1) * CW / 2, Y_GRAY + (1 - syy) * CH, sxx, syy); gray.setAttribute('opacity', 1);
+    place(red, X0, ry); red.setAttribute('opacity', 1);
+  } else {
+    const p = prog(f, CUE.morph, CUE.morph + DUR.morph, E.inOut);
+    const pr = prog(f, CUE.morph + 6, CUE.morph + 6 + DUR.morph, E.inOut);
+    toward(gray, [960, Y_GRAY + CH / 2], LK.grayTail, p, 0.1, prog(f, CUE.gray + 10, CUE.gray + 24, E.in));
+    toward(red, [960, Y_RED + CH / 2], LK.redTail, pr, 0.1, prog(f, CUE.red + 10, CUE.red + 24, E.in));
+  }
+  const sy = f < CUE.release ? Math.min(ry, Y_RED) : tw(f, CUE.release, CUE.release + DUR.release, Y_RED, -300, E.in);
+  place(spr, X0, sy);
+  spr.style.display = f < CUE.release + DUR.release ? '' : 'none';
+  // marca e nome
+  const creep = tw(f, CUE.settle - 20, TOTAL, 1, 1.04, E.dolly);
+  markG.setAttribute('transform', `translate(960 ${LK.cy}) scale(${creep.toFixed(5)}) translate(-960 ${-LK.cy}) translate(${LK.mx} ${LK.my}) scale(${LK.ms})`);
+  grayPath.setAttribute('stroke-dashoffset', (1 - prog(f, CUE.gray, CUE.gray + DUR.arrow, E.out)).toFixed(4));
+  redPath.setAttribute('stroke-dashoffset', (1 - prog(f, CUE.red, CUE.red + DUR.arrow, E.out)).toFixed(4));
+  markG.style.display = f >= CUE.gray - 1 ? '' : 'none';
+  const k = creep;
+  word.style.transform = `translate(${(960 + (LK.wx - 960) * k).toFixed(2)}px, ${(LK.cy + (LK.wy - LK.cy) * k).toFixed(2)}px) scale(${k.toFixed(5)})`;
+  wordI.forEach((i, n) => { const a = CUE.word + n * 4, p = arrive(prog(f, a, a + DUR.word, E.out)); i.style.transform = `translateY(${(112 * (1 - p)).toFixed(2)}%)`; });
+  const ps = prog(f, CUE.since, CUE.since + 24, E.out);
+  since.style.opacity = ps.toFixed(3);
+  since.style.transform = `translate(${(960 + (LK.wx - 960) * k).toFixed(2)}px, ${(LK.cy + (LK.sy - LK.cy) * k + 16 * (1 - ps)).toFixed(2)}px) scale(${k.toFixed(5)})`;
+}
+
+function fit() {
+  if (RENDER) return;
+  scaleNow = Math.min(innerWidth / 1920, innerHeight / 1080);
+  const st = $('stage'); st.style.transform = `scale(${scaleNow})`;
+  st.style.left = (innerWidth - 1920 * scaleNow) / 2 + 'px'; st.style.top = (innerHeight - 1080 * scaleNow) / 2 + 'px';
+}
+window.seek = seek;
+window.FILM_READY = (async () => {
+  await Promise.all([document.fonts.load('900 164px "Big Shoulders"'), document.fonts.load('800 58px "Big Shoulders"'), document.fonts.load('900 32px "Big Shoulders Stencil"'), document.fonts.load('500 44px "IBM Plex Sans"')]);
+  await document.fonts.ready;
+  fit(); layout(); seek(0);
+})();
+if (!RENDER) {
+  addEventListener('resize', () => { fit(); });
+  const audio = new Audio('out/soundtrack.wav');
+  let t0 = 0, playing = false;
+  addEventListener('click', () => { playing = true; t0 = performance.now(); audio.currentTime = 0; audio.play().catch(() => {}); });
+  const loop = () => { if (playing) { const f = ((performance.now() - t0) / 1000) * 60; seek(f); if (f >= TOTAL) playing = false; } requestAnimationFrame(loop); };
+  FILM_READY.then(() => requestAnimationFrame(loop));
+}
+</script>
+</body>
+</html>

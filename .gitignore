@@ -6,3 +6,6 @@ _arquivo/
 Dossi*.html
 *.docx
 *.pdf
+
+# renders dos vídeos (pesados; regeráveis com motion/*/build.sh)
+motion/*/out/

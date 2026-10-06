@@ -1,0 +1,556 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<title>Imigrantes — explicador</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+@font-face{font-family:"Big Shoulders";font-weight:800;src:url(../../fonts/big-shoulders-latin.woff2) format("woff2");}
+@font-face{font-family:"Big Shoulders";font-weight:900;src:url(../../fonts/big-shoulders-latin.woff2) format("woff2");}
+@font-face{font-family:"Big Shoulders Stencil";font-weight:900;src:url(../../fonts/big-shoulders-stencil-latin.woff2) format("woff2");}
+@font-face{font-family:"IBM Plex Sans";font-weight:100 700;src:url(../../fonts/ibm-plex-sans-latin.woff2) format("woff2");}
+@font-face{font-family:"IBM Plex Mono";font-weight:600;src:url(../../fonts/ibm-plex-mono-latin-600.woff2) format("woff2");}
+:root{
+  --paper:#F3F2EF; --paper-2:#E7E5E0; --ink:#101215; --ink-2:#191C21; --ink-3:#24282F;
+  --soft:#474C55; --mute:#5D626B; --line:#D5D2CB; --red:#BE0205; --red-deep:#8E0104; --hazard:#F2B705;
+}
+html,body{margin:0;background:#0b0c0e;}
+body{min-height:100vh;display:grid;place-items:center;overflow:hidden;}
+#stage{position:relative;width:1920px;height:1080px;overflow:hidden;background:var(--paper);transform-origin:0 0;
+  font-family:"IBM Plex Sans",sans-serif;color:var(--ink);font-kerning:normal;font-variant-numeric:tabular-nums;}
+.render body,.render{background:var(--paper);}
+.render body{display:block;}
+.render #stage{transform:none!important;position:absolute;left:0;top:0;}
+svg#svg{position:absolute;left:0;top:0;}
+.head{position:absolute;left:160px;top:118px;font-family:"Big Shoulders",sans-serif;font-weight:900;font-size:112px;
+  line-height:1;letter-spacing:.01em;text-transform:uppercase;white-space:nowrap;}
+.head.low{top:884px;}
+.head.mid{top:392px;font-size:132px;}
+.head.big{left:0;width:1920px;text-align:center;top:214px;font-size:156px;}
+.head .ln{display:block;}
+.head .w{display:inline-block;overflow:hidden;vertical-align:top;padding-top:.16em;margin-top:-.16em;padding-bottom:.04em;margin-right:.2em;}
+.head .w:last-child{margin-right:0;}
+.head .i{display:block;will-change:transform;}
+.head .hi{color:var(--red);}
+#word{position:absolute;left:0;top:0;font-family:"Big Shoulders",sans-serif;text-transform:uppercase;white-space:nowrap;}
+#word .w{display:block;overflow:hidden;padding-top:.16em;margin-top:-.16em;}
+#word .i{display:block;}
+#word .small{font-weight:800;font-size:58px;letter-spacing:.14em;color:var(--soft);line-height:.9;}
+#word .large{font-weight:900;font-size:164px;letter-spacing:.01em;line-height:.9;}
+#phone{position:absolute;left:0;top:0;font-size:46px;font-weight:500;color:var(--soft);white-space:nowrap;}
+#phone b{font-weight:600;color:var(--ink);}
+#hint{position:fixed;left:16px;bottom:12px;color:#9aa0a8;font:14px/1.4 system-ui,sans-serif;}
+.render #hint{display:none;}
+</style>
+</head>
+<body>
+<div id="stage">
+  <svg id="svg" text-rendering="geometricPrecision" width="1920" height="1080" viewBox="0 0 1920 1080" xmlns="http://www.w3.org/2000/svg">
+    <defs id="defs"></defs>
+    <g id="world"><g id="worldRest"></g><g id="worldOurs"></g><g id="worldTop"></g></g>
+    <g id="grid"></g>
+    <g id="sOurs"></g>
+    <g id="promLine"></g>
+    <g id="rail"></g>
+    <g id="mark"></g>
+  </svg>
+  <div id="heads"></div>
+  <div id="word"><span class="w"><span class="i small">Transportes</span></span><span class="w"><span class="i large">Imigrantes</span></span></div>
+  <div id="phone">WhatsApp <b>(13) 97804-3399</b></div>
+</div>
+<div id="hint">clique ou espaço: tocar/pausar · ←/→: ±1 s · 0: início</div>
+<script src="motion.js"></script>
+<script src="timeline.js"></script>
+<script src="assets/mark.js"></script>
+<script>
+'use strict';
+const RENDER = location.search.includes('render');
+if (RENDER) document.documentElement.classList.add('render');
+const { E, SPR, clamp, mix, lmix, tw, prog, arrive, depart, hitPulse, fd } = MOTION;
+const { G, CUE, DUR, COPY, DRIVE, CAM_LAG, TOTAL } = FILM;
+const NS = 'http://www.w3.org/2000/svg';
+const $ = (id) => document.getElementById(id);
+function el(tag, attrs = {}, parent) {
+  const e = document.createElementNS(NS, tag);
+  for (const k in attrs) e.setAttribute(k, attrs[k]);
+  if (parent) parent.appendChild(e);
+  return e;
+}
+const C = { paper: '#F3F2EF', paper2: '#E7E5E0', ink: '#101215', ink2: '#191C21', ink3: '#24282F', soft: '#474C55', mute: '#5D626B', line: '#D5D2CB', red: '#BE0205', redDeep: '#8E0104', hazard: '#F2B705', gray: '#8D8D8D' };
+const BASE = 1.3, GY = 790; // câmera das cenas de rua: 1,3× com o chão em y = 790
+const EXIT = MOTION.bez(0.55, 0.055, 0.675, 0.19); // saída que acelera sem disparar (≈ 2,5× a média no fim)
+const tf = (x, y, s = 1) => `translate(${x.toFixed(3)} ${y.toFixed(3)}) scale(${s.toFixed(5)})`;
+const defs = $('defs');
+
+// ---------------------------------------------------------------- contêiner 40' (vista lateral, portas à esquerda)
+let uid = 0;
+function container(parent, kind) {
+  const { cw, ch } = G; const g = el('g', {}, parent); const id = 'c' + uid++;
+  const api = { g, fill: 1, kind };
+  const corrug = (stroke) => { let d = ''; for (let x = 76; x <= cw - 14; x += 20) d += `M${x} 10V${ch - 10}`; el('path', { d, stroke, 'stroke-width': 2, fill: 'none' }, g); };
+  const doors = (stroke) => { el('path', { d: `M60 4V${ch - 4}M22 8V${ch - 8}M44 8V${ch - 8}M16 ${ch / 2 - 10}h12M38 ${ch / 2 + 6}h12`, stroke, 'stroke-width': 3, fill: 'none', 'stroke-linecap': 'round' }, g); };
+  const castings = (fill) => { for (const [x, y] of [[0, 0], [cw - 16, 0], [0, ch - 13], [cw - 16, ch - 13]]) el('rect', { x, y, width: 16, height: 13, fill }, g); };
+  if (kind === 'dark') {
+    el('rect', { x: 0, y: 0, width: cw, height: ch, fill: C.ink3, stroke: C.ink, 'stroke-width': 3 }, g);
+    corrug('rgba(255,255,255,.07)'); doors('rgba(255,255,255,.14)'); castings(C.ink);
+  } else if (kind === 'grey') {
+    el('rect', { x: 2, y: 2, width: cw - 4, height: ch - 4, fill: C.paper, stroke: C.mute, 'stroke-width': 4 }, g);
+    corrug('rgba(16,18,21,.12)'); doors('rgba(16,18,21,.22)'); castings(C.mute);
+  } else { // 'ours': cheio (vermelho) ↔ vazio (contorno vermelho)
+    el('rect', { x: 2, y: 2, width: cw - 4, height: ch - 4, fill: C.paper, stroke: C.red, 'stroke-width': 4 }, g);
+    const cf = el('clipPath', { id: id + 'f' }, defs); api.cfr = el('rect', { x: 0, y: 0, width: cw, height: ch }, cf);
+    const ce = el('clipPath', { id: id + 'e' }, defs); api.cer = el('rect', { x: 0, y: 0, width: 0, height: ch }, ce);
+    api.fillR = el('rect', { x: 0, y: 0, width: cw, height: ch, fill: C.red }, g);
+    corrug('rgba(16,18,21,.16)'); doors('rgba(16,18,21,.3)'); castings(C.ink);
+    // marcações de contêiner: tamanho/tipo em estêncil, grades de ventilação, placa CSC na porta
+    const two = (attrs, txt) => [C.paper, C.red].map((fill, i) => { const t = el('text', { ...attrs, fill, 'clip-path': `url(#${id}${i ? 'e' : 'f'})` }, g); t.textContent = txt; return t; });
+    two({ x: 84, y: 48, 'font-family': 'Big Shoulders Stencil', 'font-weight': 900, 'font-size': 38, 'letter-spacing': 1 }, "40' HC");
+    for (const vx of [84, cw - 58]) { const v = el('g', {}, g); el('rect', { x: vx, y: ch - 26, width: 34, height: 14, rx: 2, fill: 'rgba(16,18,21,.22)' }, v); for (let k = 1; k < 5; k++) el('path', { d: `M${vx + k * 6.8} ${ch - 24}v10`, stroke: 'rgba(255,255,255,.35)', 'stroke-width': 1.5 }, v); }
+    el('rect', { x: 24, y: ch - 46, width: 24, height: 16, rx: 2, fill: C.line, stroke: 'rgba(16,18,21,.5)', 'stroke-width': 1.5 }, g);
+    // contador de anos em estêncil (cena "52 anos"), escondido no resto do filme
+    api.yearG = el('g', { opacity: 0 }, g);
+    const win = el('clipPath', { id: id + 'y' }, defs); el('rect', { x: cw / 2 - 40, y: ch / 2 - 46, width: 220, height: 92 }, win);
+    const yw = el('g', { 'clip-path': `url(#${id}y)` }, api.yearG);
+    api.cols = [0, 1, 2, 3].map((k) => {
+      const col = el('g', {}, yw);
+      for (let n = 0; n <= 10; n++) { const t = el('text', { x: cw / 2 - 5 + k * 50, y: ch / 2 + 32 + n * 92, 'text-anchor': 'middle', fill: C.red, 'font-family': 'Big Shoulders Stencil', 'font-weight': 900, 'font-size': 86 }, col); t.textContent = n % 10; }
+      return col;
+    });
+    // valor contínuo (ex.: 1999,4) → posição de cada coluna; a coluna de cima só rola quando as de baixo passam do 9
+    api.setYear = (v) => {
+      [1000, 100, 10, 1].forEach((u, k) => {
+        const p = u === 1 ? v % 10 : (Math.floor(v / u) % 10) + Math.min(1, Math.max(0, (v % u) - (u - 1)));
+        api.cols[k].setAttribute('transform', `translate(0 ${(-p * 92).toFixed(3)})`);
+      });
+    };
+    // etiqueta de dias
+    api.tag = el('g', { opacity: 0 }, g);
+    el('rect', { x: 84, y: 62, width: 116, height: 40, rx: 4, fill: C.paper }, api.tag);
+    api.tagT = el('text', { x: 142, y: 91, fill: C.ink, 'text-anchor': 'middle', 'font-family': 'IBM Plex Mono', 'font-weight': 600, 'font-size': 26 }, api.tag);
+    api.setFill = (a) => { // a = fração cheia, a carga fica do lado da frente (direita)
+      const w = G.cw * clamp(a); api.fillR.setAttribute('x', G.cw - w); api.fillR.setAttribute('width', w);
+      api.cfr.setAttribute('x', G.cw - w); api.cfr.setAttribute('width', w); api.cer.setAttribute('width', G.cw - w);
+    };
+  }
+  return api;
+}
+
+// ---------------------------------------------------------------- mundo
+const rest = $('worldRest');
+// pista
+el('rect', { x: -2000, y: G.ground, width: 12000, height: 400, fill: C.paper2 }, rest);
+el('path', { d: `M-2000 ${G.ground}H10000`, stroke: C.ink, 'stroke-width': 3 }, rest);
+{ let d = ''; for (let x = -2000; x < 10000; x += 140) d += `M${x} ${G.ground + 28}h70`; el('path', { d, stroke: C.mute, 'stroke-width': 5, opacity: 0.5 }, rest); }
+// terminal: pilha 3×3 (o nosso no meio)
+const stack = [];
+const stackG = el('g', {}, rest);
+for (let r = 0; r < 3; r++) for (let c = 0; c < 3; c++) {
+  if (r === 1 && c === 1) continue;
+  const k = container(stackG, 'dark'); k.c = c; k.r = r; stack.push(k);
+}
+const leavers = [[2, 1], [2, 0], [2, 2], [1, 2]].map(([r, c]) => stack.find((k) => k.r === r && k.c === c));
+// cancela do terminal
+const gate = el('g', {}, rest);
+el('rect', { x: G.gateX, y: G.ground - 170, width: 20, height: 170, fill: C.ink }, gate);
+const pat = el('pattern', { id: 'hz', width: 40, height: 40, patternUnits: 'userSpaceOnUse', patternTransform: 'rotate(45)' }, defs);
+el('rect', { width: 40, height: 40, fill: C.hazard }, pat); el('rect', { width: 20, height: 40, fill: C.ink }, pat);
+const arm = el('g', {}, gate);
+el('rect', { x: G.gateX - 330, y: G.ground - 150, width: 340, height: 18, rx: 4, fill: 'url(#hz)', stroke: C.ink, 'stroke-width': 2 }, arm);
+el('circle', { cx: G.gateX + 10, cy: G.ground - 141, r: 13, fill: C.ink }, gate);
+// armazém do cliente (doca à esquerda do caminhão parado)
+const H0 = 2960, H1 = 3700, DX0 = 3300, DX1 = 3640, DY0 = 600, DY1 = G.deck;
+el('rect', { x: H0, y: 470, width: H1 - H0, height: G.ground - 470, fill: C.paper2, stroke: C.ink, 'stroke-width': 3 }, rest);
+el('path', { d: `M${H0 - 14} 470H${H1 + 14}`, stroke: C.ink, 'stroke-width': 8 }, rest);
+el('rect', { x: H0 + 70, y: 530, width: 170, height: 70, fill: C.line, stroke: C.ink, 'stroke-width': 3 }, rest);
+el('rect', { x: DX0, y: DY0, width: DX1 - DX0, height: DY1 - DY0, fill: C.ink2 }, rest);
+const dockClip = el('clipPath', { id: 'dock' }, defs); el('rect', { x: DX0 + 30, y: 0, width: 3720 - DX0 - 30, height: 2000 }, dockClip);
+const doorClip = el('clipPath', { id: 'door' }, defs); el('rect', { x: DX0, y: DY0, width: DX1 - DX0, height: DY1 - DY0 }, doorClip);
+const pallets = el('g', { 'clip-path': 'url(#dock)' }, rest);
+const pals = [0, 1, 2].map(() => { const p = el('g', {}, pallets); el('rect', { x: 0, y: 0, width: 96, height: 76, fill: C.red, stroke: C.redDeep, 'stroke-width': 3 }, p); el('rect', { x: -4, y: 76, width: 104, height: 8, fill: C.ink3 }, p); return p; });
+const shutterG = el('g', { 'clip-path': 'url(#door)' }, rest);
+const shutter = el('g', {}, shutterG);
+el('rect', { x: DX0, y: DY0, width: DX1 - DX0, height: DY1 - DY0, fill: C.line }, shutter);
+{ let d = ''; for (let y = DY0 + 18; y < DY1; y += 18) d += `M${DX0} ${y}H${DX1}`; el('path', { d, stroke: 'rgba(16,18,21,.18)', 'stroke-width': 2 }, shutter); }
+el('rect', { x: DX0 - 8, y: DY0 - 8, width: DX1 - DX0 + 16, height: DY1 - DY0 + 8, fill: 'none', stroke: C.ink, 'stroke-width': 4 }, rest);
+el('rect', { x: DX0 - 40, y: G.deck, width: 3700 - DX0 + 40, height: G.ground - G.deck, fill: C.ink3 }, rest);
+// depósito de vazios (pilha de contêineres cinza)
+const depot = [];
+for (const [x, y] of [[6180, 704], [6180, 580], [6180, 456], [6720, 704], [6720, 580], [7260, 704], [7260, 580]]) { const k = container(rest, 'grey'); k.g.setAttribute('transform', tf(x, y)); depot.push(k); }
+
+// ---------------------------------------------------------------- caminhão (frente para a direita)
+const truck = el('g', {}, rest);
+const wheels = [];
+{
+  // cavalo mecânico de cabine avançada + carreta porta-contêiner (frente para a direita)
+  const d = G.deck, W = G.wheel, gy = G.ground - W, R = (x, y, w, h, a = {}) => el('rect', { x, y, width: w, height: h, ...a }, truck);
+  const P = (dd, a) => el('path', { d: dd, ...a }, truck);
+  const glass = '#2A2F37', steel = '#A3A8B0', cab = '#FBFAF8';
+  // carreta: longarina, pés de apoio, para-choque traseiro com lanterna, para-barro
+  R(0, d, 610, 14, { fill: C.ink });
+  R(24, d + 14, 560, 8, { fill: C.ink3 });
+  for (const x of [6, 502]) R(x, d - 5, 12, 6, { fill: C.ink });
+  R(374, d + 22, 10, 30, { fill: C.ink3 }); R(366, d + 50, 26, 6, { rx: 2, fill: C.ink });
+  R(392, d + 30, 10, 4, { fill: C.ink3 });
+  R(8, d + 14, 9, 34, { fill: C.ink }); R(0, d + 44, 70, 8, { rx: 2, fill: C.ink });
+  R(0, d + 2, 10, 10, { fill: C.red });
+  R(248, d + 22, 7, 48, { rx: 2, fill: C.ink });
+  P(`M30 ${d + 26}H246`, { stroke: C.ink, 'stroke-width': 6, 'stroke-linecap': 'round' });
+  // cavalo: chassi, quinta roda, tanque, escapamento
+  R(470, d + 4, 330, 16, { fill: C.ink });
+  R(500, d - 8, 110, 12, { rx: 3, fill: '#2E333B', stroke: C.ink, 'stroke-width': 2 });
+  R(640, d + 18, 82, 32, { rx: 12, fill: '#B9BCC2', stroke: C.ink, 'stroke-width': 2 });
+  P(`M662 ${d + 18}v32M700 ${d + 18}v32`, { stroke: 'rgba(16,18,21,.45)', 'stroke-width': 3 });
+  R(626, d - 172, 11, 182, { rx: 4, fill: steel, stroke: C.ink, 'stroke-width': 2 });
+  R(623, d - 178, 17, 10, { rx: 2, fill: C.ink });
+  P(`M506 ${d + 26}H644`, { stroke: C.ink, 'stroke-width': 8, 'stroke-linecap': 'round' });
+  // defletor e cabine
+  P(`M662 ${d - 200}L680 ${d - 246}H758Q774 ${d - 246} 777 ${d - 232}L782 ${d - 200}Z`, { fill: C.ink3, stroke: C.ink, 'stroke-width': 3, 'stroke-linejoin': 'round' });
+  P(`M645 ${d + 34}V${d - 176}Q645 ${d - 200} 669 ${d - 200}H772Q792 ${d - 200} 795 ${d - 180}L803 ${d - 22}V${d + 34}Z`, { fill: cab, stroke: C.ink, 'stroke-width': 3, 'stroke-linejoin': 'round' });
+  P(`M790 ${d - 190}L797 ${d - 108}H803L796 ${d - 192}Z`, { fill: glass });
+  R(658, d - 182, 34, 38, { rx: 4, fill: glass });
+  P(`M708 ${d - 182}H776Q785 ${d - 182} 786 ${d - 173}L791 ${d - 112}H708Z`, { fill: glass });
+  P(`M736 ${d - 182}H754L728 ${d - 112}H710Z`, { fill: 'rgba(255,255,255,.16)' });
+  P(`M703 ${d - 188}V${d + 22}M703 ${d + 22}H797`, { stroke: 'rgba(16,18,21,.35)', 'stroke-width': 2, fill: 'none' });
+  R(712, d - 102, 24, 6, { rx: 3, fill: C.ink });
+  R(645, d - 40, 158, 13, { fill: C.red });
+  el('image', { href: 'assets/mark.svg', x: 722, y: d - 94, width: 62, height: 45 }, truck);
+  for (const y of [d + 10, d + 24]) R(714, y, 50, 6, { rx: 2, fill: C.ink3 });
+  // retrovisor, para-choque e farol
+  P(`M802 ${d - 160}L822 ${d - 166}`, { stroke: C.ink, 'stroke-width': 4, 'stroke-linecap': 'round' });
+  R(817, d - 188, 11, 54, { rx: 4, fill: C.ink });
+  R(790, d + 8, 24, 36, { rx: 5, fill: '#8C8F94', stroke: C.ink, 'stroke-width': 2 });
+  R(799, d + 13, 15, 10, { rx: 2, fill: C.paper });
+  // caixa de roda do eixo dianteiro
+  el('circle', { cx: 760, cy: gy, r: 41, fill: C.ink2 }, truck);
+  for (const x of [70, 140, 210, 540, 610, 760]) {
+    const w = el('g', {}, truck);
+    el('circle', { cx: 0, cy: 0, r: W, fill: C.ink }, w);
+    el('circle', { cx: 0, cy: 0, r: 23, fill: glass }, w);
+    el('circle', { cx: 0, cy: 0, r: 17, fill: steel }, w);
+    el('circle', { cx: 0, cy: 0, r: 7, fill: C.ink3 }, w);
+    for (let i = 0; i < 6; i++) { const a = (i * Math.PI) / 3; el('circle', { cx: 12 * Math.cos(a), cy: 12 * Math.sin(a), r: 2.2, fill: C.ink }, w); }
+    wheels.push({ g: w, x, y: gy });
+  }
+}
+// nosso contêiner (mundo) e spreaders
+const ours = container($('worldOurs'), 'ours');
+function spreader(parent) {
+  const g = el('g', {}, parent);
+  el('path', { d: `M40 0L200 -1400M480 0L320 -1400`, stroke: C.ink, 'stroke-width': 4 }, g);
+  el('rect', { x: 0, y: -22, width: G.cw, height: 22, fill: C.ink }, g);
+  for (const x of [8, G.cw - 24]) el('rect', { x, y: 0, width: 16, height: 8, fill: C.ink }, g);
+  return g;
+}
+const spr1 = spreader($('worldTop')), spr2 = spreader($('worldTop'));
+
+// ---------------------------------------------------------------- mapa de cobertura (o mesmo contorno e rotas do site)
+const BR = [[-51.6,4.2],[-51.1,3.9],[-50.5,2.0],[-49.9,1.0],[-50.0,0.3],[-48.6,-0.6],[-47.5,-0.6],[-46.5,-1.0],[-44.6,-2.2],[-43.0,-2.4],[-41.8,-2.9],[-40.0,-2.8],[-38.5,-3.6],[-37.2,-4.7],[-35.4,-5.1],[-35.0,-6.5],[-34.8,-7.6],[-35.1,-9.0],[-36.4,-10.5],[-37.4,-11.6],[-38.4,-12.8],[-39.0,-14.0],[-39.0,-16.0],[-39.2,-17.8],[-39.8,-19.6],[-40.6,-21.0],[-41.0,-22.0],[-42.0,-22.95],[-43.2,-23.05],[-44.6,-23.35],[-45.4,-23.8],[-46.4,-24.05],[-47.6,-24.9],[-48.4,-25.7],[-48.6,-26.6],[-48.6,-28.0],[-49.6,-29.3],[-50.4,-30.6],[-51.3,-31.6],[-52.3,-32.4],[-53.4,-33.7],[-53.4,-32.6],[-54.6,-31.9],[-55.5,-30.9],[-56.4,-30.4],[-57.6,-30.2],[-56.0,-28.6],[-55.0,-27.8],[-53.8,-27.1],[-53.6,-26.2],[-54.6,-25.6],[-54.3,-24.1],[-55.4,-23.6],[-55.7,-22.4],[-57.0,-22.2],[-57.9,-22.1],[-57.9,-20.0],[-57.7,-19.0],[-58.4,-17.3],[-58.4,-16.3],[-60.2,-16.2],[-60.4,-15.1],[-60.3,-13.6],[-61.8,-13.5],[-63.3,-12.6],[-64.5,-12.4],[-65.3,-11.0],[-65.4,-9.8],[-66.6,-9.9],[-68.0,-10.7],[-69.6,-11.0],[-70.6,-11.0],[-70.6,-9.5],[-72.2,-10.0],[-73.2,-9.3],[-74.0,-7.6],[-72.9,-5.1],[-71.5,-4.4],[-70.0,-4.3],[-69.4,-1.2],[-69.6,0.6],[-69.8,1.1],[-67.2,1.8],[-66.9,1.2],[-65.5,0.8],[-64.1,1.8],[-63.4,2.2],[-64.0,3.6],[-64.7,4.0],[-62.8,4.0],[-61.0,4.5],[-60.7,5.2],[-60.1,5.2],[-59.9,4.0],[-59.6,2.0],[-59.0,1.3],[-57.0,1.9],[-55.9,1.9],[-54.6,2.3],[-52.9,2.2],[-52.0,3.4]];
+// destinos do mapa do site (ilustrativos: no filme aparecem só como pontos, sem nomes)
+const DEST = [[-46.63,-23.55],[-47.06,-22.90],[-43.20,-22.90],[-49.27,-25.43],[-43.94,-19.92],[-48.55,-27.60],[-40.31,-20.32],[-51.23,-30.03],[-54.62,-20.47]];
+const MK = 52, LON0 = -58, LAT0 = -17, MX0 = 860, MY0 = 96; // recorte: Sudeste, Sul e MS
+const PM = (lon, lat) => [MX0 + (lon - LON0) * MK, MY0 + (LAT0 - lat) * MK];
+const S0 = PM(-46.33, -23.96); // Santos
+const mapG = $('grid');
+const mapClip = el('clipPath', { id: 'mapClip' }, defs); el('rect', { x: 800, y: 0, width: 1120, height: 1080 }, mapClip);
+const mapInner = el('g', { 'clip-path': 'url(#mapClip)' }, mapG);
+const dotPat = el('pattern', { id: 'dots', width: 18, height: 18, patternUnits: 'userSpaceOnUse' }, defs);
+el('circle', { cx: 9, cy: 9, r: 3, fill: 'rgba(16,18,21,.2)' }, dotPat);
+el('polygon', { points: BR.map(([a, b]) => PM(a, b).map((v) => v.toFixed(1)).join(',')).join(' '), fill: 'url(#dots)', stroke: 'rgba(16,18,21,.32)', 'stroke-width': 3, 'stroke-linejoin': 'round' }, mapInner);
+const routes = DEST.map(([lon, lat], i) => {
+  const d = PM(lon, lat), dx = d[0] - S0[0], dy = d[1] - S0[1], k = 0.22 * (i % 2 ? 1 : -1);
+  const c = [(S0[0] + d[0]) / 2 - dy * k, (S0[1] + d[1]) / 2 + dx * k];
+  return { d, len: Math.hypot(dx, dy), path: `M${S0[0].toFixed(1)} ${S0[1].toFixed(1)}Q${c[0].toFixed(1)} ${c[1].toFixed(1)} ${d[0].toFixed(1)} ${d[1].toFixed(1)}` };
+}).sort((a, b) => a.len - b.len);
+routes.forEach((rt) => {
+  rt.el = el('path', { d: rt.path, fill: 'none', stroke: C.red, 'stroke-width': 5, 'stroke-linecap': 'round', pathLength: 1, 'stroke-dasharray': '1 1' }, mapInner);
+  rt.dot = el('circle', { cx: rt.d[0], cy: rt.d[1], r: 0, fill: C.ink }, mapInner);
+});
+const santos = el('g', {}, mapG);
+const santosRing = el('circle', { cx: S0[0], cy: S0[1], r: 12, fill: 'none', stroke: C.red, 'stroke-width': 3 }, santos);
+el('circle', { cx: S0[0], cy: S0[1], r: 12, fill: C.red }, santos);
+const santosT = el('text', { x: S0[0] + 24, y: S0[1] + 44, fill: C.ink, 'font-family': 'IBM Plex Sans', 'font-weight': 600, 'font-size': 34 }, santos); santosT.textContent = 'Santos';
+// nosso contêiner (tela), linha da promessa, trilho de passos
+const sOurs = container($('sOurs'), 'ours');
+const promLine = el('path', { d: 'M560 664H1360', stroke: C.ink, 'stroke-width': 3, pathLength: 1, 'stroke-dasharray': '1 1' }, $('promLine'));
+const rail = $('rail');
+el('path', { d: 'M1560 942H1760', stroke: 'rgba(16,18,21,.22)', 'stroke-width': 3 }, rail);
+const nodes = [1560, 1660, 1760].map((x) => {
+  const g = el('g', { transform: `translate(${x} 942)` }, rail);
+  const ring = el('circle', { r: 13, fill: C.paper, stroke: C.ink, 'stroke-width': 3 }, g);
+  const dot = el('circle', { r: 13, fill: C.red }, g);
+  return { g, dot, x };
+});
+
+// ---------------------------------------------------------------- marca (vetor de assets/mark.svg, revelada ao longo das setas)
+const markG = $('mark');
+const markInner = el('g', {}, markG);
+const mRed = el('mask', { id: 'mRed', maskUnits: 'userSpaceOnUse', x: -50, y: -50, width: 400, height: 300 }, defs);
+const mGray = el('mask', { id: 'mGray', maskUnits: 'userSpaceOnUse', x: -50, y: -50, width: 400, height: 300 }, defs);
+const redPath = el('path', { d: 'M158 156C130 140 104 120 98 98C94 70 128 52 162 56C190 60 210 70 236 86', fill: 'none', stroke: '#fff', 'stroke-width': 74, pathLength: 1, 'stroke-dasharray': '1 1', 'stroke-linecap': 'butt' }, mRed);
+const grayPath = el('path', { d: 'M142 84C120 116 102 144 106 172C112 204 160 200 196 158C212 140 224 120 240 100', fill: 'none', stroke: '#fff', 'stroke-width': 84, pathLength: 1, 'stroke-dasharray': '1 1', 'stroke-linecap': 'butt' }, mGray);
+const grayArrow = el('g', { mask: 'url(#mGray)' }, markInner);
+const redArrow = el('g', { mask: 'url(#mRed)' }, markInner);
+
+// ---------------------------------------------------------------- títulos (máscara que sobe, como no site)
+const heads = COPY.map((c) => {
+  const d = document.createElement('div'); d.className = 'head' + (c.big ? ' big' : c.low ? ' low' : c.mid ? ' mid' : '');
+  const words = [];
+  for (const line of c.lines) {
+    const ln = document.createElement('span'); ln.className = 'ln';
+    line.split(' ').forEach((w) => {
+      const o = document.createElement('span'); o.className = 'w';
+      const i = document.createElement('span'); i.className = 'i' + ((c.hi || []).includes(w.replace(/[.,]/g, '')) ? ' hi' : '');
+      i.textContent = w; o.appendChild(i); ln.appendChild(o); words.push(i);
+    });
+    d.appendChild(ln);
+  }
+  $('heads').appendChild(d);
+  return { c, d, words };
+});
+const wordI = [...document.querySelectorAll('#word .i')];
+const phone = $('phone');
+
+// ---------------------------------------------------------------- funções de tempo
+const piece = (f, segs, a0, ease) => { // trechos encadeados [{from,to,a,z}]
+  let v = a0;
+  for (const s of segs) { if (f >= s.from) v = tw(f, s.from, s.to, s.a, s.z, ease); }
+  return v;
+};
+function truckX(f) {
+  if (f < DRIVE[0].from) return tw(f, CUE.truckFrom, CUE.truckFrom + DUR.truck, -1100, 720, E.glide);
+  return piece(f, DRIVE, 720, E.smooth);
+}
+function camX(f) { return f < DRIVE[0].from ? 0 : truckX(f - CAM_LAG) - 720; }
+
+// layout do cartão final (medido depois que as fontes carregam)
+const LK = { markH: 290, gap: 56 };
+function layoutLockup() {
+  const ms = LK.markH / 194, mw = 268 * ms;
+  const ww = Math.max(...wordI.map((i) => i.getBoundingClientRect().width / (RENDER ? 1 : scaleNow)));
+  const total = mw + LK.gap + ww;
+  LK.phoneDy = $('word').getBoundingClientRect().height / (RENDER ? 1 : scaleNow) + 22;
+  LK.ms = ms; LK.mx = (1920 - total) / 2 - 10; LK.my = 330;
+  LK.wx = LK.mx + mw + LK.gap; LK.wy = LK.my + 34;
+  LK.tail = { x: LK.mx + 158 * ms, y: LK.my + 156 * ms };
+  $('word').style.left = LK.wx + 'px'; $('word').style.top = LK.wy + 'px';
+  phone.style.left = LK.wx + 'px'; phone.style.top = (LK.wy + LK.phoneDy) + 'px';
+}
+
+// ---------------------------------------------------------------- seek(f): o quadro inteiro como função de f
+function seek(fRaw) {
+  const f = clamp(fRaw, 0, TOTAL - 0.001);
+  const F = fd(f);
+
+  // ---- câmera do mundo
+  let s = 1, P = [0, 0], Q = [0, 0];
+  if (f < CUE.pull) {
+    const zIn = tw(f, 0, 236, 1, 1.07, E.dolly), zOut = tw(f, 252, 336, 1, 1 / 1.07, E.cam);
+    const zDock = tw(f, CUE.door, CUE.step2 + 40, 1, 1.06, E.dolly) * tw(f, DRIVE[1].from - 10, DRIVE[1].from + 40, 1, 1 / 1.06, E.cam);
+    s = BASE * zIn * zOut * zDock; const cx = camX(f);
+    P = [980 + cx, G.ground]; Q = [960, GY];
+  } else {
+    const p = prog(f, CUE.pull - 1, CUE.pull - 1 + DUR.pull, E.cam);
+    // o caminhão e o contêiner encolhem até virar o ponto de Santos no mapa
+    s = lmix(BASE, 0.03, p); P = [G.depotX + G.cw / 2, G.rows[2] + G.ch / 2];
+    const q0 = [960, GY + (G.rows[2] + G.ch / 2 - G.ground) * BASE];
+    Q = [mix(q0[0], S0[0], p), mix(q0[1], S0[1], p)];
+  }
+  $('world').setAttribute('transform', `translate(${Q[0]} ${Q[1]}) scale(${s}) translate(${-P[0]} ${-P[1]})`);
+  $('world').style.display = f < CUE.grid + 1 ? '' : 'none';
+  rest.setAttribute('opacity', 1 - prog(f, CUE.pull + 8, CUE.pull + 44, E.smooth));
+  $('worldTop').setAttribute('opacity', 1 - prog(f, CUE.pull + 8, CUE.pull + 30, E.smooth));
+
+  // ---- pilha do terminal
+  for (const k of stack) {
+    let x = G.stackCols[k.c], y = G.rows[k.r];
+    const li = leavers.indexOf(k);
+    if (li > -1) y -= tw(f, CUE.leave[li], CUE.leave[li] + DUR.leave, 0, y - 200 + G.ch + 60, EXIT);
+    k.g.setAttribute('transform', tf(x, y));
+  }
+  arm.setAttribute('transform', `rotate(${tw(f, CUE.barrier - 1, CUE.barrier - 1 + DUR.barrier, 0, 82, E.out)} ${G.gateX + 10} ${G.ground - 141})`);
+
+  // ---- caminhão
+  const tx = truckX(f);
+  truck.setAttribute('transform', `translate(${tx.toFixed(3)} 0)`);
+  for (const w of wheels) w.g.setAttribute('transform', `translate(${w.x} ${w.y}) rotate(${((tx / G.wheel) * 180 / Math.PI).toFixed(3)})`);
+
+  // ---- nosso contêiner no mundo
+  let ox = 720, oy = G.rows[1];
+  if (f >= CUE.liftFrom) oy = tw(f, CUE.liftFrom, CUE.liftFrom + DUR.lift, G.rows[1], 330, E.inOut);
+  if (f >= CUE.seat - DUR.lower) oy = tw(f, CUE.seat - DUR.lower, CUE.seat, 330, G.onDeck, E.contact);
+  if (f >= CUE.seat) ox = tx;
+  if (f >= CUE.lift2From) {
+    oy = tw(f, CUE.lift2From, CUE.lift2From + 25, G.onDeck, 396, E.inOut);
+    if (f >= CUE.stack2 - 20) oy = tw(f, CUE.stack2 - 20, CUE.stack2, 396, G.rows[2], E.contact);
+    ox = G.depotX;
+  }
+  const sq1 = hitPulse(f - CUE.seat, 1, 4), sq2 = hitPulse(f - CUE.stack2, 1, 4);
+  const sy = 1 - 0.035 * (sq1 + sq2), sxx = 1 + 0.02 * (sq1 + sq2);
+  ours.g.setAttribute('transform', `translate(${(ox - (sxx - 1) * G.cw / 2).toFixed(3)} ${(oy + (1 - sy) * G.ch).toFixed(3)}) scale(${sxx.toFixed(4)} ${sy.toFixed(4)})`);
+  // carga: três paletes saem pela porta traseira, a carga diminui um terço por palete
+  let gone = 0;
+  pals.forEach((p, i) => {
+    const a = CUE.drainFrom + i * 20, q = prog(f, a, a + 36, E.smooth);
+    p.setAttribute('transform', tf(mix(3730, DX0 - 40, q), G.deck - 84));
+    gone += prog(f, a, a + 16, E.ui) / 3;
+  });
+  ours.setFill(1 - gone);
+  shutter.setAttribute('transform', `translate(0 ${-tw(f, CUE.door - 1, CUE.door - 1 + DUR.door, 0, DY1 - DY0 - 8, E.out)})`);
+  // etiqueta de dias
+  const day = CUE.day.reduce((n, c) => (F >= c ? n + 1 : n), 0);
+  const tagIn = prog(f, CUE.day[0] - 1, CUE.day[0] + 11, E.out) * (1 - prog(f, CUE.liftFrom - 6, CUE.liftFrom + 6, E.smooth));
+  const pulse = CUE.day.reduce((m, c) => Math.max(m, hitPulse(f - c, 2, 5)), 0);
+  ours.tag.setAttribute('opacity', tagIn.toFixed(3));
+  ours.tag.setAttribute('transform', `translate(142 82) scale(${(0.9 + 0.1 * tagIn + 0.1 * pulse).toFixed(4)}) translate(-142 -82)`);
+  ours.tagT.textContent = 'DIA ' + Math.max(1, day);
+
+  // ---- spreaders
+  const sp1y = f < CUE.grab ? tw(f, CUE.grab - DUR.spreaderIn, CUE.grab, -260, G.rows[1], E.contact)
+    : f < CUE.release ? oy : tw(f, CUE.release, CUE.release + DUR.release, G.onDeck, -320, E.in);
+  spr1.setAttribute('transform', tf(720, sp1y));
+  spr1.style.display = f < CUE.release + DUR.release ? '' : 'none';
+  const sp2y = f < CUE.grab2 ? tw(f, CUE.grab2 - DUR.spreaderIn, CUE.grab2, -260, G.onDeck, E.contact)
+    : f < CUE.stack2 + 6 ? oy : tw(f, CUE.stack2 + 6, CUE.stack2 + 36, G.rows[2], -320, E.in);
+  spr2.setAttribute('transform', tf(G.depotX, sp2y));
+  spr2.style.display = f > CUE.grab2 - DUR.spreaderIn - 2 && f < CUE.stack2 + 36 ? '' : 'none';
+
+  // ---- trilho dos passos
+  const railIn = prog(f, FILM.COPY[3].in, FILM.COPY[3].in + 20, E.out) * (1 - prog(f, CUE.pull - 2, CUE.pull + 14, E.smooth));
+  rail.setAttribute('opacity', railIn.toFixed(3));
+  [CUE.step1, CUE.step2, CUE.step3].forEach((c, i) => {
+    const p = prog(f, c - 6, c + 4, E.out), pu = hitPulse(f - c, 2, 6);
+    nodes[i].dot.setAttribute('r', (13 * p).toFixed(3));
+    nodes[i].g.setAttribute('transform', `translate(${nodes[i].x} 942) scale(${(1 + 0.25 * pu).toFixed(4)})`);
+  });
+
+  // ---- mapa de cobertura
+  mapG.style.display = f >= CUE.pull + 4 && f < CUE.hero ? '' : 'none';
+  const mk = tw(f, CUE.grid - 20, CUE.implode, 1, 1.05, E.dolly);
+  const mOut = prog(f, CUE.implode + 6, CUE.implode + 38, E.smooth);
+  mapG.setAttribute('transform', `translate(${S0[0]} ${S0[1]}) scale(${mk.toFixed(5)}) translate(${-S0[0]} ${-S0[1]})`);
+  mapG.setAttribute('opacity', (prog(f, CUE.pull + 6, CUE.pull + 40, E.smooth) * (1 - mOut)).toFixed(3));
+  routes.forEach((rt, i) => {
+    const a = FILM.ROUTE.start + i * FILM.ROUTE.step, p = prog(f, a, a + FILM.ROUTE.dur, E.out);
+    rt.el.setAttribute('stroke-dashoffset', (1 - p).toFixed(4));
+    const pd = prog(f, a + FILM.ROUTE.dur - 8, a + FILM.ROUTE.dur + 4, E.out);
+    rt.dot.setAttribute('r', (7 * pd + 2.5 * hitPulse(f - (a + FILM.ROUTE.dur - 4), 2, 5)).toFixed(3));
+  });
+  const sp = prog(f, CUE.pull + 46, CUE.pull + 60, E.out);
+  santos.setAttribute('opacity', (sp * (1 - mOut)).toFixed(3));
+  const ring = ((f - CUE.grid) % 40 + 40) % 40 / 40;
+  santosRing.setAttribute('r', (12 + 26 * E.out(ring)).toFixed(2));
+  santosRing.setAttribute('opacity', (f >= CUE.grid ? 0.6 * (1 - ring) : 0).toFixed(3));
+
+  // ---- nosso contêiner na tela (de Santos até o logo)
+  $('sOurs').style.display = f >= CUE.implode ? '' : 'none';
+  let sx = 0, syy = 0, ss = 0.03, so = 1;
+  { const p = prog(f, CUE.implode, CUE.implode + DUR.hero, E.inOut); ss = lmix(0.03, 1.6, p);
+    const cx = mix(S0[0], 960, p), cy = mix(S0[1], 531, p); sx = cx - G.cw * ss / 2; syy = cy - G.ch * ss / 2; }
+  if (f >= CUE.implode + DUR.hero) { const p = prog(f, CUE.implode + DUR.hero, CUE.refill, E.dolly); const k = mix(1.6, 1.78, p); sx = 960 - G.cw * k / 2; syy = 531 - G.ch * k / 2; ss = k; }
+  if (f >= CUE.refill) { const p = prog(f, CUE.refill, CUE.refill + 40, E.inOut); ss = lmix(1.78, 0.42, p); sx = mix(960 - G.cw * 1.78 / 2, 700, p); syy = mix(531 - G.ch * 1.78 / 2, 664 - G.ch * 0.42, p); }
+  if (f >= CUE.refill + 40) { sx = 700 + tw(f, CUE.refill + 40, CUE.lock, 0, 150, E.linear); }
+  if (f >= CUE.lock) {
+    const p = prog(f, CUE.lock, CUE.lock + DUR.lock, E.inOut), w0 = G.cw * 0.42;
+    const cx0 = 850 + w0 / 2, cy0 = 664 - G.ch * 0.42 / 2;
+    const k = lmix(0.42, 0.14, p), cx = mix(cx0, LK.tail.x, p), cy = mix(cy0, LK.tail.y, p);
+    const q = prog(f, CUE.lock + 30, CUE.lock + 46, E.in);
+    ss = k * (1 - 0.9 * q); sx = cx - G.cw * ss / 2; syy = cy - G.ch * ss / 2; so = 1 - q;
+  }
+  sOurs.g.setAttribute('transform', tf(sx, syy, ss));
+  sOurs.g.setAttribute('opacity', so.toFixed(3));
+  sOurs.setFill(prog(f, CUE.refill, CUE.refill + DUR.refill, E.smooth));
+  sOurs.tag.setAttribute('opacity', 0);
+  // contador 1974 → 2026 em estêncil na lateral
+  sOurs.setYear(1974 + 52 * E.outSoft(prog(f, CUE.underline, CUE.underline + DUR.underline, E.linear)));
+  const yo = prog(f, CUE.implode + 30, CUE.implode + 46, E.smooth) * (1 - prog(f, CUE.refill - 8, CUE.refill + 6, E.smooth));
+  sOurs.yearG.setAttribute('opacity', yo.toFixed(3));
+  sOurs.yearG.setAttribute('transform', `translate(${G.cw / 2 + 70} ${G.ch / 2}) scale(${(1 + 0.06 * hitPulse(f - FILM.yearLock(), 2, 6)).toFixed(4)}) translate(${-G.cw / 2 - 70} ${-G.ch / 2})`);
+
+  // ---- linha da promessa
+  const lp = prog(f, CUE.line, CUE.line + DUR.line, E.out), lq = prog(f, CUE.lock, CUE.lock + 18, E.in);
+  promLine.setAttribute('stroke-dashoffset', (1 - lp + lq).toFixed(4));
+  promLine.style.display = f >= CUE.line && f < CUE.lock + 18 ? '' : 'none';
+
+  // ---- marca
+  const ms = LK.ms * tw(f, CUE.settle - 20, TOTAL, 1, 1.08, E.dolly);
+  const cxL = 960, cyL = LK.my + 145;
+  markG.setAttribute('transform', `translate(${cxL} ${cyL}) scale(${(ms / LK.ms).toFixed(5)}) translate(${-cxL} ${-cyL}) ${tf(LK.mx, LK.my, LK.ms)}`);
+  redPath.setAttribute('stroke-dashoffset', (1 - prog(f, CUE.redArrow, CUE.redArrow + DUR.arrow, E.out)).toFixed(4));
+  grayPath.setAttribute('stroke-dashoffset', (1 - prog(f, CUE.grayArrow, CUE.grayArrow + DUR.arrow, E.out)).toFixed(4));
+  markG.style.display = f >= CUE.redArrow - 1 ? '' : 'none';
+  const creep = tw(f, CUE.settle - 20, TOTAL, 1, 1.08, E.dolly);
+  const ox2 = (LK.wx - 960) * (creep - 1), oy2 = (LK.wy - cyL) * (creep - 1);
+  $('word').style.transform = `translate(${ox2.toFixed(2)}px, ${oy2.toFixed(2)}px) scale(${creep.toFixed(5)})`;
+  $('word').style.transformOrigin = '0 0';
+  wordI.forEach((i, k) => { const a = CUE.word + k * 4, p = arrive(prog(f, a, a + DUR.word, E.out)); i.style.transform = `translateY(${(112 * (1 - p)).toFixed(2)}%)`; });
+  const pp = prog(f, CUE.phone, CUE.phone + 24, E.out);
+  phone.style.opacity = pp.toFixed(3);
+  phone.style.transform = `translate(${((LK.wx - 960) * (creep - 1)).toFixed(2)}px, ${((LK.wy + LK.phoneDy - cyL) * (creep - 1) + 16 * (1 - pp)).toFixed(2)}px) scale(${creep.toFixed(5)})`;
+  phone.style.transformOrigin = '0 0';
+
+  // ---- títulos
+  for (const h of heads) {
+    const { c, words } = h;
+    const vis = f >= c.in - 1 && f < c.out + 30;
+    h.d.style.display = vis ? '' : 'none';
+    if (!vis) continue;
+    words.forEach((w, k) => {
+      const a = c.in + k * 3, p = arrive(prog(f, a, a + DUR.wordIn, E.out));
+      const o = c.out + k * 2, q = depart(prog(f, o, o + DUR.wordOut, E.in));
+      w.style.transform = `translateY(${(112 * (1 - p) - 112 * q).toFixed(2)}%)`;
+    });
+  }
+}
+
+// ---------------------------------------------------------------- carga, player
+let scaleNow = 1;
+function fit() {
+  if (RENDER) return;
+  scaleNow = Math.min(innerWidth / 1920, innerHeight / 1080);
+  const st = $('stage');
+  st.style.transform = `scale(${scaleNow})`;
+  st.style.position = 'absolute';
+  st.style.left = (innerWidth - 1920 * scaleNow) / 2 + 'px';
+  st.style.top = (innerHeight - 1080 * scaleNow) / 2 + 'px';
+}
+window.seek = seek;
+window.FILM_READY = (async () => {
+  // as setas vêm de assets/mark.js (vetorização do logo do site)
+  el('path', { d: MARK.gray, fill: C.gray }, grayArrow);
+  el('path', { d: MARK.red, fill: C.red }, redArrow);
+  await Promise.all([
+    document.fonts.load('900 112px "Big Shoulders"'), document.fonts.load('800 46px "Big Shoulders"'),
+    document.fonts.load('500 40px "IBM Plex Sans"'), document.fonts.load('600 26px "IBM Plex Mono"'),
+  ]);
+  await document.fonts.ready;
+  fit(); layoutLockup(); seek(0);
+})();
+if (!RENDER) {
+  addEventListener('resize', () => { fit(); });
+  const audio = new Audio('out/soundtrack.wav'); let hasAudio = false;
+  audio.addEventListener('canplaythrough', () => { hasAudio = true; }, { once: true });
+  let playing = false, t0 = 0, f0 = 0, cur = 0;
+  const toggle = () => {
+    playing = !playing;
+    if (playing) { if (cur >= TOTAL - 1) cur = 0; t0 = performance.now(); f0 = cur; if (hasAudio) { audio.currentTime = cur / 60; audio.play(); } }
+    else audio.pause();
+  };
+  const jump = (f) => { cur = clamp(f, 0, TOTAL - 1); seek(cur); if (playing) { t0 = performance.now(); f0 = cur; if (hasAudio) audio.currentTime = cur / 60; } };
+  addEventListener('click', toggle);
+  addEventListener('keydown', (e) => {
+    if (e.code === 'Space') { e.preventDefault(); toggle(); }
+    if (e.key === 'ArrowRight') jump(cur + 60); if (e.key === 'ArrowLeft') jump(cur - 60); if (e.key === '0') jump(0);
+  });
+  const loop = () => {
+    if (playing) {
+      cur = hasAudio && !audio.paused ? audio.currentTime * 60 : f0 + ((performance.now() - t0) / 1000) * 60;
+      if (cur >= TOTAL) { cur = TOTAL - 1; playing = false; audio.pause(); }
+      seek(cur);
+    }
+    requestAnimationFrame(loop);
+  };
+  FILM_READY.then(() => { requestAnimationFrame(loop); });
+}
+</script>
+</body>
+</html>
