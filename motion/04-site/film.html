@@ -1,0 +1,181 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<title>Imigrantes — vinheta do site</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+@font-face{font-family:"Big Shoulders";font-weight:800;src:url(../../fonts/big-shoulders-latin.woff2) format("woff2");}
+@font-face{font-family:"Big Shoulders";font-weight:900;src:url(../../fonts/big-shoulders-latin.woff2) format("woff2");}
+@font-face{font-family:"IBM Plex Sans";font-weight:100 700;src:url(../../fonts/ibm-plex-sans-latin.woff2) format("woff2");}
+html,body{margin:0;background:#0b0c0e;}
+body{min-height:100vh;overflow:hidden;}
+#stage{position:absolute;width:1920px;height:1080px;overflow:hidden;background:#F3F2EF;transform-origin:0 0;font-family:"IBM Plex Sans",sans-serif;color:#101215;}
+.render body{background:#F3F2EF;}
+.render #stage{transform:none!important;left:0;top:0;}
+.abs{position:absolute;left:0;top:0;transform-origin:0 0;}
+/* janela do navegador */
+#win{width:1181px;height:712px;border-radius:14px;background:#191C21;box-shadow:0 30px 90px rgba(16,18,21,.2);overflow:hidden;}
+#win .bar{position:absolute;left:0;top:0;right:0;height:48px;display:flex;align-items:center;}
+#win .dots{display:flex;gap:9px;margin-left:20px;}
+#win .dots i{width:12px;height:12px;border-radius:50%;background:#3A3F48;}
+#win .url{position:absolute;left:50%;top:10px;transform:translateX(-50%);height:28px;padding:0 22px;border-radius:14px;background:#24282F;color:#A9AEB7;font-size:16px;font-weight:500;line-height:28px;white-space:nowrap;}
+#win .view{position:absolute;left:0;top:48px;width:1181px;height:664px;overflow:hidden;background:#F3F2EF;}
+#win .view img{position:absolute;left:0;top:0;width:1181px;transform-origin:0 0;}
+/* celular */
+#phone{width:400px;height:834px;border-radius:58px;background:#101215;box-shadow:0 30px 90px rgba(16,18,21,.22);}
+#phone .screen{position:absolute;left:14px;top:14px;width:372px;height:806px;border-radius:44px;overflow:hidden;background:#191C21;}
+#phone .screen img{position:absolute;left:0;top:0;width:372px;transform-origin:0 0;}
+#phone .island{position:absolute;left:50%;top:26px;width:110px;height:32px;margin-left:-55px;border-radius:16px;background:#101215;z-index:2;}
+/* legendas */
+.cap{position:absolute;left:110px;top:440px;width:520px;font-family:"Big Shoulders",sans-serif;font-weight:900;font-size:80px;line-height:1;letter-spacing:.01em;text-transform:uppercase;}
+.cap .ln{display:block;white-space:nowrap;}
+.cap .w{display:inline-block;overflow:hidden;vertical-align:top;padding-top:.16em;margin-top:-.16em;padding-bottom:.04em;margin-right:.2em;}
+.cap .w:last-child{margin-right:0;}
+.cap .i{display:block;}
+/* marca */
+#word{font-family:"Big Shoulders",sans-serif;text-transform:uppercase;white-space:nowrap;}
+#word .w{display:block;overflow:hidden;padding-top:.16em;margin-top:-.16em;}
+#word .i{display:block;}
+#word .small{font-weight:800;font-size:58px;letter-spacing:.14em;color:#474C55;line-height:.9;}
+#word .large{font-weight:900;font-size:164px;letter-spacing:.01em;line-height:.9;}
+#word,#url{will-change:transform;} /* escala como imagem: o Chrome não redesenha o texto em degraus */
+#url{font-size:44px;font-weight:500;color:#474C55;white-space:nowrap;}
+svg{position:absolute;left:0;top:0;}
+</style>
+</head>
+<body>
+<div id="stage">
+  <div id="win" class="abs">
+    <div class="bar"><div class="dots"><i></i><i></i><i></i></div><div class="url">site-imigrantes-gamma.vercel.app</div></div>
+    <div class="view"><img id="deskImg" src="assets/cap/desktop-crop.png" alt=""></div>
+  </div>
+  <div id="phone" class="abs"><div class="screen"><div class="island"></div><img id="mobImg" src="assets/cap/mobile.png" alt=""></div></div>
+  <div id="caps"></div>
+  <svg width="1920" height="1080" viewBox="0 0 1920 1080" xmlns="http://www.w3.org/2000/svg"><defs id="defs"></defs><g id="mark"></g></svg>
+  <div id="word" class="abs"><span class="w"><span class="i small">Transportes</span></span><span class="w"><span class="i large">Imigrantes</span></span></div>
+  <div id="url" class="abs">site-imigrantes-gamma.vercel.app</div>
+</div>
+<script src="motion.js"></script>
+<script src="timeline.js"></script>
+<script src="assets/mark.js"></script>
+<script src="assets/cap/sections.js"></script>
+<script>
+'use strict';
+const RENDER = location.search.includes('render');
+if (RENDER) document.documentElement.classList.add('render');
+const { E, clamp, mix, lmix, tw, prog, arrive, depart, hitPulse } = MOTION;
+const { CUE, DUR, COPY, TOTAL, K, SCROLL, SCROLL_DUR } = FILM;
+const $ = (id) => document.getElementById(id);
+const NS = 'http://www.w3.org/2000/svg';
+const el = (tag, a = {}, p) => { const e = document.createElementNS(NS, tag); for (const k in a) e.setAttribute(k, a[k]); if (p) p.appendChild(e); return e; };
+const D = CAP.desktop, M = CAP.mobile;
+const EXIT = MOTION.bez(0.55, 0.055, 0.675, 0.19); // saída que acelera sem disparar
+const WX = 690, WY = 184, PX = 1180, PY = 123, PS = 372 / 390; // janela, celular, escala CSS→tela no celular
+
+// legendas (máscara que sobe, como no site)
+const caps = COPY.map((c) => {
+  const d = document.createElement('div'); d.className = 'cap'; const words = [];
+  for (const line of c.lines) { const ln = document.createElement('span'); ln.className = 'ln';
+    line.split(' ').forEach((w) => { const o = document.createElement('span'); o.className = 'w'; const i = document.createElement('span'); i.className = 'i'; i.textContent = w; o.appendChild(i); ln.appendChild(o); words.push(i); });
+    d.appendChild(ln); }
+  $('caps').appendChild(d); return { c, d, words };
+});
+
+// marca (mesmas máscaras do item 1)
+const defs = $('defs'), markG = $('mark');
+const mRed = el('mask', { id: 'mRed', maskUnits: 'userSpaceOnUse', x: -50, y: -50, width: 400, height: 300 }, defs);
+const mGray = el('mask', { id: 'mGray', maskUnits: 'userSpaceOnUse', x: -50, y: -50, width: 400, height: 300 }, defs);
+const redPath = el('path', { d: 'M158 156C130 140 104 120 98 98C94 70 128 52 162 56C190 60 210 70 236 86', fill: 'none', stroke: '#fff', 'stroke-width': 74, pathLength: 1, 'stroke-dasharray': '1 1' }, mRed);
+const grayPath = el('path', { d: 'M142 84C120 116 102 144 106 172C112 204 160 200 196 158C212 140 224 120 240 100', fill: 'none', stroke: '#fff', 'stroke-width': 84, pathLength: 1, 'stroke-dasharray': '1 1' }, mGray);
+el('path', { d: MARK.gray, fill: '#8D8D8D' }, el('g', { mask: 'url(#mGray)' }, markG));
+el('path', { d: MARK.red, fill: '#BE0205' }, el('g', { mask: 'url(#mRed)' }, markG));
+const wordI = [...document.querySelectorAll('#word .i')], word = $('word'), url = $('url');
+const LK = { markH: 290, gap: 56 };
+let scaleNow = 1;
+function layout() {
+  const ms = LK.markH / 194, mw = 268 * ms, ww = Math.max(...wordI.map((i) => i.getBoundingClientRect().width / scaleNow));
+  LK.ms = ms; LK.mx = (1920 - (mw + LK.gap + ww)) / 2 - 10; LK.my = 360; LK.wx = LK.mx + mw + LK.gap; LK.wy = LK.my + 34;
+  LK.uy = LK.wy + word.getBoundingClientRect().height / scaleNow + 22; LK.cy = LK.my + 145;
+}
+
+// rolagem do navegador: cada trecho chega na batida com E.smooth, e no meio a página respira (0,3 px/quadro)
+function deskScroll(f) {
+  // cada seção chega na batida (E.smooth) e depois deriva devagar; a deriva recomeça em cada seção, sem salto
+  const v = 0.15 / K;
+  let target = 0, land = 0;
+  for (const s of SCROLL) {
+    const t0 = s.at - 36, t1 = t0 + SCROLL_DUR, next = D.s[s.id];
+    if (f < t0) break;
+    const from = target + v * (f - land);
+    if (f < t1) return mix(from, next, E.smooth((f - t0) / SCROLL_DUR));
+    target = next; land = t1;
+  }
+  return target + v * (f - land);
+}
+
+function seek(fr) {
+  const f = clamp(fr, 0, TOTAL - 0.001);
+  // janela: sobe já em movimento; sai pela esquerda na troca
+  const rise = prog(f, -10, DUR.rise, E.out), push = tw(f, 0, CUE.swap, 1, 1.03, E.dolly);
+  const out = prog(f, CUE.swap - 10, CUE.swap - 10 + DUR.swapOut + 10, EXIT);
+  const ws = push * mix(0.96, 1, rise);
+  const wx = WX + 1181 * (1 - ws) / 2 - 1500 * out, wy = WY + 380 * (1 - rise) + 356 * (1 - ws);
+  $('win').style.transform = `translate(${wx.toFixed(2)}px, ${wy.toFixed(2)}px) scale(${ws.toFixed(5)})`;
+  $('win').style.display = out < 1 ? '' : 'none';
+  $('deskImg').style.transform = `translateY(${(-deskScroll(f) * K).toFixed(2)}px)`;
+  // celular: sobe na troca, rola até a cotação, desce no fim
+  const pin = prog(f, CUE.phone, CUE.phone + DUR.phoneIn, E.glide), pout = prog(f, CUE.exit, CUE.exit + 44, EXIT);
+  const pk = tw(f, CUE.phoneScrollTo, CUE.exit, 1, 1.05, E.dolly); // aproximação lenta enquanto se lê a cotação
+  $('phone').style.transform = `translate(${(PX - 200 * (pk - 1)).toFixed(2)}px, ${(PY - 417 * (pk - 1) + 1000 * (1 - pin) + 1100 * pout).toFixed(2)}px) scale(${pk.toFixed(5)})`;
+  $('phone').style.display = f >= CUE.phone - 1 && pout < 1 ? '' : 'none';
+  const ms0 = 60, ms1 = M.s.cotacao - M.y0 - 24; // CSS px dentro do recorte
+  const my = mix(ms0, ms1, E.smooth(prog(f, CUE.phoneScroll, CUE.phoneScrollTo, E.linear))) + 0.3 * Math.max(0, f - CUE.phone);
+  $('mobImg').style.transform = `translateY(${(-my * PS).toFixed(2)}px)`;
+  // legendas
+  for (const h of caps) {
+    const { c, words } = h, vis = f >= c.in - 1 && f < c.out + 30;
+    h.d.style.display = vis ? '' : 'none'; if (!vis) continue;
+    words.forEach((w, k) => {
+      const a = c.in + k * 3, p = arrive(prog(f, a, a + DUR.wordIn, E.out));
+      const o = c.out + k * 2, q = depart(prog(f, o, o + DUR.wordOut, E.in));
+      w.style.transform = `translateY(${(112 * (1 - p) - 150 * q).toFixed(2)}%)`;
+    });
+  }
+  // marca
+  const k = tw(f, CUE.settle - 20, TOTAL, 1, 1.05, E.dolly);
+  markG.setAttribute('transform', `translate(960 ${LK.cy}) scale(${k.toFixed(5)}) translate(-960 ${-LK.cy}) translate(${LK.mx} ${LK.my}) scale(${LK.ms})`);
+  markG.style.display = f >= CUE.red - 1 ? '' : 'none';
+  redPath.setAttribute('stroke-dashoffset', (1 - prog(f, CUE.red, CUE.red + DUR.arrow, E.out)).toFixed(4));
+  grayPath.setAttribute('stroke-dashoffset', (1 - prog(f, CUE.gray, CUE.gray + DUR.arrow, E.out)).toFixed(4));
+  word.style.transform = `translate(${(960 + (LK.wx - 960) * k).toFixed(2)}px, ${(LK.cy + (LK.wy - LK.cy) * k).toFixed(2)}px) scale(${k.toFixed(5)})`;
+  wordI.forEach((i, n) => { const a = CUE.word + n * 4, p = arrive(prog(f, a, a + DUR.word, E.out)); i.style.transform = `translateY(${(112 * (1 - p)).toFixed(2)}%)`; });
+  const pu = prog(f, CUE.url, CUE.url + 24, E.out);
+  url.style.opacity = pu.toFixed(3);
+  url.style.transform = `translate(${(960 + (LK.wx - 960) * k).toFixed(2)}px, ${(LK.cy + (LK.uy - LK.cy) * k + 16 * (1 - pu)).toFixed(2)}px) scale(${k.toFixed(5)})`;
+}
+
+function fit() {
+  if (RENDER) return;
+  scaleNow = Math.min(innerWidth / 1920, innerHeight / 1080);
+  const st = $('stage'); st.style.transform = `scale(${scaleNow})`;
+  st.style.left = (innerWidth - 1920 * scaleNow) / 2 + 'px'; st.style.top = (innerHeight - 1080 * scaleNow) / 2 + 'px';
+}
+window.seek = seek;
+window.FILM_READY = (async () => {
+  await Promise.all([document.fonts.load('900 96px "Big Shoulders"'), document.fonts.load('800 58px "Big Shoulders"'), document.fonts.load('500 44px "IBM Plex Sans"'),
+    ...[...document.images].map((im) => (im.complete ? 0 : new Promise((r) => { im.onload = im.onerror = r; })))]);
+  await Promise.all([...document.images].map((im) => im.decode().catch(() => {})));
+  await document.fonts.ready;
+  fit(); layout(); seek(0);
+})();
+if (!RENDER) {
+  addEventListener('resize', fit);
+  const audio = new Audio('out/soundtrack.wav'); let t0 = 0, playing = false;
+  addEventListener('click', () => { playing = true; t0 = performance.now(); audio.currentTime = 0; audio.play().catch(() => {}); });
+  const loop = () => { if (playing) { const f = ((performance.now() - t0) / 1000) * 60; seek(f); if (f >= TOTAL) playing = false; } requestAnimationFrame(loop); };
+  FILM_READY.then(() => requestAnimationFrame(loop));
+}
+</script>
+</body>
+</html>

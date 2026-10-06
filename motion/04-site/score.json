@@ -1,0 +1,121 @@
+{
+  "key": "F major",
+  "bpm": 120,
+  "chords": [
+    "Fadd9",
+    "Dm9",
+    "Bbmaj9",
+    "C9sus4",
+    "Fadd9",
+    "Dm9",
+    "Bbmaj9",
+    "Gm9 C9sus4",
+    "Dm9",
+    "Bbmaj9",
+    "Fadd9",
+    "Gm9 C9sus4",
+    "Fmaj9",
+    "-"
+  ],
+  "sections": [
+    {
+      "bars": [
+        1,
+        2
+      ],
+      "style": "intro",
+      "level": 0.45
+    },
+    {
+      "bars": [
+        3,
+        9
+      ],
+      "style": "groove",
+      "level": 0.62,
+      "layers": {
+        "arp": 0.5
+      }
+    },
+    {
+      "bars": [
+        10,
+        10
+      ],
+      "style": "breakdown",
+      "level": 0.5,
+      "layers": {
+        "drums": 0
+      }
+    },
+    {
+      "bars": [
+        11,
+        11
+      ],
+      "style": "resolve"
+    },
+    {
+      "bars": [
+        12,
+        12
+      ],
+      "style": "groove",
+      "level": 0.62
+    },
+    {
+      "bars": [
+        13,
+        13
+      ],
+      "style": "resolve",
+      "level": 0.6,
+      "layers": {
+        "drums": 0
+      }
+    },
+    {
+      "bars": [
+        14,
+        14
+      ],
+      "style": "hold"
+    }
+  ],
+  "signature": {
+    "tick": "F6",
+    "tock": "C6",
+    "motif": [
+      0,
+      7,
+      12
+    ],
+    "rhythm": [
+      0,
+      0.5,
+      1
+    ]
+  },
+  "typing": "off",
+  "motifs": [],
+  "drops": [
+    {
+      "at": "@swap",
+      "silence": "1/8",
+      "suck": 0.2
+    }
+  ],
+  "payoff": "@swap",
+  "mix": {
+    "music": 1,
+    "sfx": 1,
+    "reverb": 0.9,
+    "sidechain": 0.5,
+    "duck_db": 3
+  },
+  "master": {
+    "lufs": -14,
+    "ceiling": 0.77,
+    "fade": 1.3
+  }
+}
