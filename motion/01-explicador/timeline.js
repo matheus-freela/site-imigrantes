@@ -80,7 +80,7 @@
   const DUR = {
     leave: 40, day: 10, spreaderIn: 28, lift: 30, truck: 66, lower: 30, release: 30,
     barrier: 30, door: 30, wordIn: 26, wordOut: 14, pull: 60, tile: 24, implode: 18,
-    hero: 48, underline: 96, refill: 30, line: 40, lock: 44, arrow: 44, word: 30,
+    hero: 48, underline: 168, refill: 30, line: 40, lock: 44, arrow: 44, word: 30,
   };
 
   // Texto: in = primeiro quadro, out = início da saída. hi = palavras em vermelho.
@@ -100,9 +100,15 @@
   function yearLock() {
     for (let f = CUE.underline; f < CUE.underline + 200; f++) {
       const p = Math.min(1, Math.max(0, (f - CUE.underline) / DUR.underline));
-      if (52 * E.outSoft(p) >= 51.6) return f; // o odômetro chega a 2026 (a coluna das unidades encaixa)
+      if (52 * E.smooth(p) >= 51.6) return f; // o odômetro chega a 2026 (a coluna das unidades encaixa)
     }
     return CUE.underline + DUR.underline;
+  }
+
+  /** Quadro em que o odômetro vira de 1999 para 2000 (as quatro colunas giram juntas). */
+  function carry2000() {
+    for (let f = CUE.underline; f < CUE.underline + DUR.underline; f++) if (1974 + 52 * E.smooth((f - CUE.underline) / DUR.underline) >= 1999.5) return f;
+    return CUE.underline;
   }
 
   /** Eventos de som para out/cues.json — calculados das mesmas curvas da imagem. */
@@ -125,6 +131,7 @@
     add({ f: CUE.pull, kind: 'drop', weight: 1.2, pan: 0, id: 'prova:drop' });
     for (let i = 0; i < 9; i++) add({ f: ROUTE.start + i * ROUTE.step + ROUTE.dur - 4, kind: 'pop', weight: i < 3 ? 1.6 : 1.0, pan: 0.2 + i * 0.05, id: `prova:rota${i + 1}` }); // cada destino acende
     add({ f: peak(CUE.implode, CUE.implode + DUR.hero, E.inOut), kind: 'whoosh', weight: 1.1, pan: 0, dur: DUR.hero, apexFrac: 0.5, id: 'prova:hero' });
+    add({ f: carry2000(), kind: 'tick', variant: 'crisp', weight: 1.0, pan: 0, id: 'prova:2000' }); // a virada do milênio no odômetro
     add({ f: yearLock(), kind: 'tick', variant: 'crisp', weight: 1.3, pan: 0, id: 'prova:2026' }); // contador trava no ano atual
     add({ f: peak(CUE.lock, CUE.lock + DUR.lock, E.inOut), kind: 'whoosh', weight: 1.4, pan: 0.2, dur: DUR.lock, apexFrac: 0.5, id: 'marca:encaixe' });
     add({ f: CUE.settle, kind: 'bell', variant: 'motif', weight: 0.9, pan: 0, id: 'marca:logo' });

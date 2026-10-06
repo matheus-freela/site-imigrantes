@@ -461,7 +461,7 @@ function seek(fRaw) {
   sOurs.setFill(prog(f, CUE.refill, CUE.refill + DUR.refill, E.smooth));
   sOurs.tag.setAttribute('opacity', 0);
   // contador 1974 → 2026 em estêncil na lateral
-  sOurs.setYear(1974 + 52 * E.outSoft(prog(f, CUE.underline, CUE.underline + DUR.underline, E.linear)));
+  sOurs.setYear(1974 + 52 * E.smooth(prog(f, CUE.underline, CUE.underline + DUR.underline, E.linear)));
   const yo = prog(f, CUE.implode + 30, CUE.implode + 46, E.smooth) * (1 - prog(f, CUE.refill - 8, CUE.refill + 6, E.smooth));
   sOurs.yearG.setAttribute('opacity', yo.toFixed(3));
   sOurs.yearG.setAttribute('transform', `translate(${G.cw / 2 + 70} ${G.ch / 2}) scale(${(1 + 0.06 * hitPulse(f - FILM.yearLock(), 2, 6)).toFixed(4)}) translate(${-G.cw / 2 - 70} ${-G.ch / 2})`);
