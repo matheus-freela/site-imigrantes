@@ -110,7 +110,7 @@ ${TERMINAIS[k].map((t, i) => `          <li><span>${pre}-${String(i + 1).padStar
     return `<ul class="lic-grid">${LICENCAS.map((l) => `
       <li data-reveal>
         <div class="lic-logo">${l.id ? `<img src="/images/licencas/${l.id}.png" alt="" loading="lazy" decoding="async">` : `<span class="lic-mono" aria-hidden="true">${l.nome}</span>`}</div>
-        <h3>${l.nome}</h3><span class="lic-org">${l.org}</span><p>${l.d}</p>
+        <h3>${l.nome}</h3><span class="lic-org">${l.org}</span>${l.d ? `<p>${l.d}</p>` : ""}
       </li>`).join('')}
       <li class="lic-more" data-reveal><h3>Demais autorizações</h3><p>Conforme a exigência de cada operação. Pergunte pela sua carga na cotação.</p></li>
     </ul>`;
@@ -129,7 +129,7 @@ ${TERMINAIS[k].map((t, i) => `          <li><span>${pre}-${String(i + 1).padStar
   <div class="wrap cta-grid">
     <h2 class="h-xl" id="ctaTitle" data-reveal>Tem carga<br>saindo do<br>porto?</h2>
     <div class="cta-copy" data-reveal>
-      <p class="lead">${servico ? `Monte a cotação de ${servico.code === 'IMP·EXP' ? 'apoio logístico' : servico.code === 'PROJETO' ? 'carga projeto' : servico.code} em um minuto` : 'Monte a cotação em um minuto'} ou fale direto com a nossa equipe, de segunda a sexta, das 8h30 às 18h.</p>
+      <p class="lead">${servico ? `Monte a cotação de ${servico.code === 'IMP·EXP' ? 'apoio logístico' : servico.code === 'PROJETO' ? 'carga projeto' : servico.code} em um minuto` : 'Monte a cotação em um minuto'} ou fale direto com a nossa equipe, de segunda a sexta, das 8h às 18h30.</p>
       <div class="btn-row">
         <a class="btn btn-red" href="${href}">Montar cotação ${arr()}</a>
         <a class="btn btn-line-light" href="${WA_LINK}" target="_blank" rel="noopener">WhatsApp ${SITE.waTel} ${arr('↗')}</a>
@@ -248,8 +248,8 @@ ${NAV.map((n) => `          <li><a href="${n.href}">${n.label}</a></li>`).join('
           <li><a href="https://wa.me/${SITE.wa}" target="_blank" rel="noopener">WhatsApp ${SITE.waTel}</a></li>
           <li><a href="tel:${SITE.tel}">Tel. ${SITE.telTxt}</a></li>
           <li><a href="mailto:${SITE.email}">${SITE.email}</a></li>
-          <li>Av. Dr. Pedro Lessa, 3076 · Santos/SP</li>
-          <li>Segunda a sexta, 8h30 às 18h</li>
+          <li><span class="foot-k">Endereço · sede própria</span>Av. Dr. Pedro Lessa, 3076 · Santos/SP</li>
+          <li>Segunda a sexta, 8h às 18h30</li>
         </ul>
       </div>
     </div>

@@ -640,8 +640,20 @@
         c.appendChild(s); box.appendChild(c); strips.push({ c:c, s:s, u:Math.pow(10, digits - 1 - d) });
       }
       el.appendChild(box);
-      return { el:el, n:n, strips:strips, done:false };
+      // cada janela fica com a largura exata do seu dígito final: o número termina com o espaçamento do texto
+      // normal e não precisa ser trocado por texto no fim (a troca dava um tique de alguns pixels)
+      var o = { el:el, n:n, strips:strips, done:false };
+      fitCells(o);
+      return o;
     }).filter(Boolean);
+    function fitCells(o){
+      var probe = document.createElement("span"); probe.style.cssText = "position:absolute;visibility:hidden;white-space:pre"; o.el.appendChild(probe);
+      var fsz = parseFloat(getComputedStyle(o.el).fontSize) || 16;
+      o.strips.forEach(function(st, d){ probe.textContent = String(o.n).charAt(d); st.c.style.width = (probe.getBoundingClientRect().width / fsz).toFixed(4) + "em"; });
+      probe.remove();
+    }
+    // as larguras dependem da fonte: mede de novo quando ela terminar de carregar
+    if(document.fonts && document.fonts.ready){ document.fonts.ready.then(function(){ odos.forEach(fitCells); }); }
     function set(o, v){
       o.strips.forEach(function(st, idx){
         var u = st.u, p = u === 1 ? v % 10 : (Math.floor(v / u) % 10) + Math.min(1, Math.max(0, (v % u) - (u - 1)));
@@ -650,7 +662,7 @@
         if(idx < o.strips.length - 1) st.c.style.opacity = Math.max(0, Math.min(1, v - (u - 1))).toFixed(3);
       });
     }
-    function finish(o){ set(o, o.n); o.el.querySelector(".odo").outerHTML = '<span aria-hidden="true">' + o.n + '</span>'; }
+    function finish(o){ set(o, o.n); }
     function run(o, delay){
       if(o.done) return; o.done = true;
       if(reduce){ finish(o); return; }

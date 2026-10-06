@@ -1,7 +1,7 @@
 export default (h) => ({
   path: '/contato', nav: 'contato',
   title: 'Contato e cotação — Transportes Imigrantes',
-  description: 'Monte a cotação de transporte de contêineres em um minuto e envie pelo WhatsApp ou por e-mail. Santos/SP, de segunda a sexta, das 8h30 às 18h.',
+  description: 'Monte a cotação de transporte de contêineres em um minuto e envie pelo WhatsApp ou por e-mail. Santos/SP, de segunda a sexta, das 8h às 18h30.',
   body: `
 <section class="sec on-ink contact-page" id="contato" aria-labelledby="ctTitle">
   <div class="wrap contact-grid">
@@ -16,7 +16,7 @@ export default (h) => ({
         <div class="c-row"><span class="k">Telefone</span><a class="v" href="tel:${h.SITE.tel}">${h.SITE.telTxt}</a></div>
         <div class="c-row"><span class="k">E-mail</span><a class="v" href="mailto:${h.SITE.email}">${h.SITE.email}</a></div>
         <div class="c-row"><span class="k">Endereço</span><span class="v">Av. Dr. Pedro Lessa, 3076, conj. 11<span class="sub">Santos/SP · CEP 11025-016 · <a href="https://www.google.com/maps/search/?api=1&query=Av.+Dr.+Pedro+Lessa%2C+3076+-+Santos+-+SP" target="_blank" rel="noopener" style="color:var(--red-light);">ver no mapa ↗</a></span></span></div>
-        <div class="c-row"><span class="k">Horário</span><span class="v">Segunda a sexta, 8h30 às 18h<span class="sub">Fora do horário, respondemos no próximo dia útil.</span></span></div>
+        <div class="c-row"><span class="k">Horário</span><span class="v">Segunda a sexta, 8h às 18h30<span class="sub">Fora do horário, respondemos no próximo dia útil.</span></span></div>
       </div>
 
       <!-- fluxo da cotação em loop: uma forma só que muda de papel (decorativo; o texto abaixo resume) -->
@@ -111,7 +111,7 @@ ${h.SERVICOS.map((s) => `            <option value="${s.form}" data-slug="${s.sl
         <button class="btn btn-line-dark" type="submit" data-canal="email">Enviar por e-mail ${h.arr()}</button>
       </div>
       <p class="q-status" id="qStatus" role="status"></p>
-      <p class="q-note">Nada fica salvo neste site: os dados vão só na mensagem que você envia para a nossa equipe. Atendemos de segunda a sexta, das 8h30 às 18h; fora desse horário, respondemos no próximo dia útil.</p>
+      <p class="q-note">Nada fica salvo neste site: os dados vão só na mensagem que você envia para a nossa equipe. Atendemos de segunda a sexta, das 8h às 18h30; fora desse horário, respondemos no próximo dia útil.</p>
     </form>
   </div>
 </section>

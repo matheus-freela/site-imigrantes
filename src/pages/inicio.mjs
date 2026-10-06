@@ -32,8 +32,8 @@ export default (h) => ({
   "openingHoursSpecification": {
     "@type": "OpeningHoursSpecification",
     "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
-    "opens": "08:30",
-    "closes": "18:00"
+    "opens": "08:00",
+    "closes": "18:30"
   },
   "description": "Transporte rodoviário de contêineres de importação e exportação desde 1974, com base no Porto de Santos/SP. FCL, LCL, DTA, REDEX e entregas no Sudeste, Sul e Mato Grosso do Sul."
 }
