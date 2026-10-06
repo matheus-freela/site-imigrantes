@@ -1,28 +1,36 @@
 # Transportes Imigrantes — site institucional
 
-Site one-page da Transportes Rodoviários Imigrantes (Santos/SP), publicado na Vercel:
+Site da Transportes Rodoviários Imigrantes (Santos/SP), publicado na Vercel:
 https://site-imigrantes-gamma.vercel.app
 
-HTML, CSS e JavaScript puros, sem build. Todo envio para a branch `main` é publicado automaticamente em produção.
+HTML, CSS e JavaScript puros. As páginas são **geradas** por um script Node sem dependências
+(`node tools/build.mjs`) e o HTML gerado fica na raiz, que é o que a Vercel publica. Todo envio
+para a branch `main` vai para produção.
+
+## Páginas
+
+`/` início · `/servicos` e `/servicos/<fcl|lcl|dta|redex|apoio-logistico|carga-projeto>` ·
+`/terminais` · `/operacao` · `/empresa` · `/duvidas` · `/contato` (cotação)
 
 ## Estrutura
 
 | Arquivo | O que tem |
 |---|---|
-| `index.html` | Página inteira: textos, estrutura e estilos |
-| `js/boot.js` | Script mínimo carregado no `<head>` (animações de entrada e rede de segurança) |
-| `js/main.js` | Comportamento: menu, letreiro, mapa, slider, formulário de cotação e analytics |
-| `404.html` | Página de endereço não encontrado |
-| `fonts/` | Fontes hospedadas no próprio site (Big Shoulders e IBM Plex) |
-| `images/` | Fotos e logo |
-| `vercel.json` | Cabeçalhos de segurança (CSP) e cache |
+| `src/data.mjs` | Dados em um lugar só: serviços, terminais, perguntas, habilitações, fotos, vídeos, menu |
+| `src/pages/*.mjs` | Conteúdo de cada página |
+| `tools/build.mjs` | Monta as páginas (cabeçalho, rodapé, metatags, sitemap) |
+| `tools/serve.mjs` | Servidor local igual à Vercel (URLs limpas e CSP): `node tools/serve.mjs` → http://localhost:5510 |
+| `tools/trace-marca.py` | Vetoriza a marca (`images/marca.svg`) a partir do PNG oficial |
+| `css/site.css` | Todos os estilos |
+| `js/boot.js` / `js/main.js` | Scripts (o mesmo `main.js` serve todas as páginas) |
+| `images/`, `video/`, `fonts/` | Fotos, logos, vídeos curtos e fontes |
+| `*.html`, `servicos/`, `sitemap.xml` | **Gerados** — não edite à mão |
 
 ## Onde mexer
 
-- **Textos:** direto no `index.html`.
-- **Terminais atendidos:** seção `id="terminais"` do `index.html` — a lista do formulário de cotação é lida dali.
+- **Textos, serviços, terminais, dúvidas:** em `src/`, depois rode `node tools/build.mjs`.
 - **Cidades do mapa:** array `CITIES` em `js/main.js`.
-- **WhatsApp e e-mail do formulário:** `WA_NUM` e `EMAIL` em `js/main.js` (os links do HTML também usam o número).
+- **Domínio próprio:** `SITE.base` em `src/data.mjs` (canonical, OG e sitemap).
 - **Trocar fotos:** use um **nome de arquivo novo** (o navegador guarda as imagens em cache).
 
 ## Segurança

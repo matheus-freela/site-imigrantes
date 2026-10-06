@@ -1,9 +1,68 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
+    <loc>https://site-imigrantes-gamma.vercel.app/contato</loc>
+    <lastmod>2026-10-06</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://site-imigrantes-gamma.vercel.app/duvidas</loc>
+    <lastmod>2026-10-06</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://site-imigrantes-gamma.vercel.app/empresa</loc>
+    <lastmod>2026-10-06</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://site-imigrantes-gamma.vercel.app/</loc>
-    <lastmod>2026-10-02</lastmod>
-    <changefreq>monthly</changefreq>
+    <lastmod>2026-10-06</lastmod>
     <priority>1.0</priority>
+  </url>
+  <url>
+    <loc>https://site-imigrantes-gamma.vercel.app/operacao</loc>
+    <lastmod>2026-10-06</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://site-imigrantes-gamma.vercel.app/servicos</loc>
+    <lastmod>2026-10-06</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://site-imigrantes-gamma.vercel.app/servicos/fcl</loc>
+    <lastmod>2026-10-06</lastmod>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://site-imigrantes-gamma.vercel.app/servicos/lcl</loc>
+    <lastmod>2026-10-06</lastmod>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://site-imigrantes-gamma.vercel.app/servicos/dta</loc>
+    <lastmod>2026-10-06</lastmod>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://site-imigrantes-gamma.vercel.app/servicos/redex</loc>
+    <lastmod>2026-10-06</lastmod>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://site-imigrantes-gamma.vercel.app/servicos/apoio-logistico</loc>
+    <lastmod>2026-10-06</lastmod>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://site-imigrantes-gamma.vercel.app/servicos/carga-projeto</loc>
+    <lastmod>2026-10-06</lastmod>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://site-imigrantes-gamma.vercel.app/terminais</loc>
+    <lastmod>2026-10-06</lastmod>
+    <priority>0.8</priority>
   </url>
 </urlset>

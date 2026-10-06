@@ -1,4 +1,5 @@
-/* Transportes Imigrantes — comportamento da página (carregado com defer) */
+/* Transportes Imigrantes — comportamento das páginas (carregado com defer).
+   O mesmo arquivo serve todas as páginas: cada bloco só roda se o elemento dele existir. */
 (function(){
   "use strict";
   var doc = document.documentElement;
@@ -25,50 +26,55 @@
   /* ---------- cabeçalho: muda ao rolar, some descendo, volta subindo ---------- */
   var head = document.getElementById("siteHead");
   var wa = document.getElementById("waFloat");
-  var hero = document.getElementById("topo");
-  var heroMedia = hero.querySelector(".hero-media");
+  // topo da página: o hero do início ou o topo escuro das páginas internas
+  var hero = document.querySelector(".hero, .page-hero, .contact-page");
+  var heroMedia = hero && hero.querySelector(".hero-media");
+  var drawRoutes = null; // definido pelo mapa, quando a página tem mapa
   var lastY = window.scrollY, ticking = false;
   function onScroll(){
     var y = window.scrollY;
-    var heroH = hero.offsetHeight;
-    // no celular a foto fica em cima e o texto embaixo: o cabeçalho fica sólido assim que a foto passa,
+    var heroH = hero ? hero.offsetHeight : 0;
+    // no celular a foto do início fica em cima e o texto embaixo: o cabeçalho fica sólido assim que a foto passa,
     // para não ficar transparente por cima do título
-    var solidAt = window.innerWidth <= 940 ? heroMedia.offsetHeight - 72 : heroH - 80;
+    var solidAt = window.innerWidth <= 940 && heroMedia ? heroMedia.offsetHeight - 72 : heroH - 80;
     head.classList.toggle("scrolled", y > solidAt);
     if(!doc.classList.contains("menu-open")){
       head.classList.toggle("hide", y > lastY && y > heroH && !reduce);
     }
     updateWa(y);
     lastY = y;
-    if(!reduce){ parallax(y); if(mapVisible){ drawRoutes(); } }
+    if(!reduce){ parallax(y); if(mapVisible && drawRoutes){ drawRoutes(); } }
     ticking = false;
   }
   window.addEventListener("scroll", function(){ if(!ticking){ ticking = true; requestAnimationFrame(onScroll); } }, { passive:true });
 
-  /* WhatsApp flutuante: aparece quando o botão do hero sai da tela e some sobre o formulário e o rodapé,
-     para não cobrir campos nem botões */
-  var heroCtaVisible = true, quoteVisible = false, mapVisible = false;
+  /* WhatsApp flutuante: aparece quando o botão do topo sai da tela e some sobre o formulário, a chamada final
+     e o rodapé, para não cobrir campos nem botões (elementos com data-wa-hide) */
+  var heroCta = hero && hero.querySelector(".btn-row");
+  var heroCtaVisible = !!heroCta, hiders = [], mapVisible = false;
   function updateWa(y){
     if(y === undefined){ y = window.scrollY; }
     var nearEnd = y + window.innerHeight > document.documentElement.scrollHeight - 120;
-    wa.classList.toggle("show", !heroCtaVisible && !quoteVisible && !nearEnd);
+    wa.classList.toggle("show", !heroCtaVisible && !hiders.length && !nearEnd);
   }
   if("IntersectionObserver" in window){
     var visObs = new IntersectionObserver(function(entries){
       entries.forEach(function(en){
-        if(en.target.id === "cotacao"){ quoteVisible = en.isIntersecting; }
-        else { heroCtaVisible = en.isIntersecting; }
+        if(en.target === heroCta){ heroCtaVisible = en.isIntersecting; return; }
+        var i = hiders.indexOf(en.target);
+        if(en.isIntersecting && i < 0){ hiders.push(en.target); }
+        if(!en.isIntersecting && i > -1){ hiders.splice(i, 1); }
       });
       updateWa();
     });
-    visObs.observe(hero.querySelector(".btn-row"));
-    visObs.observe(document.getElementById("cotacao"));
+    if(heroCta){ visObs.observe(heroCta); }
+    document.querySelectorAll("[data-wa-hide]").forEach(function(n){ visObs.observe(n); });
   } else { heroCtaVisible = false; }
 
   /* parallax leve na foto do hero */
   var heroImgEl = document.querySelector("#heroFrame img");
   function parallax(y){
-    if(!heroImgEl || y > hero.offsetHeight) return;
+    if(!heroImgEl || !hero || y > hero.offsetHeight) return;
     if(window.innerWidth < 940) return;
     heroImgEl.style.translate = "0 " + (y * 0.12).toFixed(1) + "px";
   }
@@ -92,19 +98,6 @@
   burger.addEventListener("click", function(){ setMenu(!doc.classList.contains("menu-open")); });
   menu.querySelectorAll("a").forEach(function(a){ a.addEventListener("click", function(){ setMenu(false); }); });
   document.addEventListener("keydown", function(e){ if(e.key === "Escape" && doc.classList.contains("menu-open")){ setMenu(false); burger.focus(); } });
-
-  /* ---------- link ativo no menu ---------- */
-  var navLinks = document.querySelectorAll(".nav a[href^='#']");
-  if("IntersectionObserver" in window){
-    var secObs = new IntersectionObserver(function(entries){
-      entries.forEach(function(en){
-        if(en.isIntersecting){
-          navLinks.forEach(function(a){ a.classList.toggle("active", a.getAttribute("href") === "#" + en.target.id); });
-        }
-      });
-    }, { rootMargin:"-45% 0px -50% 0px" });
-    document.querySelectorAll("main section[id]").forEach(function(s){ secObs.observe(s); });
-  }
 
   /* ---------- revelar ao rolar ---------- */
   function onView(els, cb, opts){
@@ -194,14 +187,15 @@
   if(!reduce){
     onView(flaps, function(f){ spin(f, flaps.indexOf(f) * 140); }, { rootMargin:"0px 0px -15% 0px" });
     flaps.forEach(function(f){
-      f.closest(".svc").addEventListener("mouseenter", function(){ spin(f, 0); });
+      var row = f.closest(".svc, .sd-side");
+      if(row){ row.addEventListener("mouseenter", function(){ spin(f, 0); }); }
     });
   }
 
   /* ---------- contador 1974 → ano atual ---------- */
   var counter = document.getElementById("yearCounter");
-  counter.textContent = ANO;
-  if(!reduce){
+  if(counter){ counter.textContent = ANO; }
+  if(counter && !reduce){
     counter.textContent = "1974";
     onView([counter], function(){
       var t0 = null, dur = 2200;
@@ -218,10 +212,10 @@
 
   /* ---------- antes / depois ---------- */
   var cmp = document.getElementById("compare");
-  var range = cmp.querySelector("input");
+  var range = cmp && cmp.querySelector("input");
   function setPos(v){ cmp.style.setProperty("--pos", v + "%"); }
-  range.addEventListener("input", function(){ setPos(range.value); });
-  if(!reduce){
+  if(range){ range.addEventListener("input", function(){ setPos(range.value); }); }
+  if(range && !reduce){
     // pequena "demonstração" quando aparece, para mostrar que dá para arrastar
     onView([cmp], function(){
       var t0 = null, dur = 1600, touched = false;
@@ -253,6 +247,7 @@
   function P(lon, lat){ return [ (lon + 74.5) * 10, (5.8 - lat) * 10 ]; }
   var NS = "http://www.w3.org/2000/svg";
   var svg = document.getElementById("brMap");
+  if(svg){
   function el(name, attrs, parent){
     var n = document.createElementNS(NS, name);
     for(var k in attrs){ n.setAttribute(k, attrs[k]); }
@@ -292,7 +287,7 @@
   ot.textContent = "Santos";
 
   var mapBox = document.getElementById("mapBox");
-  function drawRoutes(force){
+  drawRoutes = function(force){
     var p;
     if(force === 1){ p = 1; }
     else{
@@ -309,7 +304,7 @@
       var on = local >= 0.98;
       rt.dot.classList.toggle("on", on); rt.lbl.classList.toggle("on", on); rt.li.classList.toggle("lit", on);
     });
-  }
+  };
   if(reduce){ drawRoutes(1); } else { drawRoutes(); }
   // rótulos do mapa com tamanho fixo na tela (12px no desktop, 11px no celular), qualquer que seja a escala do SVG
   var mapLbls = svg.querySelectorAll(".city-lbl");
@@ -328,6 +323,7 @@
       if(mapVisible && !reduce){ drawRoutes(); }
     }, { rootMargin:"20% 0px" }).observe(mapBox);
   } else { mapVisible = true; }
+  } // fim do mapa
 
   /* ---------- marca gigante do rodapé ocupa a largura exata ---------- */
   var giant = document.querySelector(".giant");
@@ -375,13 +371,7 @@
   /* ---------- formulário de cotação ---------- */
   var WA_NUM = "5513978043399", EMAIL = "administrativo@transportesimigrantes.com.br";
   var form = document.getElementById("cotacao");
-  var dl = document.getElementById("qTerminais");
-  // a lista de terminais do formulário vem da própria seção Terminais (um lugar só para manter)
-  document.querySelectorAll(".term-list li").forEach(function(li){
-    var o = document.createElement("option");
-    o.value = li.lastChild.textContent.trim();
-    dl.appendChild(o);
-  });
+  if(form){
   // na importação a carga sai do porto para o destino; na exportação ela é coletada e vai para o porto
   var destinoLbl = document.getElementById("qDestinoLbl");
   var valorWrap = document.getElementById("qValorWrap"), valor = document.getElementById("qValor");
@@ -481,27 +471,25 @@
     track("cotacao_enviada", { canal:canal, servico:v("servico"), operacao:form.querySelector("input[name=operacao]:checked").value });
   });
 
-  /* ---------- serviços: o clique leva à cotação com o serviço já escolhido ---------- */
+  /* serviço já escolhido quando a pessoa chega de uma página de serviço (/contato?servico=fcl) */
   var servSelect = document.getElementById("qServico");
-  document.querySelectorAll(".svc a.cover[data-servico]").forEach(function(a){
-    a.addEventListener("click", function(e){
-      e.preventDefault();
-      var val = a.getAttribute("data-servico");
-      servSelect.value = val;
-      if(/REDEX/.test(val)){ // REDEX é sempre exportação
-        var exp = form.querySelector('input[name=operacao][value="Exportação"]');
-        if(exp && !exp.checked){ exp.checked = true; exp.dispatchEvent(new Event("change", { bubbles:true })); }
-      }
-      form.scrollIntoView({ behavior: reduce ? "auto" : "smooth", block:"start" });
-      servSelect.classList.remove("prefilled"); void servSelect.offsetWidth; servSelect.classList.add("prefilled");
-      // foco no campo de serviço (anuncia a escolha ao leitor de tela) sem atrapalhar a rolagem
-      setTimeout(function(){ servSelect.focus({ preventScroll:true }); }, reduce ? 0 : 700);
-      track("servico_escolhido", { servico:val });
-    });
-  });
+  var pedido = new URLSearchParams(location.search).get("servico");
+  var opt = pedido && servSelect.querySelector('option[data-slug="' + pedido.replace(/[^a-z-]/g, "") + '"]');
+  if(opt){
+    servSelect.value = opt.value;
+    if(pedido === "redex"){ // REDEX é sempre exportação
+      var exp = form.querySelector('input[name=operacao][value="Exportação"]');
+      exp.checked = true; setOperacao(true);
+    }
+    if(pedido === "carga-projeto"){ document.getElementById("qConteiner").value = "Sem contêiner (carga solta ou em prancha)"; }
+    servSelect.classList.add("prefilled");
+    track("servico_escolhido", { servico:opt.value });
+  }
+  } // fim do formulário
 
   /* ---------- terminais: abas Cheio | Vazio no celular ---------- */
   var tabsBox = document.getElementById("termTabs");
+  if(tabsBox){
   var tabs = [document.getElementById("tabCheio"), document.getElementById("tabVazio")];
   var panels = [document.getElementById("panelCheio"), document.getElementById("panelVazio")];
   var tabAtual = 0;
@@ -541,17 +529,10 @@
     if(i === undefined) return;
     e.preventDefault(); selectTab(i, true);
   });
-
-  /* ---------- habilitações: fechadas no celular, abertas no desktop ---------- */
-  var licencas = document.getElementById("licencas");
   var mqCelular = window.matchMedia("(max-width:820px)");
-  function ajustaCelular(celular){ setupTabs(celular); licencas.open = !celular; }
-  // o ajuste inicial acontece sem animação (senão a lista "recolhe" à toa ao carregar)
-  licencas.classList.add("sem-transicao");
-  ajustaCelular(mqCelular.matches);
-  void licencas.offsetHeight;
-  requestAnimationFrame(function(){ requestAnimationFrame(function(){ licencas.classList.remove("sem-transicao"); }); });
-  mqCelular.addEventListener("change", function(m){ ajustaCelular(m.matches); });
+  setupTabs(mqCelular.matches);
+  mqCelular.addEventListener("change", function(m){ setupTabs(m.matches); });
+  }
 
   onScroll();
   doc.classList.add("booted"); // avisa a rede de segurança do <head> que o script rodou
@@ -729,5 +710,25 @@
     function stop(){ if(running){ running = false; cancelAnimationFrame(raf); } }
     new IntersectionObserver(function(es){ if(es[0].isIntersecting && !document.hidden) start(); else stop(); }).observe(svg);
     document.addEventListener("visibilitychange", function(){ if(document.hidden) stop(); });
+  })();
+
+  /* ---------- vídeos curtos: tocam em loop, sem som, só enquanto aparecem na tela ----------
+     Com movimento reduzido (ou se o navegador bloquear), ficam parados no pôster, com os controles à mostra. */
+  (function(){
+    var vids = Array.prototype.slice.call(document.querySelectorAll("video[data-autoplay]"));
+    if(!vids.length) return;
+    function manual(v){ v.controls = true; v.preload = "metadata"; }
+    if(reduce || !("IntersectionObserver" in window)){ vids.forEach(manual); return; }
+    function play(v){ var p = v.play(); if(p && p.catch){ p.catch(function(){ manual(v); }); } }
+    var io = new IntersectionObserver(function(es){
+      es.forEach(function(e){
+        var v = e.target; v._vis = e.isIntersecting;
+        if(v._vis && !document.hidden){ play(v); } else { v.pause(); }
+      });
+    }, { threshold:0.35 });
+    vids.forEach(function(v){ io.observe(v); });
+    document.addEventListener("visibilitychange", function(){
+      vids.forEach(function(v){ if(document.hidden){ v.pause(); } else if(v._vis){ play(v); } });
+    });
   })();
 })();
