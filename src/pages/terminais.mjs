@@ -6,7 +6,7 @@ export default (h) => ({
 ${h.pageHero({
   crumbs: [['Terminais']], tag: '<b>02</b> Terminais', lines: ['Do terminal', 'ao seu destino'],
   lead: 'Retiramos e entregamos nos principais terminais e depósitos da Baixada Santista: carregamento do contêiner cheio, retirada e devolução do vazio.',
-  media: h.video(h.VIDEOS.find((v) => v.id === 'caminhao-rodovia')),
+  media: h.video(h.VIDEOS.find((v) => v.id === 'caminhao-rodovia'), { eager: true }),
 })}
 
 <section class="sec" id="lista" aria-labelledby="listaTitle" style="background:var(--paper-2);">

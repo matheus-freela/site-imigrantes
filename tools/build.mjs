@@ -38,8 +38,8 @@ export const H = {
   },
 
   // vídeo curto sem som: toca em loop só enquanto aparece na tela (main.js); sem JS, mostra o pôster com controles
-  video(v, { cls = '' } = {}) {
-    return `<video${cls ? ` class="${cls}"` : ''} data-autoplay muted loop playsinline preload="none" poster="/video/${v.id}-poster.webp" width="720" height="406" aria-label="${v.t}: ${v.d}"><source src="/video/${v.id}.mp4" type="video/mp4"></video>`;
+  video(v, { cls = '', eager = false } = {}) {
+    return `<video${cls ? ` class="${cls}"` : ''} data-autoplay muted loop playsinline preload="${eager ? 'auto' : 'none'}" poster="/video/${v.id}-poster.webp" width="720" height="406" aria-label="${v.t}: ${v.d}"><source src="/video/${v.id}.mp4" type="video/mp4"></video>`;
   },
 
   // topo das páginas internas
