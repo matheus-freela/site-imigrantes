@@ -10,3 +10,6 @@ Dossi*.html
 # renders dos vídeos (pesados; regeráveis com motion/*/build.sh)
 motion/*/out/
 motion/04-site/assets/cap/desktop.png
+
+# comparações de teste (não vão para o site)
+_comparacao/

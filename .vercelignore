@@ -12,3 +12,4 @@ motion/
 # fonte das páginas e ferramentas (o site publicado é o HTML gerado na raiz)
 src/
 tools/
+_comparacao/

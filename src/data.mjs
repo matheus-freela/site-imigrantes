@@ -38,9 +38,10 @@ export const FOTOS = {
   'carregamento-guindaste': { w: 1600, h: 1200, alt: 'Guindaste içando equipamento industrial sobre a prancha' },
 };
 
-// vídeos curtos do site oficial (video/<id>.mp4 + poster .webp), 720 px, sem som
+// vídeos curtos do site oficial (video/<id>.mp4 + poster .webp), 720 px, sem som.
+// "hd": versão tratada em 1440 px (limpeza + nitidez com ffmpeg), usada quando o vídeo está no topo da página
 export const VIDEOS = [
-  { id: 'caminhao-rodovia', t: 'Em trânsito pela rodovia', d: 'Contêiner de 40 pés no trajeto entre Santos e o planalto.' },
+  { id: 'caminhao-rodovia', hd: 'caminhao-rodovia-1440', t: 'Em trânsito pela rodovia', d: 'Contêiner de 40 pés no trajeto entre Santos e o planalto.' },
   { id: 'tunel-serra', t: 'Subida da serra', d: 'Comboio no túnel, no trecho de serra entre Santos e o planalto.' },
   { id: 'rodovia-comboio', t: 'Rodovia', d: 'Comboio em trânsito com a Serra do Mar ao fundo.' },
   { id: 'patio-conteineres', t: 'Carga excedente', d: 'Saída de carga fora de medida em prancha estendida.' },
