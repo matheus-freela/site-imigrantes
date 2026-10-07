@@ -649,7 +649,8 @@
     function fitCells(o){
       var probe = document.createElement("span"); probe.style.cssText = "position:absolute;visibility:hidden;white-space:pre"; o.el.appendChild(probe);
       var fsz = parseFloat(getComputedStyle(o.el).fontSize) || 16;
-      o.strips.forEach(function(st, d){ probe.textContent = String(o.n).charAt(d); st.c.style.width = (probe.getBoundingClientRect().width / fsz).toFixed(4) + "em"; });
+      // escondido (aba Vazio no celular) a medida dá zero: deixa a largura automática e mede quando aparecer
+      o.strips.forEach(function(st, d){ probe.textContent = String(o.n).charAt(d); var w = probe.getBoundingClientRect().width; st.c.style.width = w ? (w / fsz).toFixed(4) + "em" : ""; });
       probe.remove();
     }
     // as larguras dependem da fonte: mede de novo quando ela terminar de carregar
@@ -683,7 +684,7 @@
         if(!e.isIntersecting) return;
         var o = odos.filter(function(x){ return x.el === e.target; })[0];
         // no topo, espera a entrada do hero; nos terminais, começa quando aparece
-        if(o){ run(o, o.el.closest(".hero") ? 900 : 150); io.unobserve(e.target); }
+        if(o){ fitCells(o); run(o, o.el.closest(".hero") ? 900 : 150); io.unobserve(e.target); }
       });
     }, { threshold:0.6 });
     odos.forEach(function(o){ io.observe(o.el); });
