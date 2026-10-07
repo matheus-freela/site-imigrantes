@@ -14,7 +14,7 @@ export default (h) => ({
       <div class="contact-rows" data-reveal>
         <div class="c-row"><span class="k">WhatsApp</span><a class="v" href="https://wa.me/${h.SITE.wa}" target="_blank" rel="noopener">${h.SITE.waTel}</a></div>
         <div class="c-row"><span class="k">Telefone</span><a class="v" href="tel:${h.SITE.tel}">${h.SITE.telTxt}</a></div>
-        <div class="c-row"><span class="k">E-mail</span><a class="v" href="mailto:${h.SITE.email}">${h.SITE.email}</a></div>
+        <div class="c-row"><span class="k">E-mail</span><span class="v c-mails"><a href="mailto:${h.SITE.email}">${h.SITE.email.replace("@", "<wbr>@")}</a><a href="mailto:${h.SITE.email2}">${h.SITE.email2.replace("@", "<wbr>@")}</a></span></div>
         <div class="c-row"><span class="k">Endereço</span><span class="v">Av. Dr. Pedro Lessa, 3076, conj. 11<span class="sub">Sede própria · Santos/SP · CEP 11025-016 · <a href="https://www.google.com/maps/search/?api=1&query=Av.+Dr.+Pedro+Lessa%2C+3076+-+Santos+-+SP" target="_blank" rel="noopener" style="color:var(--red-light);">ver no mapa ↗</a></span></span></div>
         <div class="c-row"><span class="k">Horário</span><span class="v">Segunda a sexta, 8h às 18h<span class="sub">Fora do horário, respondemos no próximo dia útil.</span></span></div>
       </div>

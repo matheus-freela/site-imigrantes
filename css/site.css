@@ -955,3 +955,7 @@ a.more .arr{ transition:transform .4s var(--ease); }
 /* página de contato: o próprio contato é o topo */
 .contact-page{ background:var(--ink-2); padding-top:clamp(116px,13vw,150px); }
 .foot-k{ display:block; margin-top:6px; font-family:var(--mono); font-size:.7rem; letter-spacing:.1em; text-transform:uppercase; color:var(--mute-dark); }
+.c-mails{ display:flex; flex-direction:column; gap:6px; font-size:.95rem; overflow-wrap:normal; }
+.c-mails a{ align-self:flex-start; background:linear-gradient(var(--red-light),var(--red-light)) 0 100% / 0 1px no-repeat; transition:background-size .35s var(--ease); }
+@media (hover:hover){ .c-mails a:hover{ background-size:100% 1px; } }
+@media (max-width:900px){ .c-mails{ gap:0; } .c-mails a{ padding:9px 0; } }

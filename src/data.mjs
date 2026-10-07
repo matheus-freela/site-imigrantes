@@ -6,6 +6,7 @@ export const SITE = {
   waTxt: 'Ol%C3%A1%2C%20vim%20pelo%20site%20e%20gostaria%20de%20solicitar%20uma%20cota%C3%A7%C3%A3o.',
   tel: '+551332197180', telTxt: '(13) 3219-7180', waTel: '(13) 97804-3399',
   email: 'administrativo@transportesimigrantes.com.br',
+  email2: 'operacional2@transportesimigrantes.com.br',
 };
 export const WA_LINK = `https://wa.me/${SITE.wa}?text=${SITE.waTxt}`;
 
