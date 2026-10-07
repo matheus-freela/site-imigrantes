@@ -71,7 +71,7 @@ export const FAQ = [
   { q: 'Vocês transportam carga fora de medida?', a: '<p>Sim. Transportamos cargas excedentes e indivisíveis em prancha, com sinalização, planejamento de rota e as autorizações que cada operação exige. Conte as medidas e o peso na cotação.</p>', tags: ['projeto', 'apoio'] },
   { q: 'Quais documentos de transporte vocês emitem?', a: '<p>Emitimos e controlamos toda a documentação da viagem, incluindo CT-e, MDF-e e CIOT.</p>', tags: ['redex', 'dta'] },
   { q: 'O que preciso informar para receber uma cotação?', a: '<p>Operação (importação ou exportação), serviço, tipo de contêiner, terminal, destino ou local de coleta, mercadoria e, na importação, o valor da carga. A <a href="/contato#cotacao">cotação rápida</a> monta a mensagem para você em um minuto.</p>', tags: ['projeto', 'redex', 'apoio'] },
-  { q: 'Qual o horário de atendimento?', a: '<p>Segunda a sexta, das 8h às 18h30, pelo WhatsApp (13) 97804-3399, pelo telefone (13) 3219-7180 ou por e-mail.</p>', tags: [] },
+  { q: 'Qual o horário de atendimento?', a: '<p>Segunda a sexta, das 8h às 18h, pelo WhatsApp (13) 97804-3399, pelo telefone (13) 3219-7180 ou por e-mail.</p>', tags: [] },
 ];
 
 /* serviços: a lista do painel (início e /servicos) e as páginas /servicos/<slug>.

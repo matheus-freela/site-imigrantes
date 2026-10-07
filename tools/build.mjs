@@ -129,7 +129,7 @@ ${TERMINAIS[k].map((t, i) => `          <li><span>${pre}-${String(i + 1).padStar
   <div class="wrap cta-grid">
     <h2 class="h-xl" id="ctaTitle" data-reveal>Tem carga<br>saindo do<br>porto?</h2>
     <div class="cta-copy" data-reveal>
-      <p class="lead">${servico ? `Monte a cotação de ${servico.code === 'IMP·EXP' ? 'apoio logístico' : servico.code === 'PROJETO' ? 'carga projeto' : servico.code} em um minuto` : 'Monte a cotação em um minuto'} ou fale direto com a nossa equipe, de segunda a sexta, das 8h às 18h30.</p>
+      <p class="lead">${servico ? `Monte a cotação de ${servico.code === 'IMP·EXP' ? 'apoio logístico' : servico.code === 'PROJETO' ? 'carga projeto' : servico.code} em um minuto` : 'Monte a cotação em um minuto'} ou fale direto com a nossa equipe, de segunda a sexta, das 8h às 18h.</p>
       <div class="btn-row">
         <a class="btn btn-red" href="${href}">Montar cotação ${arr()}</a>
         <a class="btn btn-line-light" href="${WA_LINK}" target="_blank" rel="noopener">WhatsApp ${SITE.waTel} ${arr('↗')}</a>
@@ -249,7 +249,7 @@ ${NAV.map((n) => `          <li><a href="${n.href}">${n.label}</a></li>`).join('
           <li><a href="tel:${SITE.tel}">Tel. ${SITE.telTxt}</a></li>
           <li><a href="mailto:${SITE.email}">${SITE.email}</a></li>
           <li><span class="foot-k">Endereço · sede própria</span>Av. Dr. Pedro Lessa, 3076 · Santos/SP</li>
-          <li>Segunda a sexta, 8h às 18h30</li>
+          <li>Segunda a sexta, 8h às 18h</li>
         </ul>
       </div>
     </div>
